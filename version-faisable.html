@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Version Faisable &amp; Conforme au Droit Français</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #4f7cff;
+      --accent2: #7c5fff;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --orange: #f97316;
+      --teal: #14b8a6;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 0 0 80px;
+    }
+
+    /* NAV */
+    .topnav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topnav a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .topnav .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #0d1f12 0%, #0f1117 45%, #0a1a2e 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 24px 44px;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(34,197,94,0.4);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #fff 30%, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 580px;
+      margin: 0 auto 28px;
+    }
+    .hero .pills {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .pill-green  { background: rgba(34,197,94,0.12);  border: 1px solid rgba(34,197,94,0.3);  color: var(--green); }
+    .pill-blue   { background: rgba(79,124,255,0.12); border: 1px solid rgba(79,124,255,0.3); color: var(--accent); }
+    .pill-yellow { background: rgba(234,179,8,0.12);  border: 1px solid rgba(234,179,8,0.3);  color: var(--yellow); }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { margin-top: 56px; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .section-label .num {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-label .num.green { background: var(--green); }
+    .section-label h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      margin-bottom: 14px;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .card p { color: var(--muted); font-size: 14px; }
+
+    /* TABLE */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead tr { background: var(--surface2); }
+    th {
+      padding: 11px 15px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      font-size: 14px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+    /* TAG */
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .tag-green  { background: rgba(34,197,94,0.15);  color: #22c55e; }
+    .tag-red    { background: rgba(239,68,68,0.15);  color: #ef4444; }
+    .tag-orange { background: rgba(249,115,22,0.15); color: #f97316; }
+    .tag-yellow { background: rgba(234,179,8,0.15);  color: #eab308; }
+    .tag-blue   { background: rgba(79,124,255,0.15); color: #4f7cff; }
+    .tag-teal   { background: rgba(20,184,166,0.15); color: #14b8a6; }
+
+    /* FEATURE GRID */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media(max-width:640px){ .feature-grid { grid-template-columns: 1fr; } }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+    .feature-card.ok    { border-left: 3px solid var(--green);  }
+    .feature-card.later { border-left: 3px solid var(--yellow); }
+    .feature-card.no    { border-left: 3px solid var(--red);    }
+
+    .feature-card .fc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .feature-card h4 { font-size: 14px; font-weight: 600; color: #fff; }
+    .feature-card p  { font-size: 13px; color: var(--muted); }
+    .feature-card .law-ref {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--accent);
+      font-family: 'Cascadia Code', monospace;
+    }
+
+    /* LAW BLOCK */
+    .law-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 16px;
+    }
+    .law-block .law-code {
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      background: rgba(79,124,255,0.1);
+      border: 1px solid rgba(79,124,255,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      white-space: nowrap;
+      align-self: flex-start;
+      min-width: 120px;
+      text-align: center;
+    }
+    .law-block .law-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #fff; }
+    .law-block .law-body p  { font-size: 13px; color: var(--muted); }
+    .law-block .law-body .impact { margin-top: 6px; font-size: 12px; color: var(--green); }
+
+    /* VERSION ROADMAP */
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media(max-width:700px){ .roadmap { grid-template-columns: 1fr; } }
+
+    .version-card {
+      border-radius: var(--radius);
+      padding: 22px;
+      border: 1px solid var(--border);
+    }
+    .version-card.v1 {
+      background: rgba(34,197,94,0.06);
+      border-color: rgba(34,197,94,0.25);
+    }
+    .version-card.v2 {
+      background: rgba(234,179,8,0.05);
+      border-color: rgba(234,179,8,0.2);
+    }
+    .version-card.v3 {
+      background: rgba(239,68,68,0.05);
+      border-color: rgba(239,68,68,0.15);
+    }
+    .version-card .v-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .v1 .v-label { color: var(--green); }
+    .v2 .v-label { color: var(--yellow); }
+    .v3 .v-label { color: var(--orange); }
+
+    .version-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .version-card .v-timeline {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .version-card ul { padding-left: 16px; }
+    .version-card li { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
+    .version-card li strong { color: var(--text); }
+    .version-card .gate {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .v1 .gate { background: rgba(34,197,94,0.1);  color: var(--green);  }
+    .v2 .gate { background: rgba(234,179,8,0.1);  color: var(--yellow); }
+    .v3 .gate { background: rgba(249,115,22,0.1); color: var(--orange); }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media(max-width:700px){ .pricing-grid { grid-template-columns: 1fr; } }
+
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+    .price-card.featured {
+      background: rgba(79,124,255,0.07);
+      border-color: rgba(79,124,255,0.35);
+    }
+    .price-card .plan-name { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .price-card .amount    { font-size: 36px; font-weight: 800; color: #fff; }
+    .price-card .period    { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+    .price-card ul { text-align: left; padding-left: 16px; }
+    .price-card li { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .price-card li strong { color: var(--text); }
+    .price-card .legal-note { margin-top: 14px; font-size: 11px; color: rgba(148,163,184,0.6); text-align: left; }
+
+    /* COMPLIANCE CHECKLIST */
+    .checklist { margin: 0; padding: 0; list-style: none; }
+    .checklist li {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .check-ok     { background: rgba(34,197,94,0.2);  color: var(--green); }
+    .check-action { background: rgba(234,179,8,0.2);  color: var(--yellow); }
+    .check-skip   { background: rgba(239,68,68,0.15); color: var(--red); }
+
+    .checklist .cl-body strong { color: #fff; display: block; margin-bottom: 2px; }
+    .checklist .cl-body span   { color: var(--muted); font-size: 13px; }
+
+    /* STRUCT GRID */
+    .struct-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media(max-width:600px){ .struct-grid { grid-template-columns: 1fr; } }
+
+    /* MANDATE BOX */
+    .mandate-box {
+      background: rgba(20,184,166,0.06);
+      border: 1px solid rgba(20,184,166,0.25);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      margin-bottom: 16px;
+    }
+    .mandate-box h3 { color: var(--teal); font-size: 15px; margin-bottom: 10px; }
+    .mandate-box p  { color: var(--muted); font-size: 14px; }
+    .mandate-box ul { padding-left: 18px; margin-top: 8px; color: var(--muted); font-size: 14px; }
+    .mandate-box li { margin-bottom: 6px; }
+
+    /* FINAL BANNER */
+    .final-banner {
+      background: linear-gradient(135deg, rgba(34,197,94,0.10), rgba(79,124,255,0.08));
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: var(--radius);
+      padding: 36px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .final-banner h3 { font-size: 22px; font-weight: 800; margin-bottom: 14px; color: #fff; }
+    .final-banner p  { color: var(--muted); font-size: 15px; max-width: 660px; margin: 0 auto; }
+    .final-banner p + p { margin-top: 10px; }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+    code {
+      background: rgba(255,255,255,0.07);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 12px;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      color: #a5b4fc;
+    }
+
+    footer {
+      margin-top: 80px;
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .highlight-box {
+      background: rgba(79,124,255,0.07);
+      border: 1px solid rgba(79,124,255,0.2);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .highlight-box strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="topnav">
+    <a href="analyse-superadmin.html">
+      Analyse stratégique
+    </a>
+    <a href="version-faisable.html" class="active">
+      <span class="dot"></span>
+      Version faisable &amp; conforme
+    </a>
+    <a href="apercu-v1.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#a855f7;display:inline-block;"></span>
+      Aperçu V1
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">Blueprint Juridique V1</div>
+    <h1>SuperAdmin — Version Faisable</h1>
+    <p class="subtitle">
+      Ce qui peut être lancé aujourd'hui en France, dans le respect du droit, sans licence spéciale ni certification coûteuse.
+    </p>
+    <div class="pills">
+      <span class="pill pill-green">Conforme RGPD</span>
+      <span class="pill pill-blue">Sans ORIAS requis</span>
+      <span class="pill pill-blue">Sans HDS requis</span>
+      <span class="pill pill-yellow">Lançable sous 3 mois</span>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- SECTION 1 — PÉRIMÈTRE -->
+    <section>
+      <div class="section-label">
+        <div class="num green">1</div>
+        <h2>Périmètre légal de la V1 — Ce qui est autorisé sans licence</h2>
+      </div>
+
+      <div class="highlight-box">
+        Le principe directeur de la V1 : la plateforme est un <strong>outil d'information et d'organisation</strong>, jamais un acteur qui agit <em>à la place</em> de l'utilisateur. L'utilisateur reste maître de chaque décision et de chaque acte. La plateforme <em>prépare, alerte, suggère</em> — l'utilisateur <em>décide et exécute</em>.
+      </div>
+
+      <div class="feature-grid">
+
+        <div class="feature-card ok">
+          <div class="fc-header">
+            <h4>Coffre-fort de documents courants</h4>
+            <span class="tag tag-green">V1 — OK</span>
+          </div>
+          <p>Contrats d'abonnement, factures, devis, quittances de loyer, actes de propriété, assurances (sans données médicales).</p>
+          <div class="law-ref">Loi Informatique &amp; Libertés — RGPD Art. 6(1)(a)</div>
+        </div>
+
+        <div class="feature-card ok">
+          <div class="fc-header">
+            <h4>Suivi &amp; alertes abonnements</h4>
+            <span class="tag tag-green">V1 — OK</span>
+          </div>
+          <p>Saisie manuelle des abonnements, alertes avant expiration, alertes de reconduction tacite (Loi Chatel), comparatif informatif.</p>
+          <div class="law-ref">Loi Chatel 2008 — L. 136-1 Code conso.</div>
+        </div>
+
+        <div class="feature-card ok">
+          <div class="fc-header">
+            <h4>Délégation familiale en lecture</h4>
+            <span class="tag tag-green">V1 — OK</span>
+          </div>
+          <p>Un proche voit les abonnements, documents et alertes. Il peut suggérer des actions. L'utilisateur les approuve et les exécute lui-même.</p>
+          <div class="law-ref">Art. 1301 C.civ — mandat consultatif, pas d'acte tiers</div>
+        </div>
+
+        <div class="feature-card ok">
+          <div class="fc-header">
+            <h4>Recommandations de meilleures offres</h4>
+            <span class="tag tag-green">V1 — OK</span>
+          </div>
+          <p>La plateforme affiche des offres comparatives. L'utilisateur clique et souscrit lui-même sur le site de l'opérateur. Commission d'apport d'affaires déclarée.</p>
+          <div class="law-ref">Apport d'affaires déclaré — Code commerce L. 134</div>
+        </div>
+
+        <div class="feature-card ok">
+          <div class="fc-header">
+            <h4>Alertes Loi Hamon — résiliation</h4>
+            <span class="tag tag-green">V1 — OK</span>
+          </div>
+          <p>Pour les assurances et abonnements éligibles, générer automatiquement la lettre de résiliation à signature de l'utilisateur (il l'envoie lui-même).</p>
+          <div class="law-ref">Loi Hamon 2014 — L. 113-15-2 Code assurances</div>
+        </div>
+
+        <div class="feature-card ok">
+          <div class="fc-header">
+            <h4>Agenda administratif</h4>
+            <span class="tag tag-green">V1 — OK</span>
+          </div>
+          <p>Calendrier des échéances : renouvellements de pièces d'identité, déclarations fiscales, visites techniques, fin d'engagement.</p>
+          <div class="law-ref">Outil informatif — aucune réglementation spécifique</div>
+        </div>
+
+        <div class="feature-card later">
+          <div class="fc-header">
+            <h4>Mandat numérique familial actif</h4>
+            <span class="tag tag-yellow">V2 — Préparation 3 mois</span>
+          </div>
+          <p>Le proche peut agir au nom de l'utilisateur sur certains actes (résiliations, souscriptions simples) via un mandat sous seing privé horodaté.</p>
+          <div class="law-ref">Art. 1301 C.civ — mandat écrit + audit trail obligatoire</div>
+        </div>
+
+        <div class="feature-card later">
+          <div class="fc-header">
+            <h4>Documents d'identité (CNI, passeport)</h4>
+            <span class="tag tag-yellow">V2 — Après audit CNIL</span>
+          </div>
+          <p>Stockage des pièces d'identité possibles mais nécessite un audit RGPD renforcé, chiffrement bout-en-bout et politique de conservation stricte.</p>
+          <div class="law-ref">CNIL délibération 2023 — données biométriques et identité</div>
+        </div>
+
+        <div class="feature-card no">
+          <div class="fc-header">
+            <h4>Données de santé (Carte Vitale, mutuelle médicale)</h4>
+            <span class="tag tag-red">V3 — Certification HDS requise</span>
+          </div>
+          <p>Requiert la certification HDS (Hébergeur de Données de Santé) obligatoire. Coût estimé : 20 000–80 000€ + 6 à 12 mois de délai.</p>
+          <div class="law-ref">Art. L. 1111-8 CSP — certification HDS ANSSI</div>
+        </div>
+
+        <div class="feature-card no">
+          <div class="fc-header">
+            <h4>SuperAdmins pros — intermédiation assurance</h4>
+            <span class="tag tag-red">V3 — ORIAS obligatoire</span>
+          </div>
+          <p>Tout professionnel négociant une assurance pour compte de tiers doit être immatriculé ORIAS. Sans cela : exercice illégal d'une activité réglementée.</p>
+          <div class="law-ref">Art. L. 511-1 Code assurances — ORIAS</div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- SECTION 2 — LOIS APPLICABLES -->
+    <section>
+      <div class="section-label">
+        <div class="num">2</div>
+        <h2>Les Lois Françaises qui Encadrent la V1</h2>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Loi Chatel<br/>2008<br/>L. 136-1</div>
+        <div class="law-body">
+          <h4>Reconduction tacite — obligation d'alerte</h4>
+          <p>Les fournisseurs doivent notifier 1 à 3 mois avant la reconduction automatique. SuperAdmin peut surveiller ces délais et alerter l'utilisateur avant que le fournisseur ne le fasse (ou ne le fasse pas). C'est une valeur ajoutée légale directe.</p>
+          <div class="impact">Avantage concurrentiel : protège l'utilisateur contre les pièges d'engagement automatique</div>
+        </div>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Loi Hamon<br/>2014<br/>L. 113-15-2</div>
+        <div class="law-body">
+          <h4>Résiliation à tout moment après 12 mois</h4>
+          <p>Pour les assurances habitation, auto, moto, santé complémentaire : résiliation possible à tout moment après la première année sans frais. SuperAdmin génère automatiquement la lettre de résiliation pré-remplie que l'utilisateur signe et envoie.</p>
+          <div class="impact">Feature clé : générateur de lettres Hamon horodatées et traçables</div>
+        </div>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Loi RGPD<br/>2018<br/>Art. 6 &amp; 13</div>
+        <div class="law-body">
+          <h4>Traitement licite des données personnelles</h4>
+          <p>La V1 fonctionne sur la base du <strong>consentement explicite</strong> (Art. 6.1.a). Chaque document stocké est couvert par un consentement granulaire. Politique de conservation claire (durée de vie des données = durée d'abonnement + 2 ans max). Droit d'effacement sur demande immédiate.</p>
+          <div class="impact">Obligation : registre des traitements, mentions légales, DPO désigné si >250 salariés</div>
+        </div>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Art. 1301<br/>Code civil<br/>Mandat</div>
+        <div class="law-body">
+          <h4>Cadre légal du mandat familial</h4>
+          <p>Un mandat sous seing privé suffit pour les actes de gestion courante (résiliation d'abonnement, saisie de formulaire). Il doit être <strong>daté, signé, limité en périmètre</strong> et <strong>révocable à tout moment</strong>. SuperAdmin génère et archive ce document numérique.</p>
+          <div class="impact">Protège la plateforme en V2 : chaque action déléguée est couverte par un mandat archivé</div>
+        </div>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Loi LCEN<br/>2004<br/>Art. 6 III</div>
+        <div class="law-body">
+          <h4>Responsabilité de l'hébergeur</h4>
+          <p>En tant que plateforme hébergeant des données utilisateurs, SuperAdmin bénéficie du régime d'hébergeur (responsabilité limitée) tant qu'il n'a pas connaissance du caractère illicite des contenus et agit promptement pour les retirer. Ne pas devenir éditeur de contenu.</p>
+          <div class="impact">Ne pas modifier ni traiter le contenu des documents — uniquement stocker et afficher</div>
+        </div>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Loi République<br/>Numérique 2016<br/>Art. 48</div>
+        <div class="law-body">
+          <h4>Portabilité des données — droit à la mobilité</h4>
+          <p>Les utilisateurs ont le droit de récupérer leurs données dans un format standard (JSON, CSV, PDF). SuperAdmin doit proposer un export complet en un clic. C'est aussi un argument marketing : "vos données vous appartiennent".</p>
+          <div class="impact">Feature : export total des données utilisateur en format ouvert</div>
+        </div>
+      </div>
+
+      <div class="law-block">
+        <div class="law-code">Code conso.<br/>L. 221-18<br/>Démarchage</div>
+        <div class="law-body">
+          <h4>Droit de rétractation — protection consommateur</h4>
+          <p>Pour tout abonnement SuperAdmin souscrit en ligne : délai de rétractation de 14 jours obligatoire. La plateforme doit gérer ce processus pour ses propres abonnements. Les partenaires opérateurs référencés doivent également respecter ce délai.</p>
+          <div class="impact">Obligation interne : mettre en place le processus de rétractation 14 jours dès le lancement</div>
+        </div>
+      </div>
+
+    </section>
+
+    <hr />
+
+    <!-- SECTION 3 — CADRE DE DÉLÉGATION -->
+    <section>
+      <div class="section-label">
+        <div class="num green">3</div>
+        <h2>Le Cadre de Délégation Familiale — Comment le Sécuriser</h2>
+      </div>
+
+      <div class="mandate-box">
+        <h3>Le Mandat Numérique SuperAdmin — Architecture légale</h3>
+        <p>Pour que la délégation familiale soit légalement valide et que la plateforme soit protégée, chaque mandat doit comporter :</p>
+        <ul>
+          <li><strong>Identité des deux parties</strong> (mandant = l'utilisateur principal, mandataire = le SuperAdmin familial)</li>
+          <li><strong>Périmètre limité et explicite</strong> : "accès en lecture aux abonnements" ou "peut préparer des lettres de résiliation, sans les envoyer"</li>
+          <li><strong>Durée maximale</strong> : 1 an renouvelable par consentement actif (pas de reconduction tacite)</li>
+          <li><strong>Révocabilité immédiate</strong> : un bouton "Révoquer l'accès" disponible en permanence, exécution en moins de 24h</li>
+          <li><strong>Horodatage certifié</strong> : chaque mandat est horodaté (NF Z 42-020 ou RFC 3161)</li>
+          <li><strong>Audit trail</strong> : chaque action du mandataire est logguée et consultable par le mandant</li>
+        </ul>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type de mandataire</th>
+              <th>Ce qu'il peut faire en V1</th>
+              <th>Ce qui lui est interdit</th>
+              <th>Formalisme requis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Famille proche</strong><br/><span style="color:var(--muted);font-size:12px">Fils, fille, conjoint</span></td>
+              <td>Voir, suggérer, préparer des courriers. L'utilisateur signe et envoie.</td>
+              <td>Signer à la place de l'utilisateur, accéder aux données bancaires</td>
+              <td><span class="tag tag-green">Mandat SSP simple</span></td>
+            </tr>
+            <tr>
+              <td><strong>Aidant déclaré</strong><br/><span style="color:var(--muted);font-size:12px">Aidant familial reconnu</span></td>
+              <td>Même périmètre famille + possibilité en V2 d'agir par mandat élargi</td>
+              <td>Actes à valeur financière directe sans mandat notarié</td>
+              <td><span class="tag tag-yellow">Mandat + justificatif aidant</span></td>
+            </tr>
+            <tr>
+              <td><strong>SuperAdmin pro (V3)</strong><br/><span style="color:var(--muted);font-size:12px">Prestataire rémunéré</span></td>
+              <td>Tout le périmètre V2 + intermédiation assurance si ORIAS</td>
+              <td>Agir sans mandat notarié pour actes patrimoniaux</td>
+              <td><span class="tag tag-red">ORIAS + Mandat notarié</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- SECTION 4 — MODÈLE ÉCONOMIQUE CONFORME -->
+    <section>
+      <div class="section-label">
+        <div class="num">4</div>
+        <h2>Modèle Économique Conforme — Ce Qui Est Légalement Viable</h2>
+      </div>
+
+      <div class="highlight-box">
+        La clé de la conformité : <strong>dissocier la rémunération de la plateforme de l'acte d'intermédiation réglementée.</strong> SuperAdmin se rémunère comme un comparateur déclaré, pas comme un courtier.
+      </div>
+
+      <div class="pricing-grid">
+
+        <div class="price-card">
+          <div class="plan-name">Solo</div>
+          <div class="amount">0€</div>
+          <div class="period">/ mois — gratuit</div>
+          <ul>
+            <li>Jusqu'à <strong>5 abonnements</strong> suivis</li>
+            <li><strong>500 Mo</strong> de stockage documents</li>
+            <li>Alertes expiration <strong>automatiques</strong></li>
+            <li>Générateur lettres <strong>Hamon</strong></li>
+            <li>Accès 1 appareil</li>
+          </ul>
+          <div class="legal-note">Aucune licence requise — service d'information pure</div>
+        </div>
+
+        <div class="price-card featured">
+          <div class="plan-name">Famille</div>
+          <div class="amount">4,99€</div>
+          <div class="period">/ mois</div>
+          <ul>
+            <li>Abonnements <strong>illimités</strong></li>
+            <li><strong>5 Go</strong> de stockage</li>
+            <li>Jusqu'à <strong>3 membres</strong> famille en lecture</li>
+            <li>Délégation familiale <strong>sécurisée</strong></li>
+            <li>Agenda administratif <strong>partagé</strong></li>
+            <li>Recommandations <strong>personnalisées</strong></li>
+          </ul>
+          <div class="legal-note">Consentement délégation requis — mandat SSP généré automatiquement</div>
+        </div>
+
+        <div class="price-card">
+          <div class="plan-name">Premium</div>
+          <div class="amount">9,99€</div>
+          <div class="period">/ mois</div>
+          <ul>
+            <li>Tout Famille +</li>
+            <li>Jusqu'à <strong>5 membres</strong> famille</li>
+            <li><strong>20 Go</strong> de stockage</li>
+            <li>Alertes <strong>prioritaires SMS</strong></li>
+            <li>Suivi contrats <strong>complexes</strong></li>
+            <li>Export données <strong>complet</strong></li>
+          </ul>
+          <div class="legal-note">Droit à la portabilité inclus — export JSON/PDF en 1 clic</div>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>Commission d'apport d'affaires — le modèle conforme</h3>
+        <p>Quand un utilisateur clique sur une recommandation et souscrit chez un opérateur partenaire, SuperAdmin perçoit une commission d'apporteur d'affaires. Cette commission <strong>doit être déclarée à l'utilisateur</strong> ("Cette offre nous permet de percevoir une commission si vous souscrivez") et figurer dans les CGU. Ce modèle est légal sans ORIAS pour les abonnements télécom/streaming. Il requiert l'ORIAS uniquement si la recommandation porte sur un produit d'assurance.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Source de revenus</th>
+              <th>Mécanisme</th>
+              <th>Déclaration requise</th>
+              <th>Statut légal V1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Abonnements SaaS (Solo/Famille/Premium)</td>
+              <td>Paiement mensuel direct</td>
+              <td>CGV + rétractation 14j</td>
+              <td><span class="tag tag-green">OK immédiat</span></td>
+            </tr>
+            <tr>
+              <td>Commission télécom (Free, Orange, SFR…)</td>
+              <td>Apport d'affaires déclaré — lien affilié</td>
+              <td>Disclosure en interface + CGU</td>
+              <td><span class="tag tag-green">OK immédiat</span></td>
+            </tr>
+            <tr>
+              <td>Commission streaming (Netflix, Spotify…)</td>
+              <td>Programme partenaire / affilié</td>
+              <td>Disclosure en interface + CGU</td>
+              <td><span class="tag tag-green">OK immédiat</span></td>
+            </tr>
+            <tr>
+              <td>Commission assurance habitation/auto</td>
+              <td>Redirection vers comparateur agréé ou courtier ORIAS</td>
+              <td>Partenariat avec courtier agréé</td>
+              <td><span class="tag tag-yellow">V2 — via partenaire ORIAS</span></td>
+            </tr>
+            <tr>
+              <td>Commission assurance santé / mutuelle</td>
+              <td>Exclusivement via courtier ORIAS partenaire</td>
+              <td>Mandat courtier + disclosure</td>
+              <td><span class="tag tag-red">V3 — après ORIAS propre</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- SECTION 5 — ROADMAP -->
+    <section>
+      <div class="section-label">
+        <div class="num">5</div>
+        <h2>Roadmap par Version — Portes Légales à Franchir</h2>
+      </div>
+
+      <div class="roadmap">
+
+        <div class="version-card v1">
+          <div class="v-label">Version 1</div>
+          <h3>SuperAdmin Solo &amp; Famille</h3>
+          <div class="v-timeline">Mois 1 à 6 — Lançable maintenant</div>
+          <ul>
+            <li><strong>Coffre-fort</strong> documents courants</li>
+            <li><strong>Suivi</strong> abonnements &amp; alertes</li>
+            <li><strong>Générateur</strong> lettres Hamon</li>
+            <li><strong>Délégation familiale</strong> lecture seule</li>
+            <li><strong>Recommandations</strong> télécom/streaming</li>
+            <li><strong>Agenda</strong> administratif partagé</li>
+          </ul>
+          <div class="gate">
+            Prérequis : CGU/CGV rédigées, registre RGPD, hébergement France (HDS non requis), DPO désigné si nécessaire.
+          </div>
+        </div>
+
+        <div class="version-card v2">
+          <div class="v-label">Version 2</div>
+          <h3>Délégation Active &amp; Mandats</h3>
+          <div class="v-timeline">Mois 6 à 18 — Après préparation juridique</div>
+          <ul>
+            <li><strong>Mandat SSP numérique</strong> horodaté</li>
+            <li><strong>Délégation active</strong> familiale (actes simples)</li>
+            <li><strong>Stockage CNI/passeport</strong> après audit CNIL</li>
+            <li><strong>Résiliation automatique</strong> par mandat</li>
+            <li><strong>Aidants familiaux</strong> reconnus</li>
+            <li><strong>Partenariats assurance</strong> via ORIAS tiers</li>
+          </ul>
+          <div class="gate">
+            Prérequis : Cabinet juridique pour mandats types, audit CNIL, chiffrement E2E des documents identité, partenariats avec courtiers agréés.
+          </div>
+        </div>
+
+        <div class="version-card v3">
+          <div class="v-label">Version 3</div>
+          <h3>Marketplace Pros &amp; Assurance</h3>
+          <div class="v-timeline">Mois 18 à 36 — Après certifications</div>
+          <ul>
+            <li><strong>SuperAdmins pros</strong> immatriculés ORIAS</li>
+            <li><strong>Intermédiation assurance</strong> directe</li>
+            <li><strong>Données de santé</strong> (certification HDS)</li>
+            <li><strong>CGP partenaires</strong> pour patrimoine</li>
+            <li><strong>Négociations groupées</strong> opérateurs</li>
+            <li><strong>API administrations</strong> (France Connect+)</li>
+          </ul>
+          <div class="gate">
+            Prérequis : Immatriculation ORIAS propre, certification HDS (80k€ minimum), conformité AMF si CGP, audits ACPR.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- SECTION 6 — STRUCTURE JURIDIQUE -->
+    <section>
+      <div class="section-label">
+        <div class="num green">6</div>
+        <h2>Structure Juridique Recommandée pour le Lancement</h2>
+      </div>
+
+      <div class="struct-grid">
+
+        <div class="card">
+          <h3>Forme juridique — SAS recommandée</h3>
+          <p>La <strong>SAS (Société par Actions Simplifiée)</strong> est idéale pour un SaaS early-stage en France : grande flexibilité statutaire, capital minimum de 1€, facilité d'entrée d'investisseurs, régime TNS pour le président. La SARL convient aussi mais est moins flexible pour les levées futures.</p>
+        </div>
+
+        <div class="card">
+          <h3>Hébergement — France ou Europe obligatoire</h3>
+          <p>Les données personnelles de résidents français doivent être hébergées en France ou dans l'UE (RGPD art. 44-49). Prestataires recommandés : <strong>OVH Cloud</strong> (Roubaix/Strasbourg), <strong>Scaleway</strong> (Paris), <strong>Clever Cloud</strong> (Nantes). AWS/GCP/Azure OK uniquement sur régions européennes avec DPA signé.</p>
+        </div>
+
+        <div class="card">
+          <h3>DPO — Délégué à la Protection des Données</h3>
+          <p>Obligatoire si traitements à grande échelle de données sensibles. En V1, un <strong>DPO externe mutualisé</strong> (prestataire spécialisé, ~200€/mois) suffit. Il rédige le registre des traitements, accompagne les DPIA et répond à la CNIL en cas de contrôle.</p>
+        </div>
+
+        <div class="card">
+          <h3>Assurance RC Pro — obligatoire</h3>
+          <p>Une <strong>Responsabilité Civile Professionnelle</strong> couvrant les risques numériques (fuite de données, erreur de conseil, indisponibilité de service) est indispensable dès le premier client. Budget : 1 500–4 000€/an selon le CA et les garanties. Prestataires : Hiscox, AXA Pro, Groupama.</p>
+        </div>
+
+        <div class="card">
+          <h3>CGU/CGV — Rédaction obligatoire avant lancement</h3>
+          <p>Les Conditions Générales doivent couvrir : périmètre du service, responsabilité de la plateforme vs de l'utilisateur, disclosure des commissions, politique de conservation des données, procédure de rétractation 14j, droit d'effacement. Faire valider par un avocat spécialisé numérique.</p>
+        </div>
+
+        <div class="card">
+          <h3>Registre des traitements RGPD — Article 30</h3>
+          <p>Document interne obligatoire listant tous les traitements de données : finalité, base légale, durée de conservation, destinataires, mesures de sécurité. Doit être mis à jour à chaque nouvelle feature. La CNIL peut le demander lors d'un contrôle — il doit être prêt dès J1.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <hr />
+
+    <!-- SECTION 7 — CHECKLIST -->
+    <section>
+      <div class="section-label">
+        <div class="num">7</div>
+        <h2>Checklist de Conformité — Avant le Premier Utilisateur</h2>
+      </div>
+
+      <div class="card">
+        <ul class="checklist">
+          <li>
+            <span class="check-icon check-ok">✓</span>
+            <div class="cl-body">
+              <strong>Hébergement en France / UE</strong>
+              <span>OVH, Scaleway ou Clever Cloud — DPA signé avec le prestataire</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-action">!</span>
+            <div class="cl-body">
+              <strong>Registre des traitements RGPD (Art. 30)</strong>
+              <span>À rédiger avec le DPO avant tout traitement de données utilisateur</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-action">!</span>
+            <div class="cl-body">
+              <strong>Politique de confidentialité conforme CNIL</strong>
+              <span>Bases légales explicites, durées de conservation, droits utilisateurs, contact DPO</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-action">!</span>
+            <div class="cl-body">
+              <strong>CGU/CGV validées par avocat numérique</strong>
+              <span>Disclosure commissions, limitation responsabilité, rétractation 14j, mandat familial</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-action">!</span>
+            <div class="cl-body">
+              <strong>Chiffrement des documents stockés</strong>
+              <span>AES-256 minimum au repos, TLS 1.3 en transit. Aucune donnée en clair.</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-action">!</span>
+            <div class="cl-body">
+              <strong>Procédure de notification de violation (Art. 33 RGPD)</strong>
+              <span>En cas de fuite : notification CNIL sous 72h, utilisateurs affectés sous 24h supplémentaires</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-ok">✓</span>
+            <div class="cl-body">
+              <strong>Disclosure commissions dans l'interface</strong>
+              <span>Mention visible sur chaque recommandation : "Nous percevons une commission si vous souscrivez"</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-ok">✓</span>
+            <div class="cl-body">
+              <strong>Export données en 1 clic (Loi République Numérique)</strong>
+              <span>JSON ou CSV de toutes les données — disponible depuis les paramètres du compte</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-ok">✓</span>
+            <div class="cl-body">
+              <strong>Bannière cookies conforme CNIL (RGPD)</strong>
+              <span>Consentement granulaire, refus aussi simple qu'accepter, pas de dark pattern</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-skip">✗</span>
+            <div class="cl-body">
+              <strong>Données de santé — à exclure de la V1</strong>
+              <span>Aucun stockage de carte vitale, ordonnance ou donnée médicale sans certification HDS</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-skip">✗</span>
+            <div class="cl-body">
+              <strong>Intermédiation assurance directe — à exclure de la V1</strong>
+              <span>Rediriger vers un comparateur agréé ou un courtier ORIAS partenaire, ne jamais intermédiaire soi-même</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-icon check-action">!</span>
+            <div class="cl-body">
+              <strong>Assurance RC Pro numérique souscrite</strong>
+              <span>Hiscox, AXA Pro ou Groupama — couvrir fuite de données et erreur de conseil minimum</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+    <hr />
+
+    <!-- FINAL BANNER -->
+    <div class="final-banner">
+      <h3>SuperAdmin V1 peut se lancer en moins de 3 mois</h3>
+      <p>
+        La version faisable — <strong>coffre-fort abonnements + alertes + délégation familiale en lecture + recommandations déclarées</strong> — ne requiert aucune licence spéciale, aucune certification HDS, aucun ORIAS.
+      </p>
+      <p>
+        Le budget juridique minimal pour lancer en conformité : <strong>3 000 à 6 000€</strong> (CGU/CGV avocat + DPO externalisé 1 an + RC Pro). C'est un investissement protecteur, pas un obstacle.
+      </p>
+      <p style="margin-top:14px; color: var(--text);">
+        <strong>La différenciation par rapport aux concurrents ne viendra pas des features — elle viendra de la confiance. Et la confiance, en administration personnelle, se construit par la transparence légale.</strong>
+      </p>
+    </div>
+
+  </div>
+
+  <footer>
+    SuperAdmin — Blueprint juridique V1 &mdash; Mai 2026 &mdash; À titre informatif uniquement, ne constitue pas un conseil juridique. Consulter un avocat spécialisé avant tout lancement.
+  </footer>
+
+</body>
+</html>

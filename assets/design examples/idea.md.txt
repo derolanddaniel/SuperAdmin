@@ -1,0 +1,57 @@
+**Probleme ?**
+
+L'administration des tâches admin et des services n'est qu'une contrainte (temps/dépenses/Stress) qui nous dévie de nos priorités.
+
+**Quel est mon besoin ?**
+
+Simplifier, facilité, la gestion de ce qui est pour nous des contraintes. Celles qui peuvent être facilement factorisé/Automatisé/"Scalé" via une application et des gens compétents dans ces domaines.
+
+Faire des économies, et permettre à ce qui sont larguer administrativement ou techniquement d'être déchargé de taches qu'une personne dédié fera forcement mieux qu'eux. Possibilité de déléguer facilement à un membre de la famille SuperAdmin tout comme gérer/agir sur les comptes de ses grand-parents.
+
+Au niveau buisness modèle : beaucoup de soutions possible. Partenariat, % sur économies sur les abonnements, et prestations supplémentaires proposées par nos SuperAdmin.
+
+**Solution souhaitée:** 
+
+Un compte User avec les dossiers, leur validités.
+
+Si il y a une alerte, une ou plusieurs actions sont suggérées. La démarche est simplifiée par l'appli. et le SuperAdmin pour mettre le dossier à jour.
+
+[](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ed48bf94-b900-47bf-b615-c012b2ebf7e1/untitled)
+
+[C:\CloudStation\Private\Pro\Projets\Besoin_SuperAdmin.vsdx](file:///C:/%5CCloudStation%5CPrivate%5CPro%5CProjets%5CBesoin_SuperAdmin.vsdx)
+
+- Un **conseillé technique** ou un proche **SuperAdmin** peut proposer de changer une offre au User. En un clic, le User peut accepter et la démarche est effectuées par un des **SuperAdmin.**
+- Une mamie peut laisser son fils ou neveu gérer ses services souscrit, sans se soucier du moindre démarcheur ni de la complexité et nouveauté.
+- Le **SuperAdmin** étant au point et à jour sur le sujet fait des économies à tous le réseau (des centaines d'euros par ans par User). Il pourra négocié profiter d'offre groupé.
+
+[](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d9afaabc-bf65-4986-ab44-adae4ac18220/untitled)
+
+[.../visio](file:///C:/%5CCloudStation%5CPrivate%5CPro%5CProjets%5CBesoin_SuperAdmin.vsdx)
+
+Ce sont des choses que l'on aime pas faire, et qu'on ne peut faire parfaitement. On ne peut facilement sous-traiter, sauf grace à deux choses :
+
+- S'appuyer sur des "experts" dans le domaines
+    - devenue possible par le nombre d'utilisateur et la similitude des besoin, inutile que chacun fasse les mêmes recherches dans son coin.
+- Faciliter les démarches par une appli informatique
+
+**Réalisation:** 
+
+- **Une interface pour les user**
+    - Une vue de mes forfait Multimedia
+        - Forfait internet (prix, engagement, features)
+        - Forfait téléphone (prix, engagement, features)
+        - Netflix
+        - Canal+
+        - Deezer
+        - ..
+    - Une vue de mes papiers
+        - ID (Carte d'ID, Passeport, Permis)
+        - Santée (Sécu, mutuelle)
+        - Contrat (Banque, assurances)
+        - Biens (Voiture, location appart..)
+- **Une interface pour l'admin**
+    - intervenir sur les manques,
+    - Comparer et proposer de meilleurs services,
+    - Aider, voir agir sur les démarches admnistratives à faire
+    - Propose des changement de contrat en un clic (fait par l'admin)
+    - Préparation pas à pas des démarches administratives à faire

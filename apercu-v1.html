@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Aperçu V1</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --surface3: #2a2f47;
+      --border: #2e3350;
+      --accent: #4f7cff;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --orange: #f97316;
+      --teal: #14b8a6;
+      --purple: #a855f7;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── TOP NAV ── */
+    .topnav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .topnav a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .dot-green { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .dot-purple { width: 7px; height: 7px; border-radius: 50%; background: var(--purple); }
+
+    /* ── HERO BANNER ── */
+    .page-hero {
+      background: linear-gradient(135deg, #1a1220 0%, #0f1117 50%, #101a30 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 36px 32px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .page-hero .badge {
+      display: inline-block;
+      background: rgba(168,85,247,0.15);
+      border: 1px solid rgba(168,85,247,0.4);
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .page-hero h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+    .page-hero p  { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .page-hero .meta-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .mpill {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .mpill-green  { background: rgba(34,197,94,0.12);  border: 1px solid rgba(34,197,94,0.3);  color: var(--green); }
+    .mpill-purple { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3); color: var(--purple); }
+    .mpill-blue   { background: rgba(79,124,255,0.12); border: 1px solid rgba(79,124,255,0.3); color: var(--accent); }
+
+    /* ── APP SHELL ── */
+    .app-wrapper {
+      display: flex;
+      height: calc(100vh - 110px);
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 230px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+    .sidebar-brand {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-icon {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .brand-name { font-size: 15px; font-weight: 800; }
+    .brand-ver  { font-size: 10px; color: var(--muted); }
+
+    .sidebar-section-title {
+      padding: 16px 18px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      border-radius: 8px;
+      margin: 1px 8px;
+      transition: background 0.12s, color 0.12s;
+      border: none;
+      background: none;
+      width: calc(100% - 16px);
+      text-align: left;
+    }
+    .nav-item:hover { background: var(--surface2); color: var(--text); }
+    .nav-item.active { background: rgba(79,124,255,0.12); color: var(--accent); font-weight: 600; }
+    .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+    .nav-item .badge-count {
+      margin-left: auto;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+    .nav-item .badge-count.yellow { background: var(--yellow); color: #000; }
+
+    .sidebar-user {
+      margin-top: auto;
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f7cff, #7c5fff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .user-name  { font-size: 13px; font-weight: 600; }
+    .user-plan  { font-size: 11px; color: var(--muted); }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    .tab-content { display: none; padding: 24px 28px; }
+    .tab-content.active { display: block; }
+
+    /* ── TOPBAR ── */
+    .app-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .app-topbar h2 { font-size: 20px; font-weight: 700; }
+    .app-topbar p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-ghost   { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+    /* ── STAT CARDS ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    @media(max-width:900px){ .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .stat-card .sc-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .stat-card .sc-value { font-size: 26px; font-weight: 800; }
+    .stat-card .sc-sub   { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .stat-card.alert-card { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.05); }
+    .stat-card.green-card { border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.04); }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .card-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-header h3 { font-size: 14px; font-weight: 600; }
+    .card-body { padding: 0; }
+
+    /* ── ALERT ITEMS ── */
+    .alert-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .alert-item:last-child { border-bottom: none; }
+    .alert-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .alert-dot.red    { background: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
+    .alert-dot.yellow { background: var(--yellow); box-shadow: 0 0 0 3px rgba(234,179,8,0.2); }
+    .alert-dot.green  { background: var(--green); box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+    .alert-dot.blue   { background: var(--accent); box-shadow: 0 0 0 3px rgba(79,124,255,0.2); }
+
+    .alert-body { flex: 1; }
+    .alert-body strong { display: block; font-size: 13px; font-weight: 600; color: var(--text); }
+    .alert-body span   { font-size: 12px; color: var(--muted); }
+    .alert-action {
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      flex-shrink: 0;
+    }
+    .alert-action.red    { background: rgba(239,68,68,0.15);  color: var(--red);    }
+    .alert-action.yellow { background: rgba(234,179,8,0.15);  color: var(--yellow); }
+    .alert-action.green  { background: rgba(34,197,94,0.15);  color: var(--green);  }
+    .alert-action.blue   { background: rgba(79,124,255,0.15); color: var(--accent); }
+
+    /* ── SUBSCRIPTION LIST ── */
+    .sub-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .sub-item:last-child { border-bottom: none; }
+    .sub-item:hover { background: rgba(255,255,255,0.02); }
+
+    .sub-logo {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .sub-info { flex: 1; min-width: 0; }
+    .sub-info .sub-name  { font-size: 13px; font-weight: 600; color: var(--text); }
+    .sub-info .sub-meta  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .sub-price {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .sub-price .amount { font-size: 15px; font-weight: 700; color: var(--text); }
+    .sub-price .period { font-size: 11px; color: var(--muted); }
+
+    .sub-status {
+      flex-shrink: 0;
+    }
+
+    /* ── TAG ── */
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .tag-green  { background: rgba(34,197,94,0.15);  color: var(--green); }
+    .tag-red    { background: rgba(239,68,68,0.15);  color: var(--red); }
+    .tag-yellow { background: rgba(234,179,8,0.15);  color: var(--yellow); }
+    .tag-orange { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .tag-blue   { background: rgba(79,124,255,0.15); color: var(--accent); }
+    .tag-muted  { background: rgba(148,163,184,0.1); color: var(--muted); }
+
+    /* ── DOCUMENT LIST ── */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      padding: 16px 18px;
+    }
+    .doc-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .doc-card:hover { border-color: var(--accent); }
+    .doc-card.expiring { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.04); }
+    .doc-card.warning  { border-color: rgba(234,179,8,0.35); background: rgba(234,179,8,0.04); }
+    .doc-icon { font-size: 28px; margin-bottom: 8px; }
+    .doc-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .doc-sub  { font-size: 11px; color: var(--muted); }
+    .doc-expiry { font-size: 11px; margin-top: 8px; font-weight: 600; }
+    .doc-expiry.ok  { color: var(--green); }
+    .doc-expiry.warn { color: var(--yellow); }
+    .doc-expiry.bad  { color: var(--red); }
+
+    /* ── FAMILY ── */
+    .family-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .family-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .family-card.pending { border-color: rgba(234,179,8,0.3); }
+    .fc-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .fc-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .fc-name  { font-size: 14px; font-weight: 600; }
+    .fc-role  { font-size: 12px; color: var(--muted); }
+    .fc-perms { margin-bottom: 12px; }
+    .fc-perms p { font-size: 11px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+    .perm-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .perm-row:last-child { border-bottom: none; }
+    .perm-on  { color: var(--green); font-weight: 600; }
+    .perm-off { color: var(--muted); }
+    .fc-footer {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .fc-btn {
+      flex: 1;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      text-align: center;
+    }
+    .fc-btn.danger { color: var(--red); border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.06); }
+
+    /* ── RECO ITEMS ── */
+    .reco-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .reco-item:last-child { border-bottom: none; }
+    .reco-logo {
+      width: 40px; height: 40px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .reco-body { flex: 1; }
+    .reco-body .reco-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .reco-body .reco-desc  { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .reco-body .reco-saving { font-size: 12px; color: var(--green); font-weight: 600; }
+    .reco-body .reco-commission { font-size: 11px; color: rgba(148,163,184,0.6); margin-top: 3px; }
+    .reco-cta {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .reco-price { font-size: 18px; font-weight: 800; color: var(--text); }
+    .reco-old   { font-size: 12px; color: var(--muted); text-decoration: line-through; }
+    .reco-btn {
+      padding: 6px 14px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* ── AGENDA ── */
+    .agenda-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .agenda-item:last-child { border-bottom: none; }
+    .agenda-date {
+      text-align: center;
+      flex-shrink: 0;
+      width: 44px;
+    }
+    .agenda-date .day { font-size: 20px; font-weight: 800; line-height: 1; }
+    .agenda-date .month { font-size: 10px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+    .agenda-body { flex: 1; }
+    .agenda-body strong { display: block; font-size: 13px; font-weight: 600; }
+    .agenda-body span   { font-size: 12px; color: var(--muted); }
+
+    /* ── TWO COL LAYOUT ── */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media(max-width:800px){ .two-col-grid { grid-template-columns: 1fr; } }
+
+    /* ── TOTAL ROW ── */
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .total-row .total-label { color: var(--muted); }
+    .total-row .total-val   { font-size: 18px; font-weight: 800; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap { padding: 14px 18px; }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+    .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; }
+
+    /* ── INLINE FORM ── */
+    .add-form {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+    }
+    .add-form input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .add-form input::placeholder { color: var(--muted); }
+    .add-form input:focus { outline: none; border-color: var(--accent); }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 14px 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── TOP NAV ── -->
+  <nav class="topnav">
+    <a href="analyse-superadmin.html">Analyse stratégique</a>
+    <a href="version-faisable.html">
+      <span class="dot-green"></span>
+      Version faisable
+    </a>
+    <a href="apercu-v1.html" class="active">
+      <span class="dot-purple"></span>
+      Aperçu V1
+    </a>
+  </nav>
+
+  <!-- ── PAGE HERO ── -->
+  <div class="page-hero">
+    <div>
+      <div class="badge">Maquette interactive V1</div>
+      <h1>SuperAdmin — Aperçu Produit</h1>
+      <p>Prototype navigable de la V1 légalement faisable — données fictives à titre illustratif</p>
+    </div>
+    <div class="meta-pills">
+      <span class="mpill mpill-purple">Maquette non fonctionnelle</span>
+      <span class="mpill mpill-green">Données fictives</span>
+      <span class="mpill mpill-blue">Plan Famille simulé</span>
+    </div>
+  </div>
+
+  <!-- ── APP SHELL ── -->
+  <div class="app-wrapper">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">SA</div>
+        <div>
+          <div class="brand-name">SuperAdmin</div>
+          <div class="brand-ver">Version 1.0 — Plan Famille</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section-title">Principal</div>
+      <button class="nav-item active" onclick="showTab('dashboard', this)">
+        <span class="nav-icon">🏠</span> Tableau de bord
+        <span class="badge-count red">3</span>
+      </button>
+      <button class="nav-item" onclick="showTab('abonnements', this)">
+        <span class="nav-icon">📋</span> Mes abonnements
+        <span class="badge-count yellow">1</span>
+      </button>
+      <button class="nav-item" onclick="showTab('documents', this)">
+        <span class="nav-icon">📁</span> Mes documents
+        <span class="badge-count red">1</span>
+      </button>
+
+      <div class="sidebar-section-title">Famille</div>
+      <button class="nav-item" onclick="showTab('famille', this)">
+        <span class="nav-icon">👨‍👩‍👧</span> Ma famille
+      </button>
+      <button class="nav-item" onclick="showTab('recommandations', this)">
+        <span class="nav-icon">💡</span> Recommandations
+        <span class="badge-count" style="background:var(--green)">4</span>
+      </button>
+      <button class="nav-item" onclick="showTab('agenda', this)">
+        <span class="nav-icon">📅</span> Agenda admin
+      </button>
+
+      <div class="sidebar-section-title">Compte</div>
+      <button class="nav-item" onclick="showTab('parametres', this)">
+        <span class="nav-icon">⚙️</span> Paramètres
+      </button>
+
+      <div class="sidebar-user">
+        <div class="user-avatar">TD</div>
+        <div>
+          <div class="user-name">Thomas Dupont</div>
+          <div class="user-plan">Plan Famille · 4,99€/mois</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main">
+
+      <!-- ═══════ DASHBOARD ═══════ -->
+      <div id="tab-dashboard" class="tab-content active">
+        <div class="app-topbar">
+          <div>
+            <h2>Bonjour Thomas 👋</h2>
+            <p>Jeudi 1er mai 2026 — 3 alertes requièrent votre attention</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn btn-ghost">+ Ajouter</button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="sc-label">Dépenses mensuelles</div>
+            <div class="sc-value" style="color:var(--accent)">320,98€</div>
+            <div class="sc-sub">9 abonnements actifs</div>
+          </div>
+          <div class="stat-card green-card">
+            <div class="sc-label">Économies potentielles</div>
+            <div class="sc-value" style="color:var(--green)">47€</div>
+            <div class="sc-sub">4 recommandations disponibles</div>
+          </div>
+          <div class="stat-card alert-card">
+            <div class="sc-label">Alertes urgentes</div>
+            <div class="sc-value" style="color:var(--red)">3</div>
+            <div class="sc-sub">Action requise</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-label">Documents stockés</div>
+            <div class="sc-value" style="color:var(--text)">14</div>
+            <div class="sc-sub">1,2 Go utilisé sur 5 Go</div>
+          </div>
+        </div>
+
+        <!-- Grid 2 colonnes -->
+        <div class="two-col-grid">
+
+          <!-- Alertes -->
+          <div class="card">
+            <div class="card-header">
+              <h3>🔔 Alertes prioritaires</h3>
+              <span class="tag tag-red">3 urgentes</span>
+            </div>
+            <div class="card-body">
+              <div class="alert-item">
+                <span class="alert-dot red"></span>
+                <div class="alert-body">
+                  <strong>Bail — expiration dans 28 jours</strong>
+                  <span>75 rue de la Paix, Paris 75002 — à renouveler avant le 29 mai</span>
+                </div>
+                <button class="alert-action red">Agir</button>
+              </div>
+              <div class="alert-item">
+                <span class="alert-dot red"></span>
+                <div class="alert-body">
+                  <strong>Canal+ — reconduction tacite dans 14 jours</strong>
+                  <span>Loi Chatel : vous devez résilier avant le 15 mai ou vous êtes re-engagé 12 mois</span>
+                </div>
+                <button class="alert-action red">Résilier</button>
+              </div>
+              <div class="alert-item">
+                <span class="alert-dot yellow"></span>
+                <div class="alert-body">
+                  <strong>Passeport de Marie — expire dans 4 mois</strong>
+                  <span>Délai ANTS moyen : 6–8 semaines. À renouveler maintenant.</span>
+                </div>
+                <button class="alert-action yellow">Voir</button>
+              </div>
+              <div class="alert-item">
+                <span class="alert-dot green"></span>
+                <div class="alert-body">
+                  <strong>Assurance habitation — Loi Hamon éligible</strong>
+                  <span>Plus de 12 mois — vous pouvez résilier à tout moment sans frais</span>
+                </div>
+                <button class="alert-action green">Générer lettre</button>
+              </div>
+              <div class="alert-item">
+                <span class="alert-dot blue"></span>
+                <div class="alert-body">
+                  <strong>Déclaration revenus — ouverture le 7 mai</strong>
+                  <span>DGFiP : service de déclaration en ligne disponible à partir du 7 mai 2026</span>
+                </div>
+                <button class="alert-action blue">Note</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agenda + Famille -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+
+            <div class="card">
+              <div class="card-header">
+                <h3>📅 Prochaines échéances</h3>
+                <button class="btn btn-ghost" style="font-size:11px;padding:4px 10px;" onclick="showTab('agenda', document.querySelector('[onclick*=agenda]'))">Tout voir</button>
+              </div>
+              <div class="card-body">
+                <div class="agenda-item">
+                  <div class="agenda-date">
+                    <div class="day" style="color:var(--red)">15</div>
+                    <div class="month">Mai</div>
+                  </div>
+                  <div class="agenda-body">
+                    <strong>Résiliation Canal+ (Loi Chatel)</strong>
+                    <span>Dernier délai — reconduction tacite évitable</span>
+                  </div>
+                  <span class="tag tag-red">Urgent</span>
+                </div>
+                <div class="agenda-item">
+                  <div class="agenda-date">
+                    <div class="day" style="color:var(--orange)">29</div>
+                    <div class="month">Mai</div>
+                  </div>
+                  <div class="agenda-body">
+                    <strong>Renouvellement bail Paris</strong>
+                    <span>Contacter propriétaire ou déménager</span>
+                  </div>
+                  <span class="tag tag-orange">28j</span>
+                </div>
+                <div class="agenda-item">
+                  <div class="agenda-date">
+                    <div class="day">07</div>
+                    <div class="month">Mai</div>
+                  </div>
+                  <div class="agenda-body">
+                    <strong>Déclaration d'impôts</strong>
+                    <span>Ouverture service DGFiP en ligne</span>
+                  </div>
+                  <span class="tag tag-blue">Info</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>👨‍👩‍👧 Ma famille</h3>
+                <span class="tag tag-green">2 membres actifs</span>
+              </div>
+              <div class="card-body">
+                <div class="sub-item">
+                  <div class="fc-avatar" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#0891b2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;">MD</div>
+                  <div class="sub-info">
+                    <div class="sub-name">Marie Dupont</div>
+                    <div class="sub-meta">Conjoint — Lecture + suggestions</div>
+                  </div>
+                  <span class="tag tag-green">Actif</span>
+                </div>
+                <div class="sub-item">
+                  <div class="fc-avatar" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ef4444);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;">JD</div>
+                  <div class="sub-info">
+                    <div class="sub-name">Jacqueline Dupont</div>
+                    <div class="sub-meta">Mère — Vous gérez ses abonnements</div>
+                  </div>
+                  <span class="tag tag-blue">Géré</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ ABONNEMENTS ═══════ -->
+      <div id="tab-abonnements" class="tab-content">
+        <div class="app-topbar">
+          <div>
+            <h2>Mes abonnements</h2>
+            <p>9 abonnements actifs — 320,98€ / mois</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn btn-ghost">Filtrer</button>
+            <button class="btn btn-primary">+ Ajouter</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Internet &amp; Mobile</h3>
+            <span class="tag tag-muted">2 abonnements</span>
+          </div>
+          <div class="card-body">
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(255,0,0,0.1);color:#ff3b30;">📡</div>
+              <div class="sub-info">
+                <div class="sub-name">Free — Freebox Ultra</div>
+                <div class="sub-meta">Engagement : aucun · Depuis jan. 2023 · Renouvellement : mensuel</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">39,99€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Actif</span></div>
+            </div>
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(255,165,0,0.1);color:#ff8c00;">📱</div>
+              <div class="sub-info">
+                <div class="sub-name">Orange — Forfait 100 Go</div>
+                <div class="sub-meta">Engagement : 24 mois · Fin : mars 2027 · Reconduction auto</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">29,99€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Actif</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Streaming &amp; Loisirs</h3>
+            <span class="tag tag-muted">3 abonnements</span>
+          </div>
+          <div class="card-body">
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(229,9,20,0.1);color:#e50914;">🎬</div>
+              <div class="sub-info">
+                <div class="sub-name">Netflix — Standard avec pub</div>
+                <div class="sub-meta">Depuis août 2020 · Renouvellement mensuel</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">13,49€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Actif</span></div>
+            </div>
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(30,215,96,0.1);color:#1db954;">🎵</div>
+              <div class="sub-info">
+                <div class="sub-name">Spotify — Duo</div>
+                <div class="sub-meta">Depuis fév. 2021 · Renouvellement mensuel</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">14,99€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Actif</span></div>
+            </div>
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(0,0,255,0.08);color:#4169e1;">📺</div>
+              <div class="sub-info">
+                <div class="sub-name">Canal+ — Ciné Séries</div>
+                <div class="sub-meta">⚠️ Reconduction tacite le 15 mai 2026 · Engagement 12 mois si non résilié</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">22,99€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-red">⚠ Urgent</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Assurances</h3>
+            <span class="tag tag-muted">2 abonnements</span>
+          </div>
+          <div class="card-body">
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(20,184,166,0.1);color:#14b8a6;">🏠</div>
+              <div class="sub-info">
+                <div class="sub-name">Maif — Assurance habitation</div>
+                <div class="sub-meta">Depuis mars 2020 · Loi Hamon applicable ✓ — résiliable sans frais</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">38,50€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Hamon ✓</span></div>
+            </div>
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(168,85,247,0.1);color:#a855f7;">🚗</div>
+              <div class="sub-info">
+                <div class="sub-name">AXA — Assurance auto</div>
+                <div class="sub-meta">Depuis jan. 2025 · Loi Hamon applicable à partir jan. 2026 ✓</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">87,00€</div>
+                <div class="period">/ mois</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Hamon ✓</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Énergie</h3>
+            <span class="tag tag-muted">2 abonnements</span>
+          </div>
+          <div class="card-body">
+            <div class="sub-item">
+              <div class="sub-logo" style="background:rgba(234,179,8,0.1);color:#eab308;">⚡</div>
+              <div class="sub-info">
+                <div class="sub-name">EDF — Tarif Bleu (électricité)</div>
+                <div class="sub-meta">Sans engagement · Tarif réglementé · Puissance 9 kVA</div>
+              </div>
+              <div class="sub-price">
+                <div class="amount">75,03€</div>
+                <div class="period">/ mois (moy.)</div>
+              </div>
+              <div class="sub-status"><span class="tag tag-green">Actif</span></div>
+            </div>
+          </div>
+          <div class="total-row">
+            <span class="total-label">Total mensuel estimé</span>
+            <span class="total-val" style="color:var(--accent)">320,98€</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ DOCUMENTS ═══════ -->
+      <div id="tab-documents" class="tab-content">
+        <div class="app-topbar">
+          <div>
+            <h2>Mes documents</h2>
+            <p>14 documents stockés — 1,2 Go sur 5 Go utilisés</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn btn-ghost">Rechercher</button>
+            <button class="btn btn-primary">+ Ajouter</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Stockage utilisé</span>
+              <span>1,2 Go / 5 Go</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:24%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Contrats &amp; Abonnements</h3>
+            <span class="tag tag-muted">5 fichiers</span>
+          </div>
+          <div class="doc-grid">
+            <div class="doc-card">
+              <div class="doc-icon">📄</div>
+              <div class="doc-name">Contrat Free Fibre</div>
+              <div class="doc-sub">PDF · 2,1 Mo · Jan 2023</div>
+              <div class="doc-expiry ok">✓ Actif — sans fin</div>
+            </div>
+            <div class="doc-card warning">
+              <div class="doc-icon">📄</div>
+              <div class="doc-name">Bail Paris 75002</div>
+              <div class="doc-sub">PDF · 4,3 Mo · Juin 2023</div>
+              <div class="doc-expiry warn">⚠ Expire le 29 mai 2026</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">📄</div>
+              <div class="doc-name">Contrat Orange Mobile</div>
+              <div class="doc-sub">PDF · 1,8 Mo · Mars 2025</div>
+              <div class="doc-expiry ok">✓ Actif — mars 2027</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">📄</div>
+              <div class="doc-name">Contrat Maif Habitation</div>
+              <div class="doc-sub">PDF · 3,2 Mo · Mars 2020</div>
+              <div class="doc-expiry ok">✓ Actif — Hamon éligible</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">📄</div>
+              <div class="doc-name">Contrat AXA Auto</div>
+              <div class="doc-sub">PDF · 2,7 Mo · Jan 2025</div>
+              <div class="doc-expiry ok">✓ Actif — jan 2026+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>🏠 Logement &amp; Propriété</h3>
+            <span class="tag tag-muted">3 fichiers</span>
+          </div>
+          <div class="doc-grid">
+            <div class="doc-card expiring">
+              <div class="doc-icon">🏠</div>
+              <div class="doc-name">Bail locatif — Paris</div>
+              <div class="doc-sub">PDF · 4,3 Mo</div>
+              <div class="doc-expiry bad">🔴 28 jours restants</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">🧾</div>
+              <div class="doc-name">Quittances loyer 2025</div>
+              <div class="doc-sub">PDF · 12 fichiers zippés</div>
+              <div class="doc-expiry ok">✓ Archive complète</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">⚡</div>
+              <div class="doc-name">Contrat EDF</div>
+              <div class="doc-sub">PDF · 1,1 Mo · Jan 2022</div>
+              <div class="doc-expiry ok">✓ Sans engagement</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>💰 Fiscalité</h3>
+            <span class="tag tag-muted">3 fichiers</span>
+          </div>
+          <div class="doc-grid">
+            <div class="doc-card">
+              <div class="doc-icon">🧾</div>
+              <div class="doc-name">Avis imposition 2025</div>
+              <div class="doc-sub">PDF · 890 Ko · Sep 2025</div>
+              <div class="doc-expiry ok">✓ Archivé</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">📊</div>
+              <div class="doc-name">Déclaration revenus 2024</div>
+              <div class="doc-sub">PDF · 1,2 Mo · Mai 2025</div>
+              <div class="doc-expiry ok">✓ Archivé</div>
+            </div>
+            <div class="doc-card">
+              <div class="doc-icon">🏦</div>
+              <div class="doc-name">Relevé IBAN — Crédit Agri.</div>
+              <div class="doc-sub">PDF · 340 Ko</div>
+              <div class="doc-expiry ok">✓ Valide</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>⚠️ Documents exclus de la V1</h3>
+            <span class="tag tag-orange">Non disponible</span>
+          </div>
+          <div class="empty-state" style="padding:24px;">
+            <div class="icon">🔒</div>
+            <p style="color:var(--muted);">Les pièces d'identité (CNI, passeport) et les données de santé (carte vitale, ordonnances) ne sont pas stockées en V1 pour raisons de conformité RGPD et CNIL.<br/><span style="color:var(--accent);">Disponible en V2 après audit CNIL.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ FAMILLE ═══════ -->
+      <div id="tab-famille" class="tab-content">
+        <div class="app-topbar">
+          <div>
+            <h2>Ma famille</h2>
+            <p>Délégation familiale en lecture — Mandat numérique sécurisé</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn btn-primary">+ Inviter un proche</button>
+          </div>
+        </div>
+
+        <div class="card" style="border-color:rgba(79,124,255,0.3);background:rgba(79,124,255,0.04);margin-bottom:20px;">
+          <div style="padding:14px 18px;font-size:13px;color:var(--muted);">
+            ℹ️ <strong style="color:var(--text);">Mandat consultatif V1 :</strong> vos proches peuvent voir vos abonnements et documents, et vous soumettre des suggestions. Vous restez seul décisionnaire — aucune action n'est exécutée sans votre accord explicite. Chaque mandat est horodaté et révocable en un clic.
+          </div>
+        </div>
+
+        <div class="family-grid">
+
+          <div class="family-card">
+            <div class="fc-top">
+              <div class="fc-avatar" style="background:linear-gradient(135deg,#14b8a6,#0891b2)">MD</div>
+              <div>
+                <div class="fc-name">Marie Dupont</div>
+                <div class="fc-role">Conjoint · Mandat depuis le 12 jan. 2026</div>
+              </div>
+            </div>
+            <div class="fc-perms">
+              <p>Permissions accordées</p>
+              <div class="perm-row">
+                <span>Voir les abonnements</span>
+                <span class="perm-on">✓ Actif</span>
+              </div>
+              <div class="perm-row">
+                <span>Voir les documents</span>
+                <span class="perm-on">✓ Actif</span>
+              </div>
+              <div class="perm-row">
+                <span>Soumettre des suggestions</span>
+                <span class="perm-on">✓ Actif</span>
+              </div>
+              <div class="perm-row">
+                <span>Voir l'agenda</span>
+                <span class="perm-on">✓ Actif</span>
+              </div>
+              <div class="perm-row">
+                <span>Agir en mon nom (V2)</span>
+                <span class="perm-off">— Non disponible</span>
+              </div>
+            </div>
+            <div class="fc-footer">
+              <div class="fc-btn">Voir le mandat</div>
+              <div class="fc-btn">Modifier</div>
+              <div class="fc-btn danger">Révoquer</div>
+            </div>
+          </div>
+
+          <div class="family-card">
+            <div class="fc-top">
+              <div class="fc-avatar" style="background:linear-gradient(135deg,#f97316,#ef4444)">JD</div>
+              <div>
+                <div class="fc-name">Jacqueline Dupont</div>
+                <div class="fc-role">Mère · Vous êtes son SuperAdmin</div>
+              </div>
+            </div>
+            <div class="fc-perms">
+              <p>Vous gérez pour elle</p>
+              <div class="perm-row">
+                <span>Ses abonnements</span>
+                <span class="perm-on">✓ 4 abonnements</span>
+              </div>
+              <div class="perm-row">
+                <span>Ses alertes</span>
+                <span class="perm-on">✓ Actif</span>
+              </div>
+              <div class="perm-row">
+                <span>Ses documents</span>
+                <span class="perm-on">✓ 6 documents</span>
+              </div>
+              <div class="perm-row">
+                <span>Suggestions en attente</span>
+                <span style="color:var(--yellow);font-weight:600;">2 à valider</span>
+              </div>
+              <div class="perm-row">
+                <span>Mandat horodaté</span>
+                <span class="perm-on">✓ 14 fév. 2026</span>
+              </div>
+            </div>
+            <div class="fc-footer">
+              <div class="fc-btn">Voir son espace</div>
+              <div class="fc-btn">Voir le mandat</div>
+            </div>
+          </div>
+
+          <div class="family-card pending">
+            <div class="fc-top">
+              <div class="fc-avatar" style="background:linear-gradient(135deg,#6b7280,#4b5563)">?</div>
+              <div>
+                <div class="fc-name">Invitation en attente</div>
+                <div class="fc-role">pierre.dupont@email.fr · Envoyée il y a 2 jours</div>
+              </div>
+            </div>
+            <div class="fc-perms">
+              <p>Statut</p>
+              <div class="perm-row">
+                <span>Invitation envoyée</span>
+                <span style="color:var(--yellow);font-weight:600;">⏳ En attente</span>
+              </div>
+              <div class="perm-row">
+                <span>Expire dans</span>
+                <span style="color:var(--muted);">5 jours</span>
+              </div>
+            </div>
+            <div class="fc-footer">
+              <div class="fc-btn">Renvoyer</div>
+              <div class="fc-btn danger">Annuler</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══════ RECOMMANDATIONS ═══════ -->
+      <div id="tab-recommandations" class="tab-content">
+        <div class="app-topbar">
+          <div>
+            <h2>Recommandations</h2>
+            <p>4 offres sélectionnées — économie potentielle de 47€/mois</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn btn-ghost">Filtrer</button>
+          </div>
+        </div>
+
+        <div class="card" style="border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.04);margin-bottom:16px;">
+          <div style="padding:14px 18px;font-size:13px;color:var(--muted);">
+            💡 <strong style="color:var(--text);">Transparence :</strong> lorsque vous souscrivez via une recommandation, SuperAdmin perçoit une commission d'apport d'affaires de l'opérateur. Cela ne modifie pas le prix affiché. <a style="color:var(--accent);cursor:pointer;">En savoir plus →</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Recommandations pour vous</h3>
+            <span class="tag tag-green">Économie : 47€/mois</span>
+          </div>
+          <div class="card-body">
+
+            <div class="reco-item">
+              <div class="reco-logo" style="background:rgba(255,0,0,0.1);">📡</div>
+              <div class="reco-body">
+                <div class="reco-title">RED by SFR — Box 500 Mb/s</div>
+                <div class="reco-desc">Remplace votre Freebox Ultra · Vitesse similaire · Sans engagement · Promotion 6 mois</div>
+                <div class="reco-saving">↓ Économie : 15€/mois soit 180€/an</div>
+                <div class="reco-commission">Commission perçue si souscription : ~25€ (1er mois)</div>
+              </div>
+              <div class="reco-cta">
+                <div style="text-align:right;">
+                  <div class="reco-old">39,99€</div>
+                  <div class="reco-price" style="color:var(--green)">24,99€</div>
+                  <div style="font-size:11px;color:var(--muted)">/ mois</div>
+                </div>
+                <button class="reco-btn">Voir l'offre →</button>
+              </div>
+            </div>
+
+            <div class="reco-item">
+              <div class="reco-logo" style="background:rgba(30,215,96,0.1);">🎵</div>
+              <div class="reco-body">
+                <div class="reco-title">Spotify — Famille (6 membres)</div>
+                <div class="reco-desc">Remplace votre Duo · Passez à 6 membres pour seulement 2€ de plus · Inclut votre mère</div>
+                <div class="reco-saving">↓ Économie par membre : 5€/mois</div>
+                <div class="reco-commission">Programme affilié Spotify — commission 0€ (offre standard)</div>
+              </div>
+              <div class="reco-cta">
+                <div style="text-align:right;">
+                  <div class="reco-old">14,99€</div>
+                  <div class="reco-price" style="color:var(--green)">17,99€</div>
+                  <div style="font-size:11px;color:var(--muted)">/ mois · 6 pers.</div>
+                </div>
+                <button class="reco-btn">Voir l'offre →</button>
+              </div>
+            </div>
+
+            <div class="reco-item">
+              <div class="reco-logo" style="background:rgba(20,184,166,0.1);">🏠</div>
+              <div class="reco-body">
+                <div class="reco-title">Luko — Assurance habitation digitale</div>
+                <div class="reco-desc">Remplace votre Maif · Garanties similaires · Sans engagement · Loi Hamon applicable sur votre contrat actuel</div>
+                <div class="reco-saving">↓ Économie : 14€/mois soit 168€/an</div>
+                <div class="reco-commission">Commission via courtier partenaire ORIAS · Déclaré</div>
+              </div>
+              <div class="reco-cta">
+                <div style="text-align:right;">
+                  <div class="reco-old">38,50€</div>
+                  <div class="reco-price" style="color:var(--green)">24,50€</div>
+                  <div style="font-size:11px;color:var(--muted)">/ mois</div>
+                </div>
+                <button class="reco-btn">Voir l'offre →</button>
+              </div>
+            </div>
+
+            <div class="reco-item">
+              <div class="reco-logo" style="background:rgba(234,179,8,0.1);">⚡</div>
+              <div class="reco-body">
+                <div class="reco-title">Engie — Offre Électricité Verte</div>
+                <div class="reco-desc">Remplace votre tarif EDF Bleu · Prix fixe garanti 12 mois · Énergie 100% renouvelable</div>
+                <div class="reco-saving">↓ Économie estimée : 8€/mois selon consommation</div>
+                <div class="reco-commission">Commission perçue si souscription : ~30€</div>
+              </div>
+              <div class="reco-cta">
+                <div style="text-align:right;">
+                  <div class="reco-old">75,03€</div>
+                  <div class="reco-price" style="color:var(--green)">~67€</div>
+                  <div style="font-size:11px;color:var(--muted)">/ mois estimé</div>
+                </div>
+                <button class="reco-btn">Voir l'offre →</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>🔔 Action disponible — Loi Hamon</h3>
+          </div>
+          <div class="card-body">
+            <div class="reco-item">
+              <div class="reco-logo" style="background:rgba(34,197,94,0.1);">📝</div>
+              <div class="reco-body">
+                <div class="reco-title">Résilier Maif Habitation — Lettre Hamon prête</div>
+                <div class="reco-desc">Votre contrat a plus de 12 mois. La lettre de résiliation est pré-remplie et datée. Vous n'avez qu'à la signer et l'envoyer par courrier recommandé.</div>
+                <div class="reco-saving">✓ Sans frais · Sans pénalité · Délai légal : 1 mois</div>
+              </div>
+              <div class="reco-cta">
+                <button class="reco-btn" style="background:var(--green);">Générer la lettre</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ AGENDA ═══════ -->
+      <div id="tab-agenda" class="tab-content">
+        <div class="app-topbar">
+          <div>
+            <h2>Agenda administratif</h2>
+            <p>Vos échéances administratives pour les 6 prochains mois</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn btn-ghost">+ Ajouter</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Mai 2026</h3>
+            <span class="tag tag-red">3 urgences</span>
+          </div>
+          <div class="card-body">
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day" style="color:var(--red)">07</div>
+                <div class="month">Mai</div>
+              </div>
+              <div class="agenda-body">
+                <strong>Ouverture déclaration d'impôts DGFiP</strong>
+                <span>Service en ligne disponible — revenus 2025</span>
+              </div>
+              <span class="tag tag-blue">Info</span>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day" style="color:var(--red)">15</div>
+                <div class="month">Mai</div>
+              </div>
+              <div class="agenda-body">
+                <strong>⚠ Dernier délai résiliation Canal+</strong>
+                <span>Reconduction tacite → 12 mois supplémentaires si inaction</span>
+              </div>
+              <span class="tag tag-red">Urgent</span>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day" style="color:var(--yellow)">28</div>
+                <div class="month">Mai</div>
+              </div>
+              <div class="agenda-body">
+                <strong>Clôture déclaration d'impôts (zone 1)</strong>
+                <span>Départements 01–19 et non-résidents</span>
+              </div>
+              <span class="tag tag-yellow">Fiscal</span>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day" style="color:var(--orange)">29</div>
+                <div class="month">Mai</div>
+              </div>
+              <div class="agenda-body">
+                <strong>Bail Paris — expiration</strong>
+                <span>75 rue de la Paix, 75002 — renouvellement ou déménagement</span>
+              </div>
+              <span class="tag tag-orange">Logement</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Juin — Octobre 2026</h3>
+          </div>
+          <div class="card-body">
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day">04</div>
+                <div class="month">Juin</div>
+              </div>
+              <div class="agenda-body">
+                <strong>Clôture déclaration d'impôts (zone 3)</strong>
+                <span>Déclaration en ligne — tous départements</span>
+              </div>
+              <span class="tag tag-yellow">Fiscal</span>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day" style="color:var(--yellow)">15</div>
+                <div class="month">Sep.</div>
+              </div>
+              <div class="agenda-body">
+                <strong>Passeport Marie — à renouveler</strong>
+                <span>Expire jan. 2027 — délai ANTS 6–8 semaines — anticiper maintenant</span>
+              </div>
+              <span class="tag tag-yellow">Identité</span>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-date">
+                <div class="day">01</div>
+                <div class="month">Jan.</div>
+              </div>
+              <div class="agenda-body">
+                <strong>Renouvellement assurance AXA Auto</strong>
+                <span>Loi Hamon applicable · Possibilité de changer sans frais après ce délai</span>
+              </div>
+              <span class="tag tag-green">Assurance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ PARAMÈTRES ═══════ -->
+      <div id="tab-parametres" class="tab-content">
+        <div class="app-topbar">
+          <div>
+            <h2>Paramètres</h2>
+            <p>Gérez votre compte, vos données et votre conformité RGPD</p>
+          </div>
+        </div>
+
+        <div class="two-col-grid">
+          <div>
+            <div class="card">
+              <div class="card-header"><h3>Abonnement actuel</h3></div>
+              <div style="padding:18px;">
+                <div style="font-size:22px;font-weight:800;color:var(--accent);margin-bottom:4px;">Plan Famille</div>
+                <div style="font-size:14px;color:var(--muted);margin-bottom:16px;">4,99€ / mois · Renouvellement le 1er juin 2026</div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">✓ Abonnements illimités</div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">✓ 3 membres famille</div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">✓ 5 Go stockage</div>
+                <button class="btn btn-ghost" style="width:100%;justify-content:center;">Passer en Premium — 9,99€/mois</button>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:14px;">
+              <div class="card-header"><h3>Sécurité</h3></div>
+              <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Double authentification</span>
+                  <span class="tag tag-green">Activée</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Chiffrement documents</span>
+                  <span class="tag tag-green">AES-256</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Dernière connexion</span>
+                  <span style="font-size:12px;color:var(--muted);">Aujourd'hui 09:14</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-header"><h3>Vos droits RGPD</h3></div>
+              <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+                <button class="btn btn-ghost" style="width:100%;justify-content:center;">📥 Exporter toutes mes données (JSON)</button>
+                <button class="btn btn-ghost" style="width:100%;justify-content:center;">📋 Télécharger mes mandats signés</button>
+                <button class="btn btn-ghost" style="width:100%;justify-content:center;">🔍 Voir le registre de traitement</button>
+                <button class="btn btn-ghost" style="width:100%;justify-content:center;color:var(--red);border-color:rgba(239,68,68,0.3);">🗑 Supprimer mon compte et toutes mes données</button>
+              </div>
+              <div style="padding:0 18px 14px;font-size:11px;color:rgba(148,163,184,0.5);">
+                Conformément au RGPD (Art. 15, 17, 20) — Traitement par SuperAdmin SAS · DPO : dpo@superadmin.fr · Hébergement : OVH SAS, Roubaix, France
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:14px;">
+              <div class="card-header"><h3>Notifications</h3></div>
+              <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Alertes reconduction tacite</span>
+                  <span class="tag tag-green">Email · 30j avant</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Expiration documents</span>
+                  <span class="tag tag-green">Email · 90j avant</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Nouvelles recommandations</span>
+                  <span class="tag tag-green">Email · Hebdo</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:13px;">Résumé mensuel</span>
+                  <span class="tag tag-green">Email · 1er du mois</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>
+    SuperAdmin V1 — Aperçu produit — Données fictives à titre illustratif — Ne constitue pas un engagement commercial
+  </footer>
+
+  <script>
+    function showTab(name, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>
