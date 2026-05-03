@@ -1247,66 +1247,145 @@
         <div class="section-row">
 
           <!-- Carte Vitale -->
-          <div class="scard">
-            <div class="scard-img" style="background:#e8f5e9; flex-direction:column; gap:6px;">
-              <div style="font-size:36px;">💚</div>
-              <div style="font-size:12px; font-weight:700; color:#2e7d32; text-align:center;">CARTE VITALE</div>
-              <div style="font-size:10px; color:#888; text-align:center;">Assurance Maladie<br/>Daniel De Roland</div>
-              <div class="stamp stamp-green">À jour ✓</div>
+          <div class="scard" onclick="openModal('vitale')">
+            <div class="scard-img" style="background:linear-gradient(135deg,#1b5e20,#2e7d32); flex-direction:column; gap:4px; cursor:pointer;">
+              <div style="font-size:10px;font-weight:700;color:#a5d6a7;letter-spacing:0.08em;">ASSURANCE MALADIE</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;">Carte Vitale</div>
+              <div style="font-size:11px;color:#c8e6c9;font-weight:600;">Daniel De Roland</div>
+              <div style="font-size:10px;color:#a5d6a7;margin-top:2px;">N° sécu · Droits ouverts</div>
+              <div class="stamp stamp-green" style="color:#fff;border-color:#fff;background:rgba(0,0,0,0.2);">À jour ✓</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar green-bar">
-                <span>Sécu</span><span style="font-size:11px;">À jour ✓</span>
+                <span>Sécu</span><span style="font-size:11px;">Droits ouverts ✓</span>
               </div>
-              <div class="scard-docs">📎 Carte vitale.pdf · AttestationDroits.pdf</div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-vitale')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-vitale">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Carte vitale.pdf</span><span class="at-meta">Sécurité sociale</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">DemandeCarteVitale.pdf</span><span class="at-meta">Demande renouvellement</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">2208_AttestationDroits.pdf</span><span class="at-meta">Août 2022</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">1702_AttestationDroits.pdf</span><span class="at-meta">Fév 2017</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
           </div>
 
           <!-- Mutuelle GAN — Daniel -->
-          <div class="scard">
-            <div class="scard-img" style="background:#e3f2fd; flex-direction:column; gap:6px;">
-              <div style="font-size:36px;">🏥</div>
-              <div style="font-size:12px; font-weight:700; color:#1565c0; text-align:center;">GAN MUTUELLE</div>
-              <div style="font-size:10px; color:#888; text-align:center;">Daniel De Roland<br/>Frais médicaux couverts</div>
+          <div class="scard" onclick="openModal('mutuelle-dan')">
+            <div class="scard-img" style="background:#e3f2fd; flex-direction:column; gap:5px; cursor:pointer;">
+              <div style="font-size:11px;font-weight:900;color:#1565c0;letter-spacing:0.05em;">GAN ASSURANCES</div>
+              <div style="font-size:15px;font-weight:900;color:#0d47a1;">Mutuelle Santé</div>
+              <div style="font-size:10px;color:#555;text-align:center;">Daniel De Roland<br/>Frais médicaux · Hospitalisation</div>
+              <div style="font-size:13px;font-weight:900;color:#1565c0;margin-top:2px;">— €<span style="font-size:9px;">/mois</span></div>
               <div class="stamp stamp-green">Valide ✓</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar blue-bar">
-                <span>Mutuelle</span><span style="font-size:10px;">Attestation OK</span>
+                <span>Mutuelle Daniel</span><span style="font-size:10px;">Attestation OK</span>
               </div>
-              <div class="scard-docs">📎 ATTESTATION MUTUELLE Daniel.doc</div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-mutuelle-dan')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-mutuelle-dan">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">DOC</div>
+                <div class="at-info"><span class="at-name">ATTESTATION MUTUELLE Daniel.doc</span><span class="at-meta">Attestation en cours</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Gan Mutuelle cotisation.pdf</span><span class="at-meta">Cotisation annuelle</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">1808_frais médicaux genoux.pdf</span><span class="at-meta">Remboursement Août 2018</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
           </div>
 
           <!-- Mutuelle MGEN — Fanny -->
-          <div class="scard">
-            <div class="scard-img" style="background:#f3e5f5; flex-direction:column; gap:6px;">
-              <div style="font-size:36px;">💊</div>
-              <div style="font-size:12px; font-weight:700; color:#6a1b9a; text-align:center;">MGEN</div>
-              <div style="font-size:10px; color:#888; text-align:center;">Fanny Bardanouve<br/>Née 08/07/1981</div>
-              <div class="stamp stamp-green">Valide ✓</div>
+          <div class="scard" onclick="openModal('mutuelle-fanny')">
+            <div class="scard-img" style="background:linear-gradient(135deg,#4a148c,#7b1fa2); flex-direction:column; gap:5px; cursor:pointer;">
+              <div style="font-size:14px;font-weight:900;color:#fff;letter-spacing:0.05em;">MGEN</div>
+              <div style="font-size:11px;color:#ce93d8;font-weight:600;">Mutuelle Nationale<br/>de l'Éducation Nationale</div>
+              <div style="font-size:10px;color:#e1bee7;text-align:center;margin-top:2px;">Fanny Bardanouve<br/>Née 08/07/1981</div>
+              <div class="stamp stamp-green" style="color:#fff;border-color:#fff;background:rgba(0,0,0,0.2);">Valide ✓</div>
             </div>
             <div class="scard-footer">
-              <div class="scard-price-bar" style="background:#f3e5f5; color:#6a1b9a;">
+              <div class="scard-price-bar" style="background:#f3e5f5;color:#6a1b9a;display:flex;align-items:center;justify-content:space-between;padding:8px 10px;font-size:12px;font-weight:700;">
                 <span>Mutuelle Fanny</span><span style="font-size:10px;">Attestation OK</span>
               </div>
-              <div class="scard-docs">📎 Attestation_MGEN_Fanny.pdf</div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-mutuelle-fanny')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-mutuelle-fanny">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Attestation_MGEN_Fanny_BARDANOUVE_08071981.pdf</span><span class="at-meta">Attestation mutuelle</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Attestation Credit mutuelle Fanny 151000.pdf</span><span class="at-meta">Crédit mutuelle</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
           </div>
 
           <!-- CAF -->
-          <div class="scard">
-            <div class="scard-img" style="background:#fff3e0; flex-direction:column; gap:6px; cursor:pointer;" onclick="openModal('caf')">
-              <div style="font-size:36px;">🏛️</div>
-              <div style="font-size:12px; font-weight:700; color:#e65100; text-align:center;">CAF</div>
-              <div style="font-size:10px; color:#888; text-align:center;">Déclaration trimestrielle RSA<br/>Partage des droits 2025</div>
+          <div class="scard" onclick="openModal('caf')">
+            <div class="scard-img" style="background:#fff3e0; flex-direction:column; gap:5px; cursor:pointer;">
+              <div style="font-size:13px;font-weight:900;color:#bf360c;letter-spacing:0.05em;">CAF</div>
+              <div style="font-size:10px;color:#555;text-align:center;font-weight:600;">Caisse d'Allocations Familiales</div>
+              <div style="font-size:10px;color:#888;text-align:center;margin-top:2px;">RSA · Partage des droits<br/>Déclaration revenus 2022</div>
               <div class="action-banner orange" style="position:relative;bottom:auto;left:auto;right:auto;margin-top:6px;border-radius:3px;">Déclaration trimestrielle</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar orange-bar">
                 <span>CAF</span><span style="font-size:10px;">Action requise</span>
               </div>
-              <div class="scard-docs">📎 CAF_Attestation.pdf · DeclarationRSA.pdf</div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-caf')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-caf">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">2104xx_CAF_Attestation.pdf</span><span class="at-meta">Attestation CAF</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">250422_DeclarationPartageDesDroits.pdf</span><span class="at-meta">Avr 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">251105_CAF_declarationTrimestrielleRSA.pdf</span><span class="at-meta">Nov 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">250115_declarationRevenues2022.pdf</span><span class="at-meta">Jan 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
           </div>
 
@@ -1316,34 +1395,65 @@
         <div class="section-row">
 
           <!-- Assurance RC + Accidents -->
-          <div class="scard">
-            <div class="scard-img" style="background:#f5f5f5; flex-direction:column; gap:6px;">
-              <div style="font-size:36px;">🛡️</div>
-              <div style="font-size:12px; font-weight:700; color:#555; text-align:center;">RC &amp; ACCIDENTS</div>
-              <div style="font-size:10px; color:#888; text-align:center;">Caisse d'Épargne<br/>Responsabilité civile vie privée</div>
+          <div class="scard" onclick="openModal('assurance-rc')">
+            <div class="scard-img" style="background:#eceff1; flex-direction:column; gap:5px; cursor:pointer;">
+              <div style="font-size:13px;font-weight:900;color:#37474f;letter-spacing:0.03em;">CAISSE D'ÉPARGNE</div>
+              <div style="font-size:11px;font-weight:700;color:#455a64;text-align:center;">Responsabilité Civile<br/>&amp; Garantie Accidents</div>
+              <div style="font-size:10px;color:#78909c;text-align:center;margin-top:2px;">Vie privée · Toute la famille</div>
               <div class="stamp stamp-green">Valide ✓</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar green-bar">
-                <span>Assurance RC</span>
+                <span>Assurance RC</span><span style="font-size:10px;">Valide ✓</span>
               </div>
-              <div class="scard-docs">📎 Attestation RC · Garantie accident.zip</div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-rc')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-rc">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Attestation RC vie privée.pdf</span><span class="at-meta">En vigueur</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">ZIP</div>
+                <div class="at-info"><span class="at-name">Attestation garantie accident.zip</span><span class="at-meta">Garantie accidents</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
           </div>
 
           <!-- Analyses médicales -->
-          <div class="scard">
-            <div class="scard-img" style="background:#fce4ec; flex-direction:column; gap:6px;">
-              <div style="font-size:36px;">🔬</div>
-              <div style="font-size:12px; font-weight:700; color:#c62828; text-align:center;">ANALYSES</div>
-              <div style="font-size:10px; color:#888; text-align:center;">Transaminases<br/>Août 2025 · Oct 2025</div>
+          <div class="scard" onclick="openModal('analyses')">
+            <div class="scard-img" style="background:#fce4ec; flex-direction:column; gap:5px; cursor:pointer;">
+              <div style="font-size:13px;font-weight:900;color:#880e4f;letter-spacing:0.03em;">ANALYSES LABO</div>
+              <div style="font-size:11px;font-weight:700;color:#c62828;text-align:center;">Transaminases</div>
+              <div style="font-size:10px;color:#888;text-align:center;margin-top:2px;">Août 2025 · Oct 2025<br/>via Doctolib</div>
               <div class="stamp stamp-orange" style="color:#fff3e0;border-color:#ff8f00;">2 résultats</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar red-bar">
-                <span>Labo</span><span style="font-size:10px;">Doctolib</span>
+                <span>Labo · Doctolib</span><span style="font-size:10px;">2 résultats</span>
               </div>
-              <div class="scard-docs">📎 AnalyseSang_Transaminases × 2</div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-analyses')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-analyses">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">250814_AnalyseSang_Transaminases.pdf</span><span class="at-meta">Août 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">251014_AnalyseSang_Transaminases.pdf</span><span class="at-meta">Oct 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon img">HTML</div>
+                <div class="at-info"><span class="at-name">Mes documents - Doctolib.html</span><span class="at-meta">Oct 2025 · export Doctolib</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
           </div>
 
@@ -1462,6 +1572,71 @@
       <div class="modal-actions">
         <button class="modal-btn-cancel" onclick="closeModal('passeport')">Fermer</button>
         <button class="modal-btn-ok" style="background:#c62828;" onclick="closeModal('passeport'); showToast('Redirection vers rendez-vous mairie...')">Prendre RDV en mairie →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL CARTE VITALE ═══ -->
+  <div id="modal-vitale" class="modal-overlay" onclick="closeModal('vitale')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>💚 Carte Vitale — Droits ouverts</h3>
+      <p>Vos droits à l'Assurance Maladie sont ouverts. L'attestation de droits la plus récente date d'<strong>août 2022</strong>. Pensez à la mettre à jour si une démarche l'exige.</p>
+      <p style="color:#2e7d32;font-size:12px;font-weight:700;margin-top:-8px;">✓ Aucune action requise — droits valides.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('vitale')">Fermer</button>
+        <button class="modal-btn-ok" onclick="closeModal('vitale'); showToast('Redirection vers ameli.fr...')">Télécharger une attestation →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL MUTUELLE DANIEL ═══ -->
+  <div id="modal-mutuelle-dan" class="modal-overlay" onclick="closeModal('mutuelle-dan')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>🏥 GAN Mutuelle — Daniel De Roland</h3>
+      <p>Votre mutuelle GAN couvre les frais médicaux, l'hospitalisation et les soins courants. L'attestation est en cours de validité. Vérifiez la cotisation dans <strong>Gan Mutuelle cotisation.pdf</strong>.</p>
+      <p style="color:#1565c0;font-size:12px;font-weight:700;margin-top:-8px;">ℹ Un remboursement frais genoux (Août 2018) est archivé.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('mutuelle-dan')">Fermer</button>
+        <button class="modal-btn-ok" onclick="closeModal('mutuelle-dan'); showToast('Ouverture espace GAN Assurances...')">Espace adhérent GAN →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL MUTUELLE FANNY ═══ -->
+  <div id="modal-mutuelle-fanny" class="modal-overlay" onclick="closeModal('mutuelle-fanny')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>💊 MGEN — Fanny Bardanouve</h3>
+      <p>La mutuelle MGEN de Fanny Bardanouve (née le 08/07/1981) est active. L'attestation et le crédit mutuelle sont archivés.</p>
+      <p style="color:#6a1b9a;font-size:12px;font-weight:700;margin-top:-8px;">✓ Attestation valide — Crédit mutuelle archivé.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('mutuelle-fanny')">Fermer</button>
+        <button class="modal-btn-ok" style="background:#6a1b9a;" onclick="closeModal('mutuelle-fanny'); showToast('Ouverture espace adhérent MGEN...')">Espace adhérent MGEN →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL ASSURANCE RC ═══ -->
+  <div id="modal-assurance-rc" class="modal-overlay" onclick="closeModal('assurance-rc')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>🛡️ RC &amp; Accidents — Caisse d'Épargne</h3>
+      <p>Votre contrat Responsabilité Civile vie privée et votre garantie accidents sont en cours de validité. Ces assurances couvrent toute la famille.</p>
+      <p style="color:#2e7d32;font-size:12px;font-weight:700;margin-top:-8px;">✓ Attestation RC valide — Garantie accidents active.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('assurance-rc')">Fermer</button>
+        <button class="modal-btn-ok" onclick="closeModal('assurance-rc'); showToast('Ouverture espace Caisse d\'Épargne Assurances...')">Espace Caisse d'Épargne →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL ANALYSES ═══ -->
+  <div id="modal-analyses" class="modal-overlay" onclick="closeModal('analyses')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>🔬 Analyses — Transaminases</h3>
+      <p>Deux bilans sanguins (transaminases) sont archivés : <strong>Août 2025</strong> et <strong>Octobre 2025</strong>, effectués via Doctolib. Ces résultats sont à conserver pour le suivi médical.</p>
+      <p style="color:#888;font-size:12px;margin-top:-8px;">Les résultats sont disponibles dans vos dossiers joints.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('analyses')">Fermer</button>
+        <button class="modal-btn-ok" style="background:#c62828;" onclick="closeModal('analyses'); showToast('Ouverture Doctolib — Mes documents...')">Voir sur Doctolib →</button>
       </div>
     </div>
   </div>
