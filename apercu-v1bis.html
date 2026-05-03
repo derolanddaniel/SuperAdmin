@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Aperçu V1.bis (fidèle aux maquettes)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    /* ═══ TOP NAV SITE ═══ */
+    .site-nav {
+      background: #0f1117;
+      border-bottom: 1px solid #2e3350;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .site-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 11px 16px;
+      font-size: 12px; font-weight: 600;
+      color: #94a3b8; text-decoration: none;
+      border-bottom: 2px solid transparent;
+    }
+    .site-nav a:hover { color: #e2e8f0; }
+    .site-nav a.active { color: #4f7cff; border-bottom-color: #4f7cff; }
+    .dot-blue   { width:6px;height:6px;border-radius:50%;background:#4f7cff; }
+    .dot-green  { width:6px;height:6px;border-radius:50%;background:#22c55e; }
+    .dot-purple { width:6px;height:6px;border-radius:50%;background:#a855f7; }
+    .dot-orange { width:6px;height:6px;border-radius:50%;background:#f97316; }
+
+    /* ═══ APP HEADER ═══ */
+    .app-header {
+      background: #fff;
+      border-bottom: 2px solid #ddd;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; text-decoration: none; flex-shrink: 0;
+    }
+    .superman-logo {
+      width: 46px; height: 46px;
+      background: #d32f2f;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .superman-logo::before {
+      content: 'S';
+      font-size: 24px;
+      font-weight: 900;
+      font-style: italic;
+      color: #ffd700;
+      font-family: Georgia, serif;
+      text-shadow: 1px 1px 0 #b71c1c;
+    }
+    .brand-label {
+      font-size: 11px; font-weight: 700; color: #333;
+      letter-spacing: 0.02em;
+    }
+
+    .search-bar {
+      flex: 1; max-width: 500px;
+      display: flex; align-items: center;
+      border: 1px solid #ccc; border-radius: 3px;
+      overflow: hidden;
+    }
+    .search-bar input {
+      flex: 1; padding: 7px 12px;
+      border: none; outline: none;
+      font-size: 13px; color: #666;
+      background: #fff;
+    }
+    .search-bar button {
+      padding: 7px 14px;
+      background: #4f7cff; border: none;
+      color: #fff; font-size: 14px; cursor: pointer;
+    }
+
+    .header-right {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .header-right .hello { font-size: 12px; color: #666; }
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #eee; border: 1px solid #ddd;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px;
+    }
+
+    /* ═══ CATEGORY NAV ═══ */
+    .cat-nav {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 0 20px;
+      display: flex; align-items: center; gap: 0;
+    }
+    .cat-nav .rubrique-label {
+      font-size: 12px; font-weight: 700; color: #555;
+      padding: 10px 16px 10px 0;
+      border-right: 1px solid #ddd; margin-right: 0;
+    }
+    .cat-nav .cat-tabs {
+      display: flex; flex: 1;
+    }
+    .cat-tab {
+      padding: 10px 16px;
+      font-size: 12px; font-weight: 600;
+      color: #555; cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      border-right: 1px solid #e8e8e8;
+      transition: all 0.1s;
+      user-select: none;
+    }
+    .cat-tab:hover { background: #f8f8f8; color: #333; }
+    .cat-tab.active { color: #d32f2f; border-bottom-color: #d32f2f; background: #fff9f9; }
+
+    .sort-wrap {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: #666;
+    }
+    .sort-wrap select {
+      padding: 4px 8px; border: 1px solid #ccc;
+      border-radius: 3px; font-size: 12px; background: #fff;
+    }
+
+    /* ═══ MAIN LAYOUT ═══ */
+    .main-layout {
+      display: flex;
+      min-height: calc(100vh - 160px);
+    }
+
+    /* ═══ SIDEBAR ═══ */
+    .sidebar {
+      width: 190px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      padding: 16px 0;
+      flex-shrink: 0;
+    }
+    .sidebar .sa-title {
+      color: #d32f2f; font-weight: 700; font-size: 14px;
+      padding: 0 14px 8px;
+    }
+    .sidebar ul { list-style: none; }
+    .sidebar ul li {
+      padding: 5px 14px;
+      font-size: 12px; color: #444;
+      cursor: pointer;
+    }
+    .sidebar ul li:hover { color: #d32f2f; text-decoration: underline; }
+    .sidebar ul li.sub { padding-left: 22px; color: #666; }
+    .sidebar ul li.sub:hover { color: #d32f2f; }
+    .sidebar ul .section-sep {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    /* ═══ CONTENT AREA ═══ */
+    .content {
+      flex: 1; padding: 20px;
+    }
+
+    /* ═══ PAGE SECTION ═══ */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ═══ CARDS GRID ═══ */
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* ═══ SERVICE CARD ═══ */
+    .scard {
+      width: 220px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+    .scard:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.13); }
+
+    .scard-img {
+      height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      background: #f7f7f7;
+      position: relative;
+      overflow: hidden;
+      padding: 12px;
+    }
+    .scard-img img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+    }
+    .scard-logo-text {
+      font-size: 28px; font-weight: 900;
+      text-align: center; line-height: 1.1;
+    }
+
+    /* Stamps / badges */
+    .stamp {
+      position: absolute;
+      font-size: 11px; font-weight: 800;
+      padding: 3px 8px;
+      transform: rotate(-12deg);
+      border: 2px solid;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .stamp-red    { color: #d32f2f; border-color: #d32f2f; top: 12px; right: 10px; background: rgba(255,255,255,0.85); }
+    .stamp-orange { color: #e65100; border-color: #e65100; top: 12px; right: 6px; background: rgba(255,255,255,0.9); transform: rotate(-8deg); }
+    .stamp-green  { color: #2e7d32; border-color: #2e7d32; top: 12px; right: 6px; background: rgba(255,255,255,0.9); transform: rotate(-8deg); }
+
+    /* Action banner */
+    .action-banner {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 5px 10px;
+      font-size: 11px; font-weight: 700;
+      text-align: center; color: #fff;
+    }
+    .action-banner.orange { background: #e65100; }
+    .action-banner.red    { background: #c62828; }
+    .action-banner.green  { background: #2e7d32; }
+
+    .scard-footer {
+      border-top: 1px solid #eee;
+    }
+    .scard-price-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px;
+      font-size: 12px; font-weight: 700;
+    }
+    .scard-price-bar.green-bar  { background: #e8f5e9; color: #2e7d32; }
+    .scard-price-bar.red-bar    { background: #ffebee; color: #c62828; }
+    .scard-price-bar.orange-bar { background: #fff3e0; color: #e65100; }
+    .scard-price-bar.grey-bar   { background: #f5f5f5; color: #757575; }
+    .scard-price-bar.blue-bar   { background: #e3f2fd; color: #1565c0; }
+
+    .scard-docs {
+      padding: 5px 10px 7px;
+      font-size: 11px; color: #999;
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    .product-num {
+      position: absolute; bottom: 60px; right: 8px;
+      font-size: 10px; color: #bbb;
+    }
+
+    /* ═══ RECOMMENDATION POPUP CARD ═══ */
+    .reco-wrapper {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .reco-from {
+      background: #fff9c4;
+      border: 2px solid #f9a825;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      position: absolute;
+      top: -6px;
+      left: -10px;
+      z-index: 5;
+      white-space: nowrap;
+    }
+    .reco-from span { color: #d32f2f; font-weight: 900; }
+
+    .reco-arrow {
+      position: absolute;
+      left: 180px;
+      top: 30px;
+      font-size: 28px;
+      color: #f9a825;
+      z-index: 5;
+      transform: rotate(10deg);
+    }
+
+    .reco-card {
+      width: 240px;
+      background: #fff;
+      border: 2px solid #26a69a;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      position: relative;
+      margin-left: 0;
+      margin-top: 12px;
+    }
+    .reco-card-header {
+      background: linear-gradient(135deg, #26a69a, #00897b);
+      color: #fff;
+      padding: 12px;
+      text-align: center;
+    }
+    .reco-card-header .reco-brand { font-size: 16px; font-weight: 900; margin-bottom: 2px; }
+    .reco-card-header .reco-price-big { font-size: 28px; font-weight: 900; }
+    .reco-card-header .reco-price-big sup { font-size: 14px; }
+    .reco-card-header .reco-sub { font-size: 11px; opacity: 0.9; }
+    .reco-card-header .reco-duration { font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.2); border-radius: 10px; padding: 2px 8px; margin-top: 6px; display: inline-block; }
+
+    .reco-cta-btn {
+      width: 100%; padding: 9px;
+      background: #26a69a; border: none; color: #fff;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      transition: background 0.15s;
+    }
+    .reco-cta-btn:hover { background: #00897b; }
+
+    .reco-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 10px;
+      background: #e65100;
+      color: #fff; font-size: 11px; font-weight: 700;
+    }
+
+    .accept-decline {
+      display: flex; gap: 0;
+      margin: 8px;
+    }
+    .btn-accept {
+      flex: 1; padding: 7px 0;
+      background: #2e7d32; color: #fff;
+      border: none; font-size: 12px; font-weight: 700;
+      cursor: pointer; border-radius: 3px 0 0 3px;
+    }
+    .btn-decline {
+      flex: 1; padding: 7px 0;
+      background: #c62828; color: #fff;
+      border: none; font-size: 12px; font-weight: 700;
+      cursor: pointer; border-radius: 0 3px 3px 0;
+    }
+    .btn-accept:hover { background: #1b5e20; }
+    .btn-decline:hover { background: #b71c1c; }
+
+    .reco-steps {
+      padding: 6px 12px 10px;
+      font-size: 11px; color: #555;
+      border-top: 1px solid #eee;
+    }
+    .reco-steps p { margin-bottom: 3px; }
+
+    .reco-comments {
+      padding: 5px 10px;
+      font-size: 11px; color: #1565c0;
+      border-top: 1px solid #eee;
+      cursor: pointer;
+    }
+    .reco-comments span { color: #d32f2f; font-weight: 700; }
+
+    /* ═══ DOCUMENT PANEL ═══ */
+    .doc-panel {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 12px;
+      width: 200px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .doc-panel h4 { font-size: 12px; font-weight: 700; margin-bottom: 10px; color: #555; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+    .doc-panel ul { list-style: none; }
+    .doc-panel ul li {
+      padding: 5px 0;
+      font-size: 12px; color: #444;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer;
+    }
+    .doc-panel ul li:hover { color: #d32f2f; }
+    .doc-panel ul li::before { content: '📄'; font-size: 14px; }
+    .doc-panel ul li.expired::before { content: '⚠️'; }
+    .doc-panel ul li.expired { color: #e65100; }
+
+    .action-flow {
+      margin-top: 10px;
+      background: #fff3e0;
+      border: 1px solid #ffe0b2;
+      border-radius: 3px;
+      padding: 8px 10px;
+    }
+    .action-flow p { font-size: 11px; color: #e65100; font-weight: 700; margin-bottom: 4px; }
+    .action-flow .flow-btn {
+      display: block; width: 100%;
+      padding: 5px; background: #e65100; color: #fff;
+      border: none; border-radius: 3px; font-size: 11px;
+      font-weight: 700; cursor: pointer; text-align: center;
+    }
+
+    /* ═══ SECOND ROW with panel ═══ */
+    .row-with-panel {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-top: 0;
+    }
+    .panel-arrow {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center;
+      color: #f9a825; font-size: 22px;
+      padding-top: 60px;
+    }
+    .panel-arrow-label {
+      font-size: 10px; font-weight: 700; color: #555;
+      text-align: center; margin-top: 4px;
+    }
+
+    /* ═══ SECTION DIVIDER ═══ */
+    .section-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    /* ═══ MODAL OVERLAY ═══ */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 6px;
+      padding: 24px;
+      max-width: 380px; width: 90%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .modal-box h3 { font-size: 16px; margin-bottom: 12px; color: #333; }
+    .modal-box p  { font-size: 13px; color: #666; margin-bottom: 16px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .modal-actions button { padding: 8px 18px; border-radius: 4px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .modal-btn-ok   { background: #2e7d32; color: #fff; }
+    .modal-btn-cancel { background: #eee; color: #444; }
+
+    /* ═══ FOOTER ═══ */
+    .app-footer {
+      background: #fff;
+      border-top: 1px solid #ddd;
+      padding: 12px 20px;
+      text-align: center;
+      font-size: 11px; color: #999;
+    }
+
+    /* ═══ LETTER PREVIEW ═══ */
+    .letter-preview {
+      background: #fffde7;
+      border: 1px solid #f9a825;
+      border-radius: 4px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #333;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 20px 0;
+    }
+    .letter-preview h4 { font-size: 13px; margin-bottom: 10px; color: #555; font-family: Arial; }
+
+    /* ═══ INACTIF OVERLAY ═══ */
+    .inactif-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.7);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .inactif-badge {
+      background: #757575;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* notification toast */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: #2e7d32; color: #fff;
+      padding: 12px 20px; border-radius: 6px;
+      font-size: 13px; font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 2000;
+      opacity: 0; transform: translateY(10px);
+      transition: all 0.25s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ═══ MEMBER SWITCHER ═══ */
+    .member-switcher {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px;
+      background: #f9f9f9; border: 1px solid #eee;
+      border-radius: 4px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .member-switcher-label {
+      font-size: 11px; font-weight: 700; color: #bbb;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      white-space: nowrap; margin-right: 2px;
+    }
+    .member-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 12px 4px 5px;
+      border-radius: 20px; border: 1.5px solid #ddd;
+      background: #fff; font-size: 12px; font-weight: 600;
+      color: #555; cursor: pointer; transition: all 0.15s; user-select: none;
+    }
+    .member-pill:hover { border-color: #d32f2f; color: #d32f2f; }
+    .member-pill.active { background: #d32f2f; color: #fff; border-color: #d32f2f; }
+    .mp-av {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 800; flex-shrink: 0;
+    }
+    .member-add-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 12px; border-radius: 20px;
+      border: 1.5px dashed #ccc; background: transparent;
+      font-size: 12px; font-weight: 600; color: #bbb;
+      cursor: pointer; transition: all 0.15s; user-select: none;
+    }
+    .member-add-pill:hover { border-color: #d32f2f; color: #d32f2f; background: #fff9f9; }
+    .member-ctx-bar {
+      display: none; align-items: center; gap: 10px;
+      padding: 8px 12px; margin-bottom: 14px;
+      background: #fff8e1; border: 1px solid #ffe082;
+      border-left: 3px solid #f9a825; border-radius: 3px;
+      font-size: 12px; color: #555;
+    }
+    .member-ctx-bar.show { display: flex; }
+    .member-ctx-bar strong { color: #e65100; }
+    .ctx-badge {
+      margin-left: auto; font-size: 10px; font-weight: 700;
+      background: #e65100; color: #fff;
+      padding: 2px 7px; border-radius: 3px; white-space: nowrap;
+    }
+
+    /* ═══ MODAL AJOUTER UN ADMINISTRÉ ═══ */
+    .role-chips { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+    .role-chip {
+      padding: 5px 12px; border-radius: 14px;
+      border: 1.5px solid #ddd; font-size: 12px; font-weight: 600;
+      color: #666; cursor: pointer; transition: all 0.15s; user-select: none;
+    }
+    .role-chip:hover { border-color: #d32f2f; color: #d32f2f; }
+    .role-chip.active { background: #d32f2f; color: #fff; border-color: #d32f2f; }
+    .add-member-field { margin-bottom: 12px; }
+    .add-member-field label {
+      display: block; font-size: 11px; font-weight: 700;
+      color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px;
+    }
+    .add-member-field input[type=text] {
+      width: 100%; padding: 8px 10px; border: 1px solid #ccc;
+      border-radius: 3px; font-size: 13px; color: #333; outline: none;
+    }
+    .add-member-field input[type=text]:focus { border-color: #d32f2f; }
+    .perm-checks { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+    .perm-checks label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: #444; cursor: pointer;
+    }
+    .perm-checks input[type=checkbox] { accent-color: #d32f2f; width: 14px; height: 14px; cursor: pointer; }
+
+    /* ═══ CARDS FLEX-START ═══ */
+    .section-row { align-items: flex-start; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+
+    /* ═══ EDITABLE DATES ═══ */
+    .editable-date-wrap { display:inline-flex; align-items:center; gap:3px; }
+    .edit-date-btn {
+      font-size:11px; cursor:pointer; opacity:0.6; line-height:1;
+      transition:opacity 0.12s; user-select:none;
+    }
+    .edit-date-btn:hover { opacity:1; }
+    .scard-date-bar {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:5px 10px; font-size:11px; color:#555;
+      border-top:1px solid #f0f0f0; background:#fafafa;
+    }
+    .scard-date-bar .date-label { color:#aaa; font-size:10px; }
+    .expire-banner-inner { pointer-events:none; }
+    .expire-banner-inner .edit-date-btn { pointer-events:all; }
+
+    /* ═══ ATTACHMENT VIEWER ═══ */
+    #av-preview .av-icon-wrap {
+      text-align:center; padding:28px; background:#f9f9f9;
+      border-radius:6px; border:1px solid #eee; margin-bottom:4px;
+    }
+    #av-preview .av-icon { font-size:52px; margin-bottom:8px; }
+    #av-preview .av-name { font-size:14px; font-weight:700; color:#333; margin-bottom:4px; }
+    #av-preview .av-meta { font-size:12px; color:#999; }
+
+    /* ═══ ATTACHMENT PANEL ═══ */
+    .scard-docs {
+      cursor: pointer; transition: background 0.12s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .scard-docs:hover { background: #f5f5f5; }
+    .scard-docs.open { color: #d32f2f; background: #fff9f9; }
+    .scard-docs .docs-chevron { font-size: 10px; color: #bbb; transition: transform 0.2s; }
+    .scard-docs.open .docs-chevron { transform: rotate(180deg); color: #d32f2f; }
+    .attach-panel {
+      display: none; border-top: 1px solid #eee; background: #fafafa;
+    }
+    .attach-panel.open { display: block; }
+    .attach-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-bottom: 1px solid #f0f0f0;
+      cursor: pointer; transition: background 0.1s;
+    }
+    .attach-item:hover { background: #f0f0f0; }
+    .at-icon {
+      width: 26px; height: 32px; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7px; font-weight: 800; color: #fff; flex-shrink: 0;
+      letter-spacing: 0.03em; flex-direction: column; gap: 1px;
+    }
+    .at-icon.pdf { background: #d32f2f; }
+    .at-icon.img { background: #1565c0; }
+    .at-icon.missing { background: #e65100; }
+    .at-icon.ok { background: #2e7d32; }
+    .at-info { flex: 1; min-width: 0; }
+    .at-name { font-size: 11px; font-weight: 600; color: #333; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .at-meta { font-size: 10px; color: #aaa; display: block; margin-top: 1px; }
+    .at-dl { font-size: 13px; color: #ccc; flex-shrink: 0; }
+    .at-dl:hover { color: #d32f2f; }
+    .attach-add {
+      padding: 6px 10px; font-size: 11px; color: #bbb;
+      text-align: center; cursor: pointer;
+      border-top: 1px dashed #e8e8e8; transition: all 0.12s;
+    }
+    .attach-add:hover { color: #d32f2f; background: #fff9f9; }
+
+    /* ═══ MINI DOCUMENT PREVIEWS ═══ */
+    .mini-doc-card {
+      background: #fff; border-radius: 4px; padding: 7px 8px;
+      width: 100%; font-size: 7px; box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    }
+    .mini-doc-title {
+      font-weight: 900; letter-spacing: 0.06em; margin-bottom: 3px;
+    }
+    .mini-doc-sub { color: #888; margin-bottom: 5px; }
+    .mini-doc-row {
+      display: flex; justify-content: space-between;
+      padding: 3px 0; border-bottom: 1px solid #f0f0f0; font-size: 7.5px;
+    }
+    .mini-doc-row:last-child { border-bottom: none; }
+    .mini-mrz {
+      font-family: monospace; font-size: 6px; color: #888;
+      letter-spacing: 0.03em; margin-top: 4px; word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SITE NAV (vers les autres pages) ── -->
+  <nav class="site-nav">
+    <a href="analyse-superadmin.html"><span class="dot-blue"></span> Analyse stratégique</a>
+    <a href="version-faisable.html"><span class="dot-green"></span> Version faisable</a>
+    <a href="apercu-v1.html"><span class="dot-purple"></span> Aperçu V1</a>
+    <a href="apercu-v1bis.html" class="active"><span class="dot-orange"></span> Aperçu V1.bis</a>
+  </nav>
+
+  <!-- ── APP HEADER ── -->
+  <header class="app-header">
+    <a class="brand" href="#">
+      <div class="superman-logo"></div>
+      <span class="brand-label">Admin</span>
+    </a>
+    <div class="search-bar">
+      <input type="text" placeholder="Rechercher..." />
+      <button>🔍</button>
+    </div>
+    <div class="header-right">
+      <span class="hello">Bonjour Daniel</span>
+      <div class="icon-btn">👤</div>
+      <div class="icon-btn">🛒</div>
+    </div>
+  </header>
+
+  <!-- ── CATEGORY NAV ── -->
+  <nav class="cat-nav">
+    <span class="rubrique-label">Rubrique</span>
+    <div class="cat-tabs">
+      <div class="cat-tab" onclick="showSection('identite', this)">Identité</div>
+      <div class="cat-tab" onclick="showSection('sante', this)">Santé &amp; Assurance</div>
+      <div class="cat-tab" onclick="showSection('taxes', this)">Taxes</div>
+      <div class="cat-tab active" onclick="showSection('forfaits', this)">Forfait &amp; services</div>
+      <div class="cat-tab" onclick="showSection('biens', this)">Biens</div>
+      <div class="cat-tab" onclick="showSection('pro', this)">Professionnel</div>
+    </div>
+    <div class="sort-wrap">
+      Trier par
+      <select>
+        <option>Les plus populaires</option>
+        <option>Prix croissant</option>
+        <option>Prix décroissant</option>
+        <option>Date d'expiration</option>
+      </select>
+    </div>
+  </nav>
+
+  <!-- ── MAIN LAYOUT ── -->
+  <div class="main-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sa-title">SuperAdmin</div>
+      <ul>
+        <li onclick="showSection('identite', null)">• Mes cartes</li>
+        <li>• Mes actions requises <span style="color:#c62828;font-weight:700;">(2)</span></li>
+        <li>• Mon agenda</li>
+        <li>• Mes recommandations</li>
+        <li>• Mes Super administrateur</li>
+        <li class="sub">&gt; Votre Admin</li>
+        <li class="sub">&gt; Votre neveu geek</li>
+        <li>• Vos contacts</li>
+        <li class="section-sep">• Forum</li>
+      </ul>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+
+      <!-- ══════════════════════════════ -->
+      <!-- SECTION : FORFAIT & SERVICES  -->
+      <!-- ══════════════════════════════ -->
+      <div id="section-forfaits" class="page-section active">
+
+        <!-- Sélecteur de membre -->
+        <div class="member-switcher">
+          <span class="member-switcher-label">Géré pour :</span>
+          <div class="member-pill active" onclick="switchMember(this,'ctx-forfaits','','','')">
+            <div class="mp-av" style="background:#d32f2f;color:#fff;">DD</div>
+            Vous
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-forfaits','Fanny Bardanouve','#f97316','FB')">
+            <div class="mp-av" style="background:#f97316;color:#fff;">FB</div>
+            Fanny
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-forfaits','Linon De Roland','#14b8a6','LI')">
+            <div class="mp-av" style="background:#14b8a6;color:#fff;">LI</div>
+            Linon
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-forfaits','Lucho De Roland','#8b5cf6','LU')">
+            <div class="mp-av" style="background:#8b5cf6;color:#fff;">LU</div>
+            Lucho
+          </div>
+          <div class="member-add-pill" onclick="openModal('add-member')">+ Ajouter un administré</div>
+        </div>
+        <div id="ctx-forfaits" class="member-ctx-bar">
+          <div class="mp-av ctx-av" style="width:26px;height:26px;font-size:10px;font-weight:800;"></div>
+          <span>Forfaits &amp; services gérés pour <strong class="ctx-name"></strong></span>
+          <span class="ctx-badge">DROITS GESTION</span>
+        </div>
+
+        <div class="section-row">
+
+          <!-- Free -->
+          <div class="scard">
+            <div class="scard-img" style="background:#f5f5f5; flex-direction:column; gap:4px;">
+              <div style="font-size:32px; font-weight:900; color:#d32f2f; font-family:Georgia,serif; letter-spacing:-2px;">free</div>
+              <div style="font-size:11px; color:#555; text-align:center; font-weight:600;">Freebox Révolution<br/>avec TV by CANAL</div>
+              <div style="font-size:14px; font-weight:900; color:#d32f2f; margin-top:4px;">19<sup style="font-size:10px">99</sup><span style="font-size:11px;">/mois</span></div>
+              <div style="font-size:10px; color:#888;">pendant 1 an, au lieu de 49,99€/mois<br/>Engagement 1 an</div>
+              <div class="stamp stamp-red">Sans engagement</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar">
+                <span>Internet</span><span>20€/mois</span>
+              </div>
+              <div class="scard-docs" onclick="toggleAttach('ap-free')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-free">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Contrat_Freebox_Revolution.pdf</span><span class="at-meta">2,1 Mo · Jan 2023</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Facture_Avr_2026.pdf</span><span class="at-meta">340 Ko · Avr 2026</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">CGV_Free_2023.pdf</span><span class="at-meta">1,2 Mo</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Mobile -->
+          <div class="scard">
+            <div class="scard-img" style="background: linear-gradient(135deg, #c2185b, #e91e63); flex-direction:column; align-items:center; justify-content:center; gap:4px;">
+              <div style="font-size:22px; font-weight:900; color:#fff;">9.99<sup style="font-size:12px;">€</sup></div>
+              <div style="font-size:11px; color:#fce4ec; font-weight:600;">/mois</div>
+              <div style="font-size:10px; color:#fff; text-align:center; margin-top:6px;">Des appels illimités avant tout<br/>Appels illimités<br/>SMS/MMS illimités<br/>Internet 50 Mo en France et en Europe**</div>
+              <div class="stamp stamp-orange" style="color:#fff; border-color:#fff; transform:rotate(-8deg);">Valide au 10/05/2027</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar">
+                <span>Mobile</span><span>10€/mois</span>
+              </div>
+              <div class="scard-docs" onclick="toggleAttach('ap-mobile')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-mobile">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Contrat_Mobile_9.99.pdf</span><span class="at-meta">1,8 Mo · Jan 2024</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Facture_Mobile_Avr_2026.pdf</span><span class="at-meta">280 Ko</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Canal+ -->
+          <div class="scard">
+            <div class="scard-img" style="background:#000; flex-direction:column; gap:2px; cursor:pointer;" onclick="openModal('canal')">
+              <div style="font-size:11px; font-weight:700; color:#fff; letter-spacing:0.1em;">LES CHAÎNES</div>
+              <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">CANAL<span style="color:#f9a825;">+</span></div>
+              <div class="stamp stamp-orange" style="color:#fff3e0; border-color:#ff8f00;">Fin le 31/12/2026</div>
+              <div class="action-banner orange">Action en cours — Résilier !</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar red-bar">
+                <span>Canal+</span><span>20€/mois</span>
+              </div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-canal')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-canal">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Contrat_CanalPlus_2024.pdf</span><span class="at-meta">2,4 Mo · Déc 2024</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="openModal('canal'); event.stopPropagation();">
+                <div class="at-icon missing">!</div>
+                <div class="at-info"><span class="at-name">Lettre_résiliation.pdf</span><span class="at-meta" style="color:#e65100;">À générer — urgent</span></div>
+                <span class="at-dl" style="color:#e65100;">→</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Netflix -->
+          <div class="scard">
+            <div class="scard-img" style="background:#000;">
+              <div style="font-size:44px; font-weight:900; color:#e50914; font-family:Impact,Arial; letter-spacing:-2px;">NETFLIX</div>
+              <div class="stamp stamp-orange" style="color:#fff3e0; border-color:#ff8f00;">Fin le 31/12/2026</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar">
+                <span>Netflix</span><span>0€/mois</span>
+              </div>
+              <div class="scard-docs" onclick="toggleAttach('ap-netflix')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-netflix">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Email_confirmation_Netflix.pdf</span><span class="at-meta">45 Ko · inclus Canal+</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2e rangée : Spotify + Recommandation neveu geek -->
+        <div class="section-row" style="align-items:flex-start; position:relative;">
+
+          <!-- Spotify -->
+          <div class="scard" style="position:relative;">
+            <div class="scard-img" style="background:#191414;">
+              <div style="font-size:30px; font-weight:900; color:#1db954; font-family:Arial;">Spotify</div>
+              <div class="inactif-overlay">
+                <span class="inactif-badge">Inactif</span>
+              </div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar grey-bar">
+                <span>Spotify</span><span>inactif</span>
+              </div>
+              <div class="scard-docs" onclick="toggleAttach('ap-spotify')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-spotify">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Ancien_contrat_Spotify.pdf</span><span class="at-meta">380 Ko · expiré</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Flèche + Label "Proposé par..." -->
+          <div style="display:flex; flex-direction:column; padding-top:20px; gap:4px; align-items:center;">
+            <div style="background:#fff9c4; border:2px solid #f9a825; border-radius:4px; padding:6px 10px; font-size:11px; font-weight:700; color:#555; white-space:nowrap;">
+              Proposé par...<br/>Votre <span style="color:#d32f2f; font-style:italic;">neveu geek</span>
+            </div>
+            <div style="font-size:36px; color:#f9a825; transform:rotate(15deg); margin-top:4px;">➜</div>
+          </div>
+
+          <!-- Carte de recommandation RED Box -->
+          <div class="reco-card" style="margin-top:0;">
+            <div class="reco-card-header">
+              <div class="reco-brand">RED Box</div>
+              <div class="reco-price-big">= 10<sup>€</sup></div>
+              <div class="reco-sub">sans engagement · sans condition de durée</div>
+              <div class="reco-duration">Durant 2 ans</div>
+            </div>
+            <button class="reco-cta-btn" onclick="event.stopPropagation(); showToast('Ouverture de l\'offre RED Box...')">J'en profite</button>
+            <div class="accept-decline">
+              <button class="btn-accept" onclick="event.stopPropagation(); acceptReco()">Accepter</button>
+              <button class="btn-decline" onclick="event.stopPropagation(); declineReco()">Décliner</button>
+            </div>
+            <div class="reco-card-footer">
+              <span>Internet</span><span>15€/mois</span>
+            </div>
+            <div class="reco-steps">
+              <p>1. Cliquer</p>
+              <p>2. Prendre RDV tel ici</p>
+              <p>3. C'est finit</p>
+            </div>
+            <div class="reco-comments">
+              Voir les commentaires de <span>SuperAdmin</span> 💬
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══════════════════════ -->
+      <!-- SECTION : IDENTITÉ    -->
+      <!-- ══════════════════════ -->
+      <div id="section-identite" class="page-section">
+
+        <!-- Sélecteur de membre -->
+        <div class="member-switcher">
+          <span class="member-switcher-label">Géré pour :</span>
+          <div class="member-pill active" onclick="switchMember(this,'ctx-identite','','','')">
+            <div class="mp-av" style="background:#d32f2f;color:#fff;">DD</div>
+            Vous
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-identite','Fanny Bardanouve','#f97316','FB')">
+            <div class="mp-av" style="background:#f97316;color:#fff;">FB</div>
+            Fanny
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-identite','Linon De Roland','#14b8a6','LI')">
+            <div class="mp-av" style="background:#14b8a6;color:#fff;">LI</div>
+            Linon
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-identite','Lucho De Roland','#8b5cf6','LU')">
+            <div class="mp-av" style="background:#8b5cf6;color:#fff;">LU</div>
+            Lucho
+          </div>
+          <div class="member-add-pill" onclick="openModal('add-member')">+ Ajouter un administré</div>
+        </div>
+        <div id="ctx-identite" class="member-ctx-bar">
+          <div class="mp-av ctx-av" style="width:26px;height:26px;font-size:10px;font-weight:800;"></div>
+          <span>Identité &amp; documents gérés pour <strong class="ctx-name"></strong></span>
+          <span class="ctx-badge">DROITS GESTION</span>
+        </div>
+
+        <div class="section-row">
+
+          <!-- Impôts -->
+          <div class="scard">
+            <div class="scard-img" style="background:#e8f5e9; flex-direction:column; gap:6px; padding:10px;">
+              <div class="mini-doc-card" style="border-top:3px solid #1565c0;">
+                <div class="mini-doc-title" style="color:#1565c0;">DIRECTION GÉNÉRALE DES FINANCES PUBLIQUES</div>
+                <div style="font-size:10px;font-weight:900;color:#333;margin:3px 0 1px;">AVIS D'IMPOSITION</div>
+                <div class="mini-doc-sub">Revenus 2025 · Année 2026</div>
+                <div class="mini-doc-row"><span style="color:#555;">Revenu fiscal ref.</span><span style="font-weight:700;">42 350 €</span></div>
+                <div class="mini-doc-row"><span style="color:#555;">Nombre de parts</span><span style="font-weight:700;">2,0</span></div>
+                <div class="mini-doc-row"><span style="color:#555;">Impôt dû</span><span style="font-weight:700;color:#2e7d32;">En attente</span></div>
+              </div>
+              <div style="font-size:10px;color:#2e7d32;font-weight:700;">✓ Déclaration à jour</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar blue-bar">
+                <span>Impôts</span><span style="font-size:11px;">À jour ✓</span>
+              </div>
+              <div class="scard-docs" onclick="toggleAttach('ap-impots')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-impots">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Avis_imposition_2025.pdf</span><span class="at-meta">890 Ko · Sep 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Declaration_revenus_2024.pdf</span><span class="at-meta">1,2 Mo · Mai 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">IBAN_Credit_Agricole.pdf</span><span class="at-meta">340 Ko</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Carte d'identité -->
+          <div class="scard">
+            <div class="scard-img" style="padding:0; overflow:hidden; position:relative; background:#e3f2fd; cursor:pointer;" onclick="openModal('cni')">
+              <img src="assets/img/cni_recto.png" alt="Carte Nationale d'Identité" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+              <div id="banner-cni" style="position:absolute;bottom:0;left:0;right:0;background:rgba(230,81,0,0.88);color:#fff;font-size:10px;font-weight:700;text-align:center;padding:4px 6px;">Expire : <span class="editable-date" id="date-cni">12/03/2027</span> — RDV requis <span class="edit-date-btn" onclick="event.stopPropagation();editDate('date-cni','banner-cni')" title="Modifier la date">✎</span></div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar orange-bar">
+                <span>Carte d'identité</span><span style="font-size:10px;">RDV requis</span>
+              </div>
+              <div class="scard-date-bar" onclick="event.stopPropagation()">
+                <span class="date-label">Expiration</span>
+                <span class="editable-date-wrap"><span class="editable-date" id="date-cni-bar">12/03/2027</span><span class="edit-date-btn" onclick="editDate('date-cni-bar',null)" title="Modifier">✎</span></span>
+              </div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-cni')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-cni">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon img">IMG</div>
+                <div class="at-info"><span class="at-name">CNI_recto.jpg</span><span class="at-meta">2,3 Mo · scan 300dpi</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon img">IMG</div>
+                <div class="at-info"><span class="at-name">CNI_verso.jpg</span><span class="at-meta">1,9 Mo · scan 300dpi</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Confirmation_RDV_Mairie.pdf</span><span class="at-meta">45 Ko · 12 Mai 2026</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Passeport -->
+          <div class="scard">
+            <div class="scard-img" style="padding:0; overflow:hidden; position:relative; background:#4a0030; cursor:pointer;" onclick="openModal('passeport')">
+              <img src="assets/img/passeport_annule.jpg" alt="Passeport français" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+              <div id="banner-passeport" style="position:absolute;bottom:0;left:0;right:0;background:rgba(198,40,40,0.9);color:#fff;font-size:10px;font-weight:700;text-align:center;padding:4px 6px;">⚠ Expire : <span class="editable-date" id="date-passeport">08/09/2026</span> — URGENT <span class="edit-date-btn" onclick="event.stopPropagation();editDate('date-passeport','banner-passeport')" title="Modifier la date">✎</span></div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar red-bar">
+                <span>Passeport</span><span style="font-size:10px;">Urgent !</span>
+              </div>
+              <div class="scard-date-bar" onclick="event.stopPropagation()">
+                <span class="date-label">Expiration</span>
+                <span class="editable-date-wrap"><span class="editable-date" id="date-passeport-bar">08/09/2026</span><span class="edit-date-btn" onclick="editDate('date-passeport-bar',null)" title="Modifier">✎</span></span>
+              </div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-passeport')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-passeport">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon img">IMG</div>
+                <div class="at-info"><span class="at-name">Passeport_scan.jpg</span><span class="at-meta">3,1 Mo · pages bio</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Acte_naissance.pdf</span><span class="at-meta">890 Ko · requis RDV</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon missing">!</div>
+                <div class="at-info"><span class="at-name">RDV_Mairie — À prendre</span><span class="at-meta" style="color:#e65100;">Action requise</span></div>
+                <span class="at-dl" style="color:#e65100;">→</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Permis de conduire -->
+          <div class="scard">
+            <div class="scard-img" style="padding:0; overflow:hidden; position:relative; background:#f5f5f5;">
+              <img src="assets/img/permis_recto.jpg" alt="Permis de conduire" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+              <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(46,125,50,0.88);color:#fff;font-size:10px;font-weight:700;text-align:center;padding:4px 6px;">✓ Valide — sans expiration</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar">
+                <span>Permis de conduire</span>
+              </div>
+              <div class="scard-docs" onclick="toggleAttach('ap-permis')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-permis">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon img">IMG</div>
+                <div class="at-info"><span class="at-name">Permis_recto.jpg</span><span class="at-meta">2,1 Mo · scan recto</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon img">IMG</div>
+                <div class="at-info"><span class="at-name">Permis_verso.jpg</span><span class="at-meta">1,8 Mo · scan verso</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2e rangée : Pôle emploi + Panel document -->
+        <div class="row-with-panel">
+
+          <!-- Pôle Emploi -->
+          <div class="scard">
+            <div class="scard-img" style="background:#e8f0fe; flex-direction:column; gap:6px; padding:10px; cursor:pointer;" onclick="toggleDocPanel()">
+              <div class="mini-doc-card" style="border-top:3px solid #1a237e;">
+                <div class="mini-doc-title" style="color:#1a237e;">FRANCE TRAVAIL</div>
+                <div class="mini-doc-sub">(ex Pôle Emploi)</div>
+                <div class="mini-doc-row"><span style="color:#555;">N° dossier</span><span style="font-weight:700;font-family:monospace;">FT-2026-4471</span></div>
+                <div class="mini-doc-row"><span style="color:#555;">Statut</span><span style="font-weight:700;color:#e65100;">En attente</span></div>
+                <div class="mini-doc-row"><span style="color:#e65100;font-weight:700;">⚠ Attestation manquante</span></div>
+              </div>
+              <div style="font-size:9px;color:#e65100;font-weight:700;">Action en cours — Fournir attestation</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar orange-bar">
+                <span>Pôle emploi</span><span style="font-size:10px;">Att. requise</span>
+              </div>
+              <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-pole')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-pole">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Numero_dossier_FranceTravail.pdf</span><span class="at-meta">45 Ko</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Justificatif_domicile.pdf</span><span class="at-meta">340 Ko</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item">
+                <div class="at-icon missing">!</div>
+                <div class="at-info"><span class="at-name">Attestation_employeur.pdf</span><span class="at-meta" style="color:#e65100;">Manquant — requis</span></div>
+                <span class="at-dl" onclick="showToast('Attestation envoyée ! France Travail en a été notifié.');" style="color:#e65100;cursor:pointer;">✉</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Flèche -->
+          <div class="panel-arrow">
+            ⟶
+            <div class="panel-arrow-label">Cliquer pour<br/>Envoyer l'attestation</div>
+          </div>
+
+          <!-- Panel documents -->
+          <div id="doc-panel" class="doc-panel" style="display:none;">
+            <h4>Documents requis</h4>
+            <ul>
+              <li>Acte de naissance</li>
+              <li>Justif de domicile</li>
+              <li>Attestation</li>
+              <li class="expired">Passeport (périmé)</li>
+            </ul>
+            <div class="action-flow">
+              <p>Action en cours :</p>
+              <p style="font-size:11px;color:#555;margin-bottom:6px;">Fournir l'attestation employeur à Pôle Emploi</p>
+              <button class="flow-btn" onclick="showToast('Attestation envoyée ! Pôle Emploi en a été notifié.')">Envoyer l'attestation ➜</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══════════════════════ -->
+      <!-- SECTIONS VIDES        -->
+      <!-- ══════════════════════ -->
+      <div id="section-sante" class="page-section">
+
+        <!-- Sélecteur de membre -->
+        <div class="member-switcher">
+          <span class="member-switcher-label">Géré pour :</span>
+          <div class="member-pill active" onclick="switchMember(this,'ctx-sante','','','')">
+            <div class="mp-av" style="background:#d32f2f;color:#fff;">DD</div>
+            Vous
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-sante','Fanny Bardanouve','#f97316','FB')">
+            <div class="mp-av" style="background:#f97316;color:#fff;">FB</div>
+            Fanny
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-sante','Linon De Roland','#14b8a6','LI')">
+            <div class="mp-av" style="background:#14b8a6;color:#fff;">LI</div>
+            Linon
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-sante','Lucho De Roland','#8b5cf6','LU')">
+            <div class="mp-av" style="background:#8b5cf6;color:#fff;">LU</div>
+            Lucho
+          </div>
+          <div class="member-add-pill" onclick="openModal('add-member')">+ Ajouter un administré</div>
+        </div>
+        <div id="ctx-sante" class="member-ctx-bar">
+          <div class="mp-av ctx-av" style="width:26px;height:26px;font-size:10px;font-weight:800;"></div>
+          <span>Santé &amp; assurance gérés pour <strong class="ctx-name"></strong></span>
+          <span class="ctx-badge">DROITS GESTION</span>
+        </div>
+
+        <div class="section-row">
+
+          <!-- Carte Vitale -->
+          <div class="scard">
+            <div class="scard-img" style="background:#e8f5e9; flex-direction:column; gap:6px;">
+              <div style="font-size:36px;">💚</div>
+              <div style="font-size:12px; font-weight:700; color:#2e7d32; text-align:center;">CARTE VITALE</div>
+              <div style="font-size:10px; color:#888; text-align:center;">Assurance Maladie<br/>Daniel De Roland</div>
+              <div class="stamp stamp-green">À jour ✓</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar">
+                <span>Sécu</span><span style="font-size:11px;">À jour ✓</span>
+              </div>
+              <div class="scard-docs">📎 Carte vitale.pdf · AttestationDroits.pdf</div>
+            </div>
+          </div>
+
+          <!-- Mutuelle GAN — Daniel -->
+          <div class="scard">
+            <div class="scard-img" style="background:#e3f2fd; flex-direction:column; gap:6px;">
+              <div style="font-size:36px;">🏥</div>
+              <div style="font-size:12px; font-weight:700; color:#1565c0; text-align:center;">GAN MUTUELLE</div>
+              <div style="font-size:10px; color:#888; text-align:center;">Daniel De Roland<br/>Frais médicaux couverts</div>
+              <div class="stamp stamp-green">Valide ✓</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar blue-bar">
+                <span>Mutuelle</span><span style="font-size:10px;">Attestation OK</span>
+              </div>
+              <div class="scard-docs">📎 ATTESTATION MUTUELLE Daniel.doc</div>
+            </div>
+          </div>
+
+          <!-- Mutuelle MGEN — Fanny -->
+          <div class="scard">
+            <div class="scard-img" style="background:#f3e5f5; flex-direction:column; gap:6px;">
+              <div style="font-size:36px;">💊</div>
+              <div style="font-size:12px; font-weight:700; color:#6a1b9a; text-align:center;">MGEN</div>
+              <div style="font-size:10px; color:#888; text-align:center;">Fanny Bardanouve<br/>Née 08/07/1981</div>
+              <div class="stamp stamp-green">Valide ✓</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar" style="background:#f3e5f5; color:#6a1b9a;">
+                <span>Mutuelle Fanny</span><span style="font-size:10px;">Attestation OK</span>
+              </div>
+              <div class="scard-docs">📎 Attestation_MGEN_Fanny.pdf</div>
+            </div>
+          </div>
+
+          <!-- CAF -->
+          <div class="scard">
+            <div class="scard-img" style="background:#fff3e0; flex-direction:column; gap:6px; cursor:pointer;" onclick="openModal('caf')">
+              <div style="font-size:36px;">🏛️</div>
+              <div style="font-size:12px; font-weight:700; color:#e65100; text-align:center;">CAF</div>
+              <div style="font-size:10px; color:#888; text-align:center;">Déclaration trimestrielle RSA<br/>Partage des droits 2025</div>
+              <div class="action-banner orange" style="position:relative;bottom:auto;left:auto;right:auto;margin-top:6px;border-radius:3px;">Déclaration trimestrielle</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar orange-bar">
+                <span>CAF</span><span style="font-size:10px;">Action requise</span>
+              </div>
+              <div class="scard-docs">📎 CAF_Attestation.pdf · DeclarationRSA.pdf</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2e rangée -->
+        <div class="section-row">
+
+          <!-- Assurance RC + Accidents -->
+          <div class="scard">
+            <div class="scard-img" style="background:#f5f5f5; flex-direction:column; gap:6px;">
+              <div style="font-size:36px;">🛡️</div>
+              <div style="font-size:12px; font-weight:700; color:#555; text-align:center;">RC &amp; ACCIDENTS</div>
+              <div style="font-size:10px; color:#888; text-align:center;">Caisse d'Épargne<br/>Responsabilité civile vie privée</div>
+              <div class="stamp stamp-green">Valide ✓</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar">
+                <span>Assurance RC</span>
+              </div>
+              <div class="scard-docs">📎 Attestation RC · Garantie accident.zip</div>
+            </div>
+          </div>
+
+          <!-- Analyses médicales -->
+          <div class="scard">
+            <div class="scard-img" style="background:#fce4ec; flex-direction:column; gap:6px;">
+              <div style="font-size:36px;">🔬</div>
+              <div style="font-size:12px; font-weight:700; color:#c62828; text-align:center;">ANALYSES</div>
+              <div style="font-size:10px; color:#888; text-align:center;">Transaminases<br/>Août 2025 · Oct 2025</div>
+              <div class="stamp stamp-orange" style="color:#fff3e0;border-color:#ff8f00;">2 résultats</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar red-bar">
+                <span>Labo</span><span style="font-size:10px;">Doctolib</span>
+              </div>
+              <div class="scard-docs">📎 AnalyseSang_Transaminases × 2</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="section-taxes" class="page-section">
+
+        <!-- Sélecteur de membre -->
+        <div class="member-switcher">
+          <span class="member-switcher-label">Géré pour :</span>
+          <div class="member-pill active" onclick="switchMember(this,'ctx-taxes','','','')">
+            <div class="mp-av" style="background:#d32f2f;color:#fff;">DD</div>
+            Vous
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-taxes','Fanny Bardanouve','#f97316','FB')">
+            <div class="mp-av" style="background:#f97316;color:#fff;">FB</div>
+            Fanny
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-taxes','Linon De Roland','#14b8a6','LI')">
+            <div class="mp-av" style="background:#14b8a6;color:#fff;">LI</div>
+            Linon
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-taxes','Lucho De Roland','#8b5cf6','LU')">
+            <div class="mp-av" style="background:#8b5cf6;color:#fff;">LU</div>
+            Lucho
+          </div>
+          <div class="member-add-pill" onclick="openModal('add-member')">+ Ajouter un administré</div>
+        </div>
+        <div id="ctx-taxes" class="member-ctx-bar">
+          <div class="mp-av ctx-av" style="width:26px;height:26px;font-size:10px;font-weight:800;"></div>
+          <span>Taxes &amp; fiscalité gérées pour <strong class="ctx-name"></strong></span>
+          <span class="ctx-badge">DROITS GESTION</span>
+        </div>
+
+        <div style="padding:40px;text-align:center;color:#999;">
+          <div style="font-size:48px;margin-bottom:12px;">🧾</div>
+          <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Taxes &amp; Fiscalité</div>
+          <div style="font-size:13px;">Avis d'imposition, déclarations, taxe foncière...</div>
+          <div style="margin-top:16px;padding:10px 16px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:4px;display:inline-block;font-size:12px;color:#2e7d32;">✓ Disponible en V1 — Section en construction</div>
+        </div>
+      </div>
+
+      <div id="section-biens" class="page-section">
+        <div style="padding:40px;text-align:center;color:#999;">
+          <div style="font-size:48px;margin-bottom:12px;">🏠</div>
+          <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Biens</div>
+          <div style="font-size:13px;">Logement, véhicules, biens mobiliers...</div>
+          <div style="margin-top:16px;padding:10px 16px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:4px;display:inline-block;font-size:12px;color:#2e7d32;">✓ Disponible en V1 — Section en construction</div>
+        </div>
+      </div>
+
+      <div id="section-pro" class="page-section">
+        <div style="padding:40px;text-align:center;color:#999;">
+          <div style="font-size:48px;margin-bottom:12px;">💼</div>
+          <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Professionnel</div>
+          <div style="font-size:13px;">Contrats de travail, fiches de paie, mutuelle pro...</div>
+          <div style="margin-top:16px;padding:10px 16px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:4px;display:inline-block;font-size:12px;color:#2e7d32;">✓ Disponible en V1 — Section en construction</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    SuperAdmin V1.bis — Aperçu fidèle aux maquettes originales — Daniel De Roland — Mai 2026
+  </footer>
+
+  <!-- ═══ MODAL CANAL+ ═══ -->
+  <div id="modal-canal" class="modal-overlay" onclick="closeModal('canal')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>🔴 Résilier Canal+</h3>
+      <p>Votre contrat Canal+ arrive à échéance le 31/12/2026. Si vous ne résiliez pas avant le <strong>15 mai 2026</strong>, il sera reconduit automatiquement pour 12 mois (Loi Chatel).</p>
+      <div class="letter-preview">
+        <h4>📝 Lettre de résiliation générée :</h4>
+        Daniel De Roland<br/>
+        [Votre adresse]<br/><br/>
+        Canal+ SA — Service Résiliation<br/>
+        CS 20 050, 60643 Chantilly Cedex<br/><br/>
+        Objet : Résiliation contrat n° CAN-2021-XXXXX<br/><br/>
+        Madame, Monsieur,<br/>
+        Je vous notifie par la présente ma décision de résilier<br/>
+        mon abonnement Canal+ Ciné Séries, conformément à<br/>
+        la Loi Chatel (L. 136-1 Code de la consommation).<br/><br/>
+        Je vous demande de prendre acte de cette résiliation<br/>
+        à la prochaine date d'échéance contractuelle.<br/><br/>
+        Cordialement,<br/>
+        Daniel De Roland
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('canal')">Annuler</button>
+        <button class="modal-btn-ok" onclick="closeModal('canal'); showToast('Lettre de résiliation téléchargée ! À envoyer en recommandé.')">📥 Télécharger &amp; Envoyer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL CNI ═══ -->
+  <div id="modal-cni" class="modal-overlay" onclick="closeModal('cni')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>🪪 Renouveler votre CNI</h3>
+      <p>Votre carte nationale d'identité expire le <strong>12/03/2027</strong>. Le délai de traitement en préfecture est actuellement de <strong>4 à 8 semaines</strong>. Il est recommandé d'anticiper.</p>
+      <p style="color:#e65100;font-size:12px;margin-top:-8px;">⚠ Pré-demande obligatoire en ligne avant le RDV en mairie.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('cni')">Fermer</button>
+        <button class="modal-btn-ok" onclick="closeModal('cni'); showToast('Redirection vers predemande.interieur.gouv.fr...')">Faire ma pré-demande →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL PASSEPORT ═══ -->
+  <div id="modal-passeport" class="modal-overlay" onclick="closeModal('passeport')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>📘 Renouveler votre Passeport</h3>
+      <p>Votre passeport expire le <strong>08/09/2026</strong> — soit dans <strong>4 mois</strong>. Le délai ANTS est actuellement de <strong>6 à 10 semaines</strong>. Action urgente requise.</p>
+      <p style="color:#c62828;font-size:12px;font-weight:700;margin-top:-8px;">🔴 Risque : impossible de voyager si périmé. Prendre RDV dès maintenant.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('passeport')">Fermer</button>
+        <button class="modal-btn-ok" style="background:#c62828;" onclick="closeModal('passeport'); showToast('Redirection vers rendez-vous mairie...')">Prendre RDV en mairie →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL CAF ═══ -->
+  <div id="modal-caf" class="modal-overlay" onclick="closeModal('caf')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>🏛️ Déclaration trimestrielle CAF</h3>
+      <p>Votre déclaration trimestrielle RSA est à effectuer chaque trimestre. Le partage des droits (250422) et la déclaration revenus 2022 sont archivés.</p>
+      <p style="color:#e65100;font-size:12px;font-weight:700;margin-top:-8px;">⚠ Pensez à déclarer vos ressources avant la date limite.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('caf')">Fermer</button>
+        <button class="modal-btn-ok" style="background:#e65100;" onclick="closeModal('caf'); showToast('Redirection vers caf.fr — Déclaration trimestrielle...')">Déclarer sur caf.fr →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL AJOUTER UN ADMINISTRÉ ═══ -->
+  <div id="modal-add-member" class="modal-overlay" onclick="closeModal('add-member')">
+    <div class="modal-box" style="max-width:440px;width:95%;" onclick="event.stopPropagation()">
+      <h3 style="margin-bottom:6px;">👤 Ajouter un administré</h3>
+      <p>Ajoutez une personne dont vous êtes le SuperAdmin — légalement responsable ou de confiance — et choisissez les droits de gestion à lui accorder.</p>
+
+      <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin:14px 0 8px;">Relation</div>
+      <div class="role-chips" id="role-chips">
+        <div class="role-chip active" onclick="selectRole(this)">👫 Conjoint·e</div>
+        <div class="role-chip" onclick="selectRole(this)">👴 Parent / Grand-parent</div>
+        <div class="role-chip" onclick="selectRole(this)">👶 Enfant</div>
+        <div class="role-chip" onclick="selectRole(this)">👤 Autre administré</div>
+      </div>
+
+      <div class="add-member-field">
+        <label>Prénom et nom</label>
+        <input type="text" id="new-member-name" placeholder="ex : Jacqueline Dupont" />
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Droits de gestion accordés</div>
+      <div class="perm-checks">
+        <label><input type="checkbox" checked /> Forfaits &amp; services (abonnements, contrats)</label>
+        <label><input type="checkbox" checked /> Identité &amp; documents (CNI, passeport…)</label>
+        <label><input type="checkbox" checked /> Taxes &amp; fiscalité (impôts, déclarations)</label>
+        <label><input type="checkbox" checked /> Santé &amp; assurance (mutuelles, remboursements)</label>
+        <label><input type="checkbox" /> Recevoir les alertes par email en son nom</label>
+      </div>
+
+      <div style="background:#e8f5e9;border:1px solid #c8e6c9;border-radius:3px;padding:8px 10px;font-size:11px;color:#2e7d32;margin-bottom:14px;">
+        ✓ Vous restez seul décisionnaire. Chaque action est horodatée et le mandat est révocable à tout moment depuis <em>Mes Super administrateur</em>.
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('add-member')">Annuler</button>
+        <button class="modal-btn-ok" onclick="addMember()">Ajouter ➜</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ATTACH VIEWER ═══ -->
+  <div id="modal-attach-viewer" class="modal-overlay" onclick="closeModal('attach-viewer')">
+    <div class="modal-box" style="max-width:480px;width:95%;text-align:center;" onclick="event.stopPropagation()">
+      <h3 id="av-title" style="word-break:break-all;margin-bottom:14px;font-size:13px;color:#333;"></h3>
+      <div id="av-preview" style="margin-bottom:16px;"></div>
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('attach-viewer')">Fermer</button>
+        <button id="av-dl-btn" class="modal-btn-ok" style="display:none;">⬇ Télécharger</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TOAST ═══ -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    function showSection(name, el) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('section-' + name).classList.add('active');
+      if (el) el.classList.add('active');
+    }
+
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('open');
+    }
+
+    function toggleDocPanel() {
+      const p = document.getElementById('doc-panel');
+      p.style.display = p.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    function acceptReco() {
+      showToast('✓ Recommandation acceptée ! Votre neveu geek a été notifié.');
+    }
+    function declineReco() {
+      showToast('Recommandation déclinée. Votre neveu geek en sera informé.');
+    }
+
+    function switchMember(pill, ctxId, name, bg, initials) {
+      const sw = pill.closest('.member-switcher');
+      sw.querySelectorAll('.member-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const bar = document.getElementById(ctxId);
+      if (!name) {
+        bar.classList.remove('show');
+      } else {
+        const av = bar.querySelector('.ctx-av');
+        av.style.background = bg;
+        av.style.color = '#fff';
+        av.textContent = initials;
+        bar.querySelector('.ctx-name').textContent = name;
+        bar.classList.add('show');
+      }
+    }
+
+    function selectRole(chip) {
+      document.querySelectorAll('#role-chips .role-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    }
+
+    function pickFiles(panelId) {
+      const inp = document.createElement('input');
+      inp.type = 'file';
+      inp.multiple = true;
+      inp.accept = '.pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt';
+      inp.onchange = function() {
+        const panel = document.getElementById(panelId);
+        const addBtn = panel.querySelector('.attach-add');
+        Array.from(this.files).forEach(file => {
+          const sizeKo = file.size / 1024;
+          const sizeStr = sizeKo < 1024
+            ? Math.round(sizeKo) + ' Ko'
+            : (sizeKo / 1024).toFixed(1) + ' Mo';
+          const ext = file.name.split('.').pop().toUpperCase();
+          const iconCls = ['PDF'].includes(ext) ? 'pdf'
+            : ['JPG','JPEG','PNG','GIF','WEBP'].includes(ext) ? 'img' : 'ok';
+          const url = ['JPG','JPEG','PNG','GIF','WEBP'].includes(ext)
+            ? URL.createObjectURL(file) : null;
+          const item = document.createElement('div');
+          item.className = 'attach-item';
+          item.style.cssText = 'animation: fadeIn 0.2s ease; cursor:pointer;';
+          if (url) item.dataset.url = url;
+          item.onclick = function(e) { if (!e.target.classList.contains('at-dl')) viewAttach(this); };
+          item.innerHTML = url
+            ? `<img src="${url}" style="width:26px;height:32px;object-fit:cover;border-radius:2px;flex-shrink:0;" />`
+            : `<div class="at-icon ${iconCls}">${ext}</div>`;
+          item.innerHTML += `
+            <div class="at-info">
+              <span class="at-name">${file.name}</span>
+              <span class="at-meta">${sizeStr} · ajouté à l'instant</span>
+            </div>
+            <span class="at-dl" title="Supprimer" onclick="event.stopPropagation();this.parentElement.remove();showToast('Document retiré.')" style="cursor:pointer;color:#ccc;">✕</span>`;
+          panel.insertBefore(item, addBtn);
+        });
+        if (this.files.length)
+          showToast('✓ ' + this.files.length + ' fichier(s) ajouté(s) !');
+      };
+      inp.click();
+    }
+
+    function toggleAttach(id) {
+      const panel = document.getElementById(id);
+      const docsBtn = panel.previousElementSibling;
+      const isOpen = panel.classList.contains('open');
+      // Ferme tous les panels ouverts
+      document.querySelectorAll('.attach-panel.open').forEach(p => {
+        p.classList.remove('open');
+        p.previousElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        panel.classList.add('open');
+        docsBtn.classList.add('open');
+      }
+    }
+
+    function addMember() {
+      const name = (document.getElementById('new-member-name').value.trim()) || 'Nouvel administré';
+      document.getElementById('new-member-name').value = '';
+      closeModal('add-member');
+      showToast('✓ ' + name + ' ajouté·e comme administré·e !');
+    }
+
+    function viewAttach(el) {
+      const item = el.closest('.attach-item');
+      const name = item.querySelector('.at-name').textContent;
+      const meta = item.querySelector('.at-meta') ? item.querySelector('.at-meta').textContent : '';
+      const url = item.dataset.url || null;
+      const ext = name.split('.').pop().toUpperCase();
+      const isImg = ['JPG','JPEG','PNG','GIF','WEBP'].includes(ext);
+
+      document.getElementById('av-title').textContent = name;
+
+      const preview = document.getElementById('av-preview');
+      if (url && isImg) {
+        preview.innerHTML = `<img src="${url}" style="max-width:100%;max-height:320px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.15);">`;
+      } else {
+        const iconMap = { PDF: { cls:'pdf', icon:'📄' }, DOC: { cls:'ok', icon:'📝' }, DOCX: { cls:'ok', icon:'📝' }, XLS: { cls:'ok', icon:'📊' }, XLSX: { cls:'ok', icon:'📊' } };
+        const ic = iconMap[ext] || { cls:'ok', icon:'📎' };
+        const color = ic.cls === 'pdf' ? '#d32f2f' : '#1565c0';
+        preview.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;padding:20px 0;">
+          <div style="font-size:48px;margin-bottom:8px;">${ic.icon}</div>
+          <div style="font-size:14px;font-weight:700;color:#333;margin-bottom:4px;word-break:break-all;">${name}</div>
+          <div style="font-size:12px;color:#999;">${meta}</div>
+          ${!url ? '<div style="font-size:11px;color:#aaa;margin-top:8px;">Aperçu non disponible — fichier simulé</div>' : ''}
+        </div>`;
+      }
+
+      const dlBtn = document.getElementById('av-dl-btn');
+      if (url) {
+        dlBtn.style.display = 'inline-block';
+        dlBtn.onclick = function() {
+          const a = document.createElement('a');
+          a.href = url; a.download = name; a.click();
+        };
+      } else {
+        dlBtn.style.display = 'none';
+      }
+
+      openModal('attach-viewer');
+    }
+
+    function editDate(spanId, bannerId) {
+      const span = document.getElementById(spanId);
+      if (!span || span.querySelector('input')) return;
+      const current = span.textContent.trim();
+      const parts = current.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+      const isoVal = parts ? `${parts[3]}-${parts[2]}-${parts[1]}` : '';
+
+      const inp = document.createElement('input');
+      inp.type = 'date';
+      inp.value = isoVal;
+      inp.style.cssText = 'font-size:11px;border:none;border-bottom:1px solid rgba(255,255,255,0.7);background:transparent;color:inherit;width:96px;outline:none;cursor:pointer;';
+
+      let saved = false;
+      function save() {
+        if (saved) return;
+        saved = true;
+        if (inp.value) {
+          const [y, m, d] = inp.value.split('-');
+          const formatted = `${d}/${m}/${y}`;
+          span.textContent = formatted;
+          if (bannerId) updateDateStatus(bannerId, inp.value);
+          const pairedId = spanId.endsWith('-bar') ? spanId.replace('-bar','') : spanId + '-bar';
+          const paired = document.getElementById(pairedId);
+          if (paired && !paired.querySelector('input')) paired.textContent = formatted;
+          showToast('✓ Date mise à jour : ' + formatted);
+        } else {
+          span.textContent = current;
+        }
+      }
+
+      span.textContent = '';
+      span.appendChild(inp);
+      inp.focus();
+      inp.addEventListener('change', save);
+      inp.addEventListener('blur', save);
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { inp.blur(); } if (e.key === 'Escape') { saved = true; span.textContent = current; } });
+    }
+
+    function updateDateStatus(bannerId, isoDate) {
+      const banner = document.getElementById(bannerId);
+      if (!banner) return;
+      const days = Math.round((new Date(isoDate) - new Date()) / 86400000);
+      if (days < 0) {
+        banner.style.background = 'rgba(183,28,28,0.92)';
+      } else if (days < 90) {
+        banner.style.background = 'rgba(230,81,0,0.88)';
+      } else {
+        banner.style.background = 'rgba(46,125,50,0.88)';
+      }
+    }
+
+    // Ouvrir Identité depuis sidebar
+    document.querySelector('.sidebar ul li:first-child').addEventListener('click', function() {
+      showSection('identite', null);
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.cat-tab')[0].classList.add('active');
+    });
+  </script>
+</body>
+</html>
