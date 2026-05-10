@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\SuperAdmin\" -File -Recurse)",
+      "Bash(Select-Object FullName)",
+      "Bash(git -C \"c:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\SuperAdmin\" log --oneline -20)",
+      "Bash(git -C \"c:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\SuperAdmin\" log --oneline --all)",
+      "mcp__claude_ai_Supabase__list_migrations"
+    ]
+  }
+}

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Couple &amp; Famille · Features</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 13px;
+      background: #F1F5F9;
+      color: #1e293b;
+    }
+
+    /* ─── SITE NAV ─── */
+    .site-nav {
+      background: #0f1117;
+      border-bottom: 1px solid #2e3350;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .site-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 11px 16px;
+      font-size: 12px; font-weight: 600;
+      color: #94a3b8; text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .site-nav a:hover { color: #e2e8f0; }
+    .site-nav a.active { color: #e91e8c; border-bottom-color: #e91e8c; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #4f7cff; }
+    .dot-green  { background: #22c55e; }
+    .dot-purple { background: #a855f7; }
+    .dot-orange { background: #f97316; }
+    .dot-rose   { background: #e91e8c; }
+
+    /* ─── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; text-decoration: none; flex-shrink: 0;
+    }
+    .superman-logo {
+      width: 46px; height: 46px;
+      background: #d32f2f;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .superman-logo::before {
+      content: 'S';
+      font-size: 24px; font-weight: 900; font-style: italic;
+      color: #ffd700; font-family: Georgia, serif;
+      text-shadow: 1px 1px 0 #b71c1c;
+    }
+    .brand-label { font-size: 11px; font-weight: 700; color: #333; letter-spacing: 0.02em; }
+    .header-center {
+      flex: 1;
+      display: flex; flex-direction: column;
+    }
+    .header-page-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: #e91e8c;
+    }
+    .header-page-title {
+      font-size: 17px; font-weight: 800; color: #1e293b; line-height: 1.2;
+    }
+    .header-right {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .header-right .hello { font-size: 12px; color: #666; }
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #eee; border: 1px solid #ddd;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px;
+    }
+
+    /* ─── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 8px 32px;
+      font-size: 11px; color: #94a3b8;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb span { color: #e91e8c; font-weight: 700; }
+
+    /* ─── MAIN CONTENT ─── */
+    .main-content {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 32px 60px;
+    }
+
+    /* ─── DESIGN TOKENS ─── */
+    :root {
+      --rose: #e91e8c;
+      --rose-light: #fce4f3;
+      --rose-dark: #9d174d;
+      --indigo: #3730a3;
+      --indigo-light: #e0e7ff;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --slate: #1e293b;
+      --muted: #64748b;
+    }
+
+    /* ─── HERO ─── */
+    .cp-hero {
+      background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 40%, #be185d 100%);
+      border-radius: 10px;
+      padding: 40px 44px;
+      margin-bottom: 28px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .cp-hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .cp-hero::after {
+      content: '';
+      position: absolute; bottom: -50px; left: 35%;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .cp-hero-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #f9a8d4; margin-bottom: 12px;
+    }
+    .cp-hero-title {
+      font-size: 30px; font-weight: 900; line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .cp-hero-sub {
+      font-size: 14px; color: #cbd5e1; max-width: 640px; line-height: 1.7;
+    }
+    .cp-hero-badges {
+      display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap;
+    }
+    .cp-badge {
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: #fff; background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 14px; margin-top: 32px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: #e2e8f0;
+    }
+
+    /* ─── GRID HELPERS ─── */
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+
+    /* ─── FEATURE CARD ─── */
+    .feat-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px 18px;
+      position: relative;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .feat-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+      transform: translateY(-2px);
+    }
+    .feat-accent {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px; border-radius: 8px 8px 0 0;
+    }
+    .feat-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .feat-title {
+      font-size: 13px; font-weight: 800; color: var(--slate);
+      margin-bottom: 7px; line-height: 1.3;
+    }
+    .feat-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+    /* ─── IDEA CARD ─── */
+    .idea-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 18px 16px;
+      display: flex; flex-direction: column; gap: 9px;
+      transition: box-shadow 0.15s;
+    }
+    .idea-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.09); }
+    .idea-num {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.09em;
+      text-transform: uppercase; color: #94a3b8;
+    }
+    .idea-icon { font-size: 24px; }
+    .idea-title { font-size: 12px; font-weight: 800; color: var(--slate); line-height: 1.3; }
+    .idea-body { font-size: 11.5px; color: var(--muted); line-height: 1.65; }
+    .idea-tag {
+      display: inline-block;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 10px; font-weight: 700;
+      background: var(--rose-light); color: var(--rose);
+      align-self: flex-start;
+    }
+
+    /* ─── QUOTE ─── */
+    .quote-band {
+      background: linear-gradient(90deg, var(--indigo-light), var(--rose-light));
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin: 28px 0;
+      font-size: 14px; font-style: italic; color: var(--indigo);
+      font-weight: 600; text-align: center;
+      border-left: 5px solid var(--rose);
+      line-height: 1.6;
+    }
+
+    /* ─── PLAN CARDS ─── */
+    .plan-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 26px 20px;
+      text-align: center;
+      position: relative;
+      transition: box-shadow 0.15s;
+    }
+    .plan-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+    .plan-card.featured {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(233,30,140,0.10);
+    }
+    .plan-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--rose); color: #fff;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.06em;
+      padding: 3px 14px; border-radius: 20px; white-space: nowrap;
+    }
+    .plan-icon { font-size: 32px; margin-bottom: 10px; }
+    .plan-name { font-size: 16px; font-weight: 800; color: var(--slate); margin-bottom: 4px; }
+    .plan-angle { font-size: 11px; color: #94a3b8; margin-bottom: 18px; }
+    .plan-price {
+      font-size: 32px; font-weight: 900; color: var(--rose);
+      line-height: 1;
+    }
+    .plan-price sup { font-size: 15px; font-weight: 700; vertical-align: top; margin-top: 5px; }
+    .plan-price sub { font-size: 12px; font-weight: 600; color: #94a3b8; }
+    .plan-delta {
+      font-size: 11px; font-weight: 700;
+      color: #2e7d32; background: #e8f5e9;
+      padding: 3px 10px; border-radius: 20px;
+      display: inline-block; margin: 10px 0 16px;
+    }
+    .plan-items {
+      list-style: none; text-align: left;
+      font-size: 12px; color: #475569; line-height: 2;
+    }
+    .plan-items li::before { content: '✓ '; color: var(--rose); font-weight: 700; }
+    .plan-retention {
+      margin-top: 16px; padding: 10px 12px;
+      background: var(--rose-light); border-radius: 6px;
+      font-size: 11px; color: var(--rose-dark); font-weight: 600; line-height: 1.5;
+    }
+
+    /* ─── WARN CARD ─── */
+    .warn-card {
+      background: #fff;
+      border: 1px solid #fde68a;
+      border-left: 5px solid var(--amber);
+      border-radius: 8px;
+      padding: 18px 20px;
+      transition: box-shadow 0.15s;
+    }
+    .warn-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.09); }
+    .warn-title {
+      font-size: 13px; font-weight: 800; color: var(--slate);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .warn-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+    /* ─── CONCLUSION ─── */
+    .conclusion-band {
+      background: linear-gradient(135deg, #1e1b4b 0%, #be185d 100%);
+      border-radius: 10px;
+      padding: 28px 36px;
+      color: #fff;
+      display: flex; align-items: center; gap: 28px;
+      margin-top: 28px;
+    }
+    .conclusion-flag { font-size: 50px; flex-shrink: 0; }
+    .conclusion-title {
+      font-size: 14px; font-weight: 800; margin-bottom: 8px; color: #f9a8d4;
+    }
+    .conclusion-body {
+      font-size: 12.5px; color: #cbd5e1; line-height: 1.75;
+    }
+
+    /* ─── FOOTER ─── */
+    .app-footer {
+      background: #fff;
+      border-top: 1px solid #e2e8f0;
+      padding: 14px 32px;
+      font-size: 11px; color: #94a3b8;
+      text-align: center;
+    }
+
+    /* ─── RESPONSIVE tweak ─── */
+    @media (max-width: 900px) {
+      .grid-4, .grid-5 { grid-template-columns: repeat(2,1fr); }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SITE NAV ── -->
+  <nav class="site-nav">
+    <a href="analyse-superadmin.html"><span class="dot dot-blue"></span> Analyse stratégique</a>
+    <a href="version-faisable.html"><span class="dot dot-green"></span> Version faisable</a>
+    <a href="apercu-v1.html"><span class="dot dot-purple"></span> Aperçu V1</a>
+    <a href="apercu-v1bis.html"><span class="dot dot-orange"></span> Aperçu V1.bis</a>
+    <a href="features-couple.html" class="active"><span class="dot dot-rose"></span> Couple &amp; Famille</a>
+  </nav>
+
+  <!-- ── APP HEADER ── -->
+  <header class="app-header">
+    <a class="brand" href="#">
+      <div class="superman-logo"></div>
+      <span class="brand-label">SuperAdmin</span>
+    </a>
+    <div class="header-center">
+      <div class="header-page-label">💑 Features — Analyse segment</div>
+      <div class="header-page-title">Couple &amp; Famille</div>
+    </div>
+    <div class="header-right">
+      <span class="hello">Bonjour Daniel</span>
+      <div class="icon-btn">👤</div>
+    </div>
+  </header>
+
+  <!-- ── BREADCRUMB ── -->
+  <div class="breadcrumb">
+    SuperAdmin &rsaquo; Features &rsaquo; <span>Couple &amp; Famille</span>
+  </div>
+
+  <!-- ── MAIN ── -->
+  <main class="main-content">
+
+    <!-- HERO -->
+    <div class="cp-hero">
+      <div class="cp-hero-eyebrow">💑 Segment stratégique — Analyse produit</div>
+      <div class="cp-hero-title">SuperAdmin pour les couples<br>— l'intérêt réel et sous-estimé</div>
+      <div class="cp-hero-sub">
+        En France, la "charge mentale" est une conversation culturelle majeure depuis 2017 (Emma, les podcasts…).
+        L'administration du foyer est l'une des sources de déséquilibre les plus documentées dans les couples.
+        SuperAdmin s'y insère directement : il <strong style="color:#f9a8d4;">externalise et matérialise</strong>
+        cette charge, ce qui la rend visible, partageable, et délégable.
+      </div>
+      <div class="cp-hero-badges">
+        <span class="cp-badge">🇫🇷 Contexte culturel fort</span>
+        <span class="cp-badge">📊 Rétention structurellement meilleure</span>
+        <span class="cp-badge">💰 +30–50 % sur le prix</span>
+        <span class="cp-badge">🔗 Segment le plus fort du produit</span>
+      </div>
+    </div>
+
+    <!-- CE QUE L'OUTIL APPORTE -->
+    <div class="section-label">Ce que l'outil apporte spécifiquement au couple</div>
+    <div class="grid-4">
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#3730a3,#6366f1);"></div>
+        <span class="feat-icon">👁</span>
+        <div class="feat-title">Visibilité partagée</div>
+        <div class="feat-desc">Plus de "où est notre assurance voiture ?". Les deux partenaires voient l'état de tous les documents et contrats en temps réel, sans avoir à demander.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#0d9488,#34d399);"></div>
+        <span class="feat-icon">🔒</span>
+        <div class="feat-title">Espace commun + espaces privés</div>
+        <div class="feat-desc">Documents du foyer (bail, assurance habitation, livret de famille) <strong>ET</strong> documents personnels (salaire, dossier médical). Granularité fine : shared / private / accessible en urgence.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#e91e8c,#f43f5e);"></div>
+        <span class="feat-icon">🤝</span>
+        <div class="feat-title">Décisions conjointes</div>
+        <div class="feat-desc">Quand une alerte se déclenche (résiliation, renouvellement, document expiré), les deux partenaires sont notifiés et valident ensemble — surtout au-dessus d'un seuil financier.</div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#d97706,#f59e0b);"></div>
+        <span class="feat-icon">💸</span>
+        <div class="feat-title">Audit des abonnements</div>
+        <div class="feat-desc">Deux comptes Spotify, deux assurances téléphone… Identification immédiate des doublons dans le foyer. Beaucoup de couples paient deux fois le même service sans s'en rendre compte.</div>
+      </div>
+
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-band">
+      "Le couple est probablement le segment le plus fort du produit, parce qu'il transforme un outil de confort individuel en un outil de <em>coordination</em> qui résout un vrai conflit de foyer. Et en France, avec la charge mentale comme toile de fond culturelle, le message marketing s'écrit presque tout seul."
+    </div>
+
+    <!-- NOUVELLES IDÉES -->
+    <div class="section-label">Nouvelles idées que ça génère</div>
+    <div class="grid-5">
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 01</div>
+        <div class="idea-icon">🏡</div>
+        <div class="idea-title">Onboarding "mise en commun"</div>
+        <div class="idea-body">Flow dédié quand un couple emménage ensemble : fusionner les profils, identifier les abonnements redondants, décider qui reprend quoi. Événement clé = forte rétention.</div>
+        <span class="idea-tag">Moment clé · forte rétention</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 02</div>
+        <div class="idea-icon">🎉</div>
+        <div class="idea-title">Life events workflows</div>
+        <div class="idea-body">
+          Mariage → mettre à jour nom sur 12 services.<br>
+          Bébé → PAJE, mutuelle, crèche, livret de famille.<br>
+          Achat immo → assurance, taxe foncière, travaux.<br>
+          Checklists dynamiques déclenchées par l'événement déclaré.
+        </div>
+        <span class="idea-tag">Valeur perçue massive</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 03</div>
+        <div class="idea-icon">📋</div>
+        <div class="idea-title">Répartition des rôles + traçabilité</div>
+        <div class="idea-body">"Tu gères les assurances, je gère les abonnements multimédia" — formalisé dans l'app, avec historique de qui a fait quoi. Désambiguïse les responsabilités et évite oublis et conflits.</div>
+        <span class="idea-tag">Anti charge mentale</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 04</div>
+        <div class="idea-icon">🚨</div>
+        <div class="idea-title">Accès d'urgence</div>
+        <div class="idea-body">Hospitalisation, incapacité temporaire : l'autre accède immédiatement à tous les documents critiques. Argument de sécurité et de sérénité très puissant, rarement mis en avant dans ce type de produit.</div>
+        <span class="idea-tag">Argument décisif</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 05</div>
+        <div class="idea-icon">👨‍👩‍👧‍👦</div>
+        <div class="idea-title">Mode famille élargie</div>
+        <div class="idea-body">Le couple = cellule de base, mais on peut y greffer enfants (carte vitale, vaccins) et parents âgés. Le couple devient le nœud central du graphe familial administratif.</div>
+        <span class="idea-tag">Upsell naturel</span>
+      </div>
+
+    </div>
+
+    <!-- ANGLE BUSINESS -->
+    <div class="section-label">L'angle business que ça ouvre</div>
+    <div class="grid-3">
+
+      <div class="plan-card">
+        <div class="plan-icon">👤</div>
+        <div class="plan-name">Solo</div>
+        <div class="plan-angle">Valeur individuelle</div>
+        <div class="plan-price"><sup>€</sup>4<sub>/mois</sub></div>
+        <div class="plan-delta">Base de référence</div>
+        <ul class="plan-items">
+          <li>Documents personnels complets</li>
+          <li>Alertes &amp; rappels</li>
+          <li>Génération de courriers</li>
+          <li>Historique &amp; archivage</li>
+        </ul>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ SEGMENT LE PLUS FORT</div>
+        <div class="plan-icon">💑</div>
+        <div class="plan-name">Couple / Foyer</div>
+        <div class="plan-angle">+30–50 % sur le prix · rétention supérieure</div>
+        <div class="plan-price"><sup>€</sup>6<sub>/mois</sub></div>
+        <div class="plan-delta">↑ Rétention structurellement meilleure</div>
+        <ul class="plan-items">
+          <li>Tout Solo × 2 membres</li>
+          <li>Espace partagé du foyer</li>
+          <li>Décisions &amp; alertes conjointes</li>
+          <li>Audit des doublons d'abonnements</li>
+          <li>Accès d'urgence croisé</li>
+          <li>Répartition des rôles avec historique</li>
+        </ul>
+        <div class="plan-retention">Pour résilier, les <strong>deux</strong> doivent être d'accord — avantage business non-négligeable.</div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-icon">👨‍👩‍👧‍👦</div>
+        <div class="plan-name">Famille</div>
+        <div class="plan-angle">Upsell naturel depuis Couple</div>
+        <div class="plan-price"><sup>€</sup>9<sub>/mois</sub></div>
+        <div class="plan-delta">↑ Lifetime value maximale</div>
+        <ul class="plan-items">
+          <li>Tout Couple</li>
+          <li>Enfants (vaccins, carte vitale, scolarité)</li>
+          <li>Parents âgés administrés</li>
+          <li>Graphe familial complet</li>
+          <li>Life events workflows</li>
+          <li>Mode famille élargie</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- CE QUI MANQUE -->
+    <div class="section-label">Ce qui manquerait pour que ça marche vraiment</div>
+    <div class="grid-3">
+
+      <div class="warn-card">
+        <div class="warn-title">🔐 Granularité des permissions</div>
+        <div class="warn-body">Certaines données doivent rester <strong>strictement privées</strong> même entre partenaires — salaire, suivi médical. Sans ça, le produit crée de la méfiance plutôt que de la confiance, et freine l'adoption.</div>
+      </div>
+
+      <div class="warn-card">
+        <div class="warn-title">🔔 Notifications intelligentes, pas du spam</div>
+        <div class="warn-body">Un couple ne veut pas être alerté deux fois pour la même chose. Logique <em>"un des deux a vu = notification éteinte pour l'autre"</em>. Sans ça, le produit agace et pousse à la désactivation.</div>
+      </div>
+
+      <div class="warn-card">
+        <div class="warn-title">💔 Mode séparation</div>
+        <div class="warn-body">La question difficile mais réelle : si le couple se sépare, comment "splitter" le compte proprement ? Un bon système de séparation propre renforce paradoxalement la <strong>confiance à l'entrée</strong>.</div>
+      </div>
+
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="conclusion-band">
+      <div class="conclusion-flag">🇫🇷</div>
+      <div>
+        <div class="conclusion-title">En France, le message marketing s'écrit presque tout seul</div>
+        <div class="conclusion-body">
+          Avec la <strong style="color:#fff;">charge mentale</strong> comme toile de fond culturelle depuis Emma (2017),
+          SuperAdmin pour les couples n'est pas un produit niche — c'est un produit de masse avec un positionnement évident.
+          Le plan Couple a une <strong style="color:#f9a8d4;">rétention structurellement supérieure</strong> au Solo,
+          et le plan Famille est l'upsell le plus naturel qui soit.
+          Le couple est probablement le segment le plus fort du produit.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    SuperAdmin — Features · Couple &amp; Famille — Analyse segment — Daniel De Roland — Mai 2026
+  </footer>
+
+</body>
+</html>

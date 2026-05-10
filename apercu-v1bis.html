@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SuperAdmin — Aperçu V1.bis (fidèle aux maquettes)</title>
+  <title>SuperAdmin — Aperçu V1.bis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
       font-size: 13px;
-      background: #f0f0f0;
+      background: #f8fafc;
       color: #333;
     }
 
@@ -40,7 +43,7 @@
     /* ═══ APP HEADER ═══ */
     .app-header {
       background: #fff;
-      border-bottom: 2px solid #ddd;
+      border-bottom: 1px solid #E2E8F0;
       padding: 10px 20px;
       display: flex;
       align-items: center;
@@ -106,7 +109,7 @@
     /* ═══ CATEGORY NAV ═══ */
     .cat-nav {
       background: #fff;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #E2E8F0;
       padding: 0 20px;
       display: flex; align-items: center; gap: 0;
     }
@@ -150,7 +153,7 @@
     /* ═══ SIDEBAR ═══ */
     .sidebar {
       width: 190px;
-      background: #fff;
+      background: #FAFCFF;
       border-right: 1px solid #ddd;
       padding: 16px 0;
       flex-shrink: 0;
@@ -223,18 +226,20 @@
     /* Stamps / badges */
     .stamp {
       position: absolute;
+      bottom: 8px; right: 8px;
       font-size: 11px; font-weight: 800;
       padding: 3px 8px;
-      transform: rotate(-12deg);
+      transform: rotate(-4deg);
       border: 2px solid;
       border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       white-space: nowrap;
+      background: rgba(255,255,255,0.97);
     }
-    .stamp-red    { color: #d32f2f; border-color: #d32f2f; top: 12px; right: 10px; background: rgba(255,255,255,0.85); }
-    .stamp-orange { color: #e65100; border-color: #e65100; top: 12px; right: 6px; background: rgba(255,255,255,0.9); transform: rotate(-8deg); }
-    .stamp-green  { color: #2e7d32; border-color: #2e7d32; top: 12px; right: 6px; background: rgba(255,255,255,0.9); transform: rotate(-8deg); }
+    .stamp-red    { color: #d32f2f; border-color: #d32f2f; }
+    .stamp-orange { color: #9a3412; border-color: #c2410c; }
+    .stamp-green  { color: #166534; border-color: #16a34a; }
 
     /* Action banner */
     .action-banner {
@@ -372,12 +377,13 @@
     .reco-steps p { margin-bottom: 3px; }
 
     .reco-comments {
-      padding: 5px 10px;
-      font-size: 11px; color: #1565c0;
+      padding: 8px 12px;
+      font-size: 11px; color: #555;
       border-top: 1px solid #eee;
-      cursor: pointer;
+      background: #f9f9f9;
     }
-    .reco-comments span { color: #d32f2f; font-weight: 700; }
+    .reco-comments .sa-label { font-size: 10px; font-weight: 700; color: #d32f2f; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+    .reco-comments .sa-text { color: #333; line-height: 1.4; }
 
     /* ═══ DOCUMENT PANEL ═══ */
     .doc-panel {
@@ -684,6 +690,505 @@
       font-family: monospace; font-size: 6px; color: #888;
       letter-spacing: 0.03em; margin-top: 4px; word-break: break-all;
     }
+
+    /* ════════════════════════════════════════════
+       MODERN REDESIGN — Mai 2026
+    ════════════════════════════════════════════ */
+
+    :root {
+      --brand:      #e63946;
+      --brand-dk:   #c1121f;
+      --brand-bg:   #fff5f5;
+      --green:      #16a34a;
+      --green-bg:   #f0fdf4;
+      --orange:     #ea580c;
+      --orange-bg:  #fff7ed;
+      --blue:       #2563eb;
+      --blue-bg:    #eff6ff;
+      --purple:     #7c3aed;
+      --bg:         #F0F4F9;
+      --surface:    #ffffff;
+      --nav:        #0d1117;
+      --border:     rgba(15,23,42,0.09);
+      --border-lt:  rgba(15,23,42,0.05);
+      --text-1:     #111827;
+      --text-2:     #4b5563;
+      --text-3:     #9ca3af;
+      --r-xs:  6px; --r-sm: 10px; --r: 14px; --r-lg: 20px;
+      --sh-sm: 0 2px 8px rgba(0,0,0,0.10),0 1px 3px rgba(0,0,0,0.06);
+      --sh-md: 0 6px 24px rgba(0,0,0,0.13),0 2px 6px rgba(0,0,0,0.06);
+      --sh-lg: 0 24px 56px rgba(0,0,0,0.16),0 4px 10px rgba(0,0,0,0.07);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      background-image:
+        radial-gradient(ellipse 90% 55% at 8% -8%,  rgba(230,57,70,0.08)  0%, transparent 60%),
+        radial-gradient(ellipse 70% 45% at 92% 105%, rgba(37,99,235,0.06)  0%, transparent 60%),
+        radial-gradient(ellipse 55% 40% at 50% 50%,  rgba(124,58,237,0.03) 0%, transparent 70%);
+      background-attachment: fixed;
+      color: var(--text-1);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SITE NAV ── */
+    .site-nav { background: var(--nav); padding: 0 24px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .site-nav a { font-size: 12px; font-weight: 600; color: #64748b; padding: 13px 18px; letter-spacing: 0.01em; gap: 7px; }
+    .site-nav a:hover { color: #cbd5e1; }
+    .site-nav a.active { color: #60a5fa; border-bottom-color: #60a5fa; }
+    .dot-blue   { width:7px;height:7px;border-radius:50%;background:#60a5fa; }
+    .dot-green  { width:7px;height:7px;border-radius:50%;background:#4ade80; }
+    .dot-purple { width:7px;height:7px;border-radius:50%;background:#c084fc; }
+    .dot-orange { width:7px;height:7px;border-radius:50%;background:#fb923c; }
+
+    /* ── APP HEADER ── */
+    .app-header { padding: 12px 24px; border-bottom: 1px solid var(--border); box-shadow: var(--sh-sm); position: sticky; top: 0; z-index: 100; }
+    .header-right .hello { font-size: 13px; color: var(--text-2); font-weight: 500; }
+    .icon-btn { border-radius: var(--r-sm); background: var(--bg); border-color: var(--border); font-size: 15px; }
+    .icon-btn:hover { background: #e2e8f0; }
+
+    /* ── LOGO ── */
+    .superman-logo {
+      background: linear-gradient(135deg,#e63946,#c1121f);
+      border-radius: var(--r-sm); width: 40px; height: 40px;
+      box-shadow: 0 3px 10px rgba(230,57,70,0.35);
+    }
+    .superman-logo::before { content:'SA'; font-size:12px; font-style:normal; font-weight:800; font-family:'Inter',sans-serif; letter-spacing:-0.03em; color:#fff; text-shadow:none; }
+    .brand-label { font-size:9.5px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; }
+
+    /* ── SEARCH BAR ── */
+    .search-bar { border-radius: var(--r-sm); background: var(--bg); border: 1.5px solid var(--border); }
+    .search-bar:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(230,57,70,0.1); }
+    .search-bar input { background: transparent; font-family: 'Inter',sans-serif; }
+    .search-bar button { background: var(--brand); border-radius: 0 8px 8px 0; }
+    .search-bar button:hover { background: var(--brand-dk); }
+
+    /* ── CATEGORY NAV ── */
+    .cat-nav { padding: 0 24px; border-bottom: 1px solid var(--border); }
+    .cat-nav .rubrique-label { font-size: 10.5px; color: var(--text-3); letter-spacing: 0.08em; border-color: var(--border); padding: 12px 16px 12px 0; }
+    .cat-tab { font-size: 13px; font-weight: 500; color: var(--text-2); border-bottom-width: 2px; padding: 13px 16px; }
+    .cat-tab:hover { color: var(--text-1); background: var(--bg); border-bottom-color: transparent; }
+    .cat-tab.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+    .sort-wrap select { border-radius: var(--r-sm); border: 1.5px solid var(--border); font-family: 'Inter',sans-serif; color: var(--text-2); }
+
+    /* ── SIDEBAR ── */
+    .sidebar { width: 210px; border-right-color: var(--border); padding: 20px 0; }
+    .sidebar .sa-title { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 16px 14px; color: var(--brand); }
+    .sidebar ul li { font-size: 13px; font-weight: 500; color: var(--text-2); padding: 8px 16px; transition: color 0.12s, background 0.12s; }
+    .sidebar ul li:hover { color: var(--brand); background: var(--brand-bg); text-decoration: none; }
+    .sidebar ul li.sub { font-size: 12px; color: var(--text-3); font-weight: 400; padding-left: 30px; }
+    .sidebar ul li.sub:hover { color: var(--brand); background: var(--brand-bg); }
+    .sidebar ul .section-sep { border-color: var(--border); margin-top: 14px; padding-top: 14px; }
+
+    /* ── CONTENT ── */
+    .content { padding: 24px; }
+
+    /* ── CARDS ── */
+    .section-row { gap: 18px; margin-bottom: 22px; }
+    .scard { width: 228px; border-radius: var(--r); border-color: var(--border); box-shadow: var(--sh-sm); transition: box-shadow 0.2s, transform 0.2s; }
+    .scard:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
+    .scard-img { height: 150px; }
+    .scard-footer { border-top-color: var(--border); }
+    .scard-price-bar { padding: 9px 13px; font-size: 12px; }
+    .scard-price-bar.green-bar  { background: var(--green-bg);  color: var(--green); }
+    .scard-price-bar.red-bar    { background: var(--brand-bg);  color: var(--brand); }
+    .scard-price-bar.orange-bar { background: var(--orange-bg); color: var(--orange); }
+    .scard-price-bar.grey-bar   { background: #f8fafc; color: #64748b; }
+    .scard-price-bar.blue-bar   { background: var(--blue-bg);   color: var(--blue); }
+    .scard-link { display: flex; align-items: center; gap: 4px; padding: 4px 13px 5px; font-size: 10.5px; color: var(--text-3); text-decoration: none; border-top: 1px solid var(--border-lt); }
+    .scard-link:hover { color: var(--blue); background: var(--blue-bg); }
+    .scard-docs { font-size: 11px; color: var(--text-3); padding: 7px 13px; }
+    .scard-docs:hover { background: var(--bg); color: var(--text-2); }
+    .scard-docs.open { color: var(--brand); background: var(--brand-bg); }
+    .scard-docs .docs-chevron { color: var(--text-3); }
+    .scard-docs.open .docs-chevron { color: var(--brand); }
+    .scard-date-bar { padding: 6px 13px; background: var(--bg); color: var(--text-2); border-top-color: var(--border-lt); }
+    .scard-date-bar .date-label { color: var(--text-3); font-size: 10.5px; font-weight: 500; }
+
+    /* ── STAMPS ── */
+    .stamp { border-radius: 20px; font-size: 9.5px; padding: 3px 10px; border-width: 1.5px; background: rgba(255,255,255,0.97); }
+    .stamp-red    { color: var(--brand);  border-color: var(--brand); }
+    .stamp-orange { color: #9a3412;       border-color: #c2410c; }
+    .stamp-green  { color: var(--green);  border-color: var(--green); }
+
+    /* ── ATTACH PANEL ── */
+    .attach-panel { background: #f8fafc; }
+    .attach-item { padding: 8px 13px; }
+    .attach-item:hover { background: #eef2f7; }
+    .at-icon { border-radius: var(--r-xs); width: 28px; height: 34px; }
+    .at-icon.pdf { background: var(--brand); }
+    .at-icon.img { background: var(--blue); }
+    .at-icon.ok  { background: var(--green); }
+    .at-icon.missing { background: var(--orange); }
+    .at-name { font-size: 11.5px; font-weight: 600; color: var(--text-1); }
+    .at-meta { color: var(--text-3); }
+    .at-dl { color: var(--text-3); }
+    .at-dl:hover { color: var(--brand); }
+    .attach-add { color: var(--text-3); font-weight: 500; }
+    .attach-add:hover { color: var(--brand); background: var(--brand-bg); }
+    .at-drag { color: #b8c2cc; font-size: 13px; cursor: grab; user-select: none; margin-right: 2px; flex-shrink: 0; }
+    .at-drag:active { cursor: grabbing; }
+    .attach-item.dragging { opacity: 0.3; }
+    .attach-item.drag-over { box-shadow: inset 0 2px 0 var(--brand); background: var(--brand-bg); }
+
+    /* ── MEMBER SWITCHER ── */
+    .member-switcher { background: var(--surface); border-color: var(--border); border-radius: var(--r); box-shadow: var(--sh-sm); padding: 10px 16px; }
+    .member-switcher-label { color: var(--text-3); letter-spacing: 0.07em; }
+    .member-pill { background: var(--bg); border-color: var(--border); color: var(--text-2); }
+    .member-pill:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-bg); }
+    .member-pill.active { background: var(--brand); border-color: var(--brand); }
+    .mp-av { width: 22px; height: 22px; font-size: 8px; }
+    .member-add-pill { border-color: var(--border); color: var(--text-3); }
+    .member-add-pill:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-bg); }
+    .member-ctx-bar { background: #fffbeb; border-color: #fde68a; border-left-color: #f59e0b; border-radius: var(--r-sm); }
+    .member-ctx-bar strong { color: var(--orange); }
+    .ctx-badge { background: var(--orange); border-radius: 20px; padding: 3px 10px; }
+
+    /* ── MODAL ── */
+    .modal-overlay { background: rgba(15,23,42,0.45); backdrop-filter: blur(6px); }
+    .modal-box { border-radius: var(--r-lg); padding: 28px; box-shadow: var(--sh-lg); animation: modalIn 0.22s cubic-bezier(0.34,1.2,0.64,1); }
+    @keyframes modalIn { from { opacity:0; transform:scale(0.94) translateY(10px); } to { opacity:1; transform:none; } }
+    .modal-box h3 { font-size: 16px; font-weight: 700; color: var(--text-1); }
+    .modal-box p { color: var(--text-2); line-height: 1.65; }
+    .modal-actions button { border-radius: var(--r-sm); font-family: 'Inter',sans-serif; font-size: 13px; font-weight: 600; padding: 9px 22px; transition: filter 0.15s; }
+    .modal-actions button:hover { filter: brightness(1.08); }
+    .modal-btn-ok     { background: var(--green); }
+    .modal-btn-cancel { background: var(--bg); color: var(--text-2); border: 1.5px solid var(--border); }
+
+    /* ── TOAST ── */
+    .toast { background: #111827; border-radius: var(--r-sm); font-family: 'Inter',sans-serif; font-size: 13px; font-weight: 500; box-shadow: var(--sh-lg); }
+
+    /* ── RECO CARD ── */
+    .reco-card { border-radius: var(--r); box-shadow: var(--sh-md); }
+    .reco-from { border-radius: var(--r-sm); border-color: #fbbf24; background: #fffbeb; font-size: 12px; }
+    .reco-card-header { padding: 14px; }
+    .reco-cta-btn { font-family: 'Inter',sans-serif; letter-spacing: 0.05em; }
+    .accept-decline { border-radius: var(--r-sm); overflow: hidden; margin: 10px; }
+    .btn-accept { background: var(--green); font-family: 'Inter',sans-serif; }
+    .btn-decline { background: var(--brand); font-family: 'Inter',sans-serif; }
+
+    /* ── DOC PANEL ── */
+    .doc-panel { border-radius: var(--r); border-color: var(--border); box-shadow: var(--sh-sm); }
+    .doc-panel h4 { color: var(--text-2); border-color: var(--border); }
+    .doc-panel ul li { color: var(--text-2); border-color: var(--border-lt); }
+    .action-flow { border-radius: var(--r-sm); border-color: #fed7aa; }
+    .action-flow .flow-btn { border-radius: var(--r-sm); font-family: 'Inter',sans-serif; background: var(--orange); }
+
+    /* ── INACTIVE ── */
+    .inactif-badge { background: #64748b; border-radius: 20px; padding: 5px 16px; letter-spacing: 0.06em; }
+
+    /* ── FOOTER ── */
+    .app-footer { padding: 14px 24px; color: var(--text-3); border-color: var(--border); }
+
+    /* ── ADD CARD ── */
+    .scard-add {
+      width: 228px; min-height: 240px; border-radius: var(--r);
+      border: 2px dashed var(--border); background: rgba(255,255,255,0.45);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; cursor: pointer; color: var(--text-3);
+      transition: border-color 0.18s, background 0.18s, color 0.18s, transform 0.18s;
+      backdrop-filter: blur(2px);
+    }
+    .scard-add:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-bg); transform: translateY(-2px); }
+    .scard-add-icon { font-size: 38px; font-weight: 200; line-height: 1; }
+    .scard-add-label { font-size: 11.5px; font-weight: 600; text-align: center; }
+
+    /* ── CARD PICKER ── */
+    .card-suggestions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cs-btn {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      border: 1.5px solid var(--border); border-radius: var(--r-sm);
+      background: var(--surface); cursor: pointer; text-align: left;
+      font-family: 'Inter', sans-serif; transition: border-color 0.15s, background 0.15s;
+    }
+    .cs-btn:hover { border-color: var(--brand); background: var(--brand-bg); }
+    .cs-emoji { font-size: 22px; flex-shrink: 0; }
+    .cs-label { font-size: 12px; font-weight: 600; color: var(--text-1); }
+    .cs-sub { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+    .cs-category { margin-bottom: 18px; }
+    .cs-category-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .cs-category--current .cs-category-label { color: var(--brand); }
+    .cs-category--current .card-suggestions-grid { border: 1.5px solid var(--brand-bg); border-radius: var(--r-sm); padding: 6px; background: var(--brand-bg); }
+    .cs-current-tag { background: var(--brand); color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 20px; text-transform: none; letter-spacing: 0; font-weight: 600; }
+    #add-card-suggestions { max-height: 60vh; overflow-y: auto; padding-right: 4px; }
+
+    /* ── LETTER ── */
+    .letter-preview { background: #fffbeb; border-color: #fde68a; border-radius: var(--r-sm); }
+    .letter-preview h4 { font-family: 'Inter',sans-serif; color: var(--text-2); }
+
+    /* ── ROLE CHIPS ── */
+    .role-chip { border-radius: 20px; font-family: 'Inter',sans-serif; }
+    .role-chip.active { background: var(--brand); border-color: var(--brand); }
+    .add-member-field input[type=text] { border-radius: var(--r-sm); border-color: var(--border); font-family: 'Inter',sans-serif; }
+    .add-member-field input[type=text]:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(230,57,70,0.1); }
+
+    /* ── CAT-TAB: no vertical dividers ── */
+    .cat-tab { border-right: none; }
+    .cat-nav .rubrique-label { border-right: none; padding-right: 12px; margin-right: 4px; }
+
+    /* ── ACTION BANNER ── */
+    .action-banner { font-size: 10.5px; letter-spacing: 0.02em; }
+
+    /* ── MINI DOC CARD ── */
+    .mini-doc-card { border-radius: var(--r-sm); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .mini-doc-sub { color: var(--text-3); }
+    .mini-doc-row { border-color: var(--border-lt); }
+    .mini-mrz { color: var(--text-3); }
+
+
+    /* ── CONNEXIONS PAGE ── */
+    .conn-section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .conn-section-title {
+      font-size: 18px; font-weight: 800; color: var(--text-1);
+    }
+    .conn-section-title span { color: var(--text-3); font-size: 13px; font-weight: 500; margin-left: 8px; }
+    .conn-add-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 9px 18px; background: var(--brand); color: #fff;
+      border: none; border-radius: var(--r-sm); font-size: 13px;
+      font-weight: 600; cursor: pointer; font-family: 'Inter',sans-serif;
+      transition: background 0.15s;
+    }
+    .conn-add-btn:hover { background: var(--brand-dk); }
+
+    .conn-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .conn-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: var(--r); box-shadow: var(--sh-sm);
+      overflow: hidden; transition: box-shadow 0.2s;
+    }
+    .conn-card:hover { box-shadow: var(--sh-md); }
+
+    .conn-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px; border-bottom: 1px solid var(--border-lt);
+    }
+    .conn-av {
+      width: 46px; height: 46px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800; color: #fff; flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .conn-info { flex: 1; min-width: 0; }
+    .conn-name { font-size: 14px; font-weight: 700; color: var(--text-1); }
+    .conn-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+    .conn-badges { display: flex; gap: 6px; align-items: center; margin-top: 5px; flex-wrap: wrap; }
+
+    .conn-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+    }
+    .conn-badge.share { background: var(--blue-bg); color: var(--blue); }
+    .conn-badge.admin { background: #f0fdf4; color: var(--green); }
+    .conn-status {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+    }
+    .conn-status.active  { background: #f0fdf4; color: var(--green); }
+    .conn-status.pending { background: var(--orange-bg); color: var(--orange); }
+
+    .conn-date { font-size: 11px; color: var(--text-3); white-space: nowrap; flex-shrink: 0; }
+
+    .conn-body { padding: 14px 20px; }
+    .conn-body-label {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--text-3); margin-bottom: 10px;
+    }
+
+    .conn-shared-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
+    .conn-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px 5px 12px; border-radius: 20px;
+      background: var(--bg); border: 1.5px solid var(--border);
+      font-size: 12px; font-weight: 600; color: var(--text-2);
+      transition: border-color 0.12s;
+    }
+    .conn-chip:hover { border-color: var(--brand); }
+    .conn-chip-x {
+      font-size: 13px; color: var(--text-3); cursor: pointer;
+      line-height: 1; padding: 0 2px;
+      transition: color 0.12s;
+    }
+    .conn-chip-x:hover { color: var(--brand); }
+    .conn-no-shares { font-size: 12px; color: var(--text-3); font-style: italic; }
+
+    .conn-perms { display: flex; flex-wrap: wrap; gap: 6px; }
+    .conn-perm-tag {
+      padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500;
+      background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0;
+    }
+
+    .conn-footer {
+      display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+      padding: 12px 20px; border-top: 1px solid var(--border-lt);
+      background: #fafbfc;
+    }
+    .conn-revoke-btn {
+      padding: 7px 16px; border-radius: var(--r-sm); border: 1.5px solid var(--border);
+      background: #fff; color: var(--brand); font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: 'Inter',sans-serif;
+      transition: background 0.13s, border-color 0.13s;
+    }
+    .conn-revoke-btn:hover { background: var(--brand-bg); border-color: var(--brand); }
+    .conn-resend-btn {
+      padding: 7px 16px; border-radius: var(--r-sm); border: none;
+      background: var(--orange-bg); color: var(--orange); font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: 'Inter',sans-serif;
+      transition: opacity 0.13s;
+    }
+    .conn-resend-btn:hover { opacity: 0.8; }
+
+    /* ── SHARING — badge avatars sur la carte ── */
+    .share-badge {
+      position: absolute;
+      top: 8px; right: 8px;
+      display: flex;
+      z-index: 5;
+    }
+    .share-av {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 2px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7.5px; font-weight: 800; color: #fff;
+      margin-left: -7px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      cursor: default;
+    }
+    .share-av:first-child { margin-left: 0; }
+
+    /* ── Bouton partager dans le footer de la carte ── */
+    .scard-share-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 6px 13px;
+      font-size: 11px; color: var(--text-3);
+      cursor: pointer; border-top: 1px solid var(--border-lt);
+      transition: background 0.12s, color 0.12s;
+      font-weight: 500; user-select: none;
+    }
+    .scard-share-btn:hover { background: var(--blue-bg); color: var(--blue); }
+    .scard-share-btn.has-shares { color: var(--blue); font-weight: 600; background: var(--blue-bg); }
+
+    /* ── Indicateur "Partagé par [X]" ── */
+    .shared-from-bar {
+      display: flex; align-items: center; gap: 7px;
+      padding: 5px 13px; font-size: 10.5px;
+      color: var(--blue); font-weight: 600;
+      background: var(--blue-bg);
+      border-bottom: 1px solid rgba(37,99,235,0.1);
+    }
+    .shared-from-av {
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+
+    /* ── Modal partage — liste des contacts ── */
+    .share-user-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .share-user-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border: 1.5px solid var(--border);
+      border-radius: var(--r-sm); cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .share-user-row:hover { border-color: var(--blue); background: var(--blue-bg); }
+    .share-user-row.shared { border-color: var(--blue); background: var(--blue-bg); }
+    .su-av { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#fff; flex-shrink:0; }
+    .su-name { font-size:13px; font-weight:600; color:var(--text-1); }
+    .su-relation { font-size:11px; color:var(--text-3); margin-top:1px; }
+    .su-check { font-size:17px; color:var(--blue); margin-left:auto; flex-shrink:0; }
+    .su-hint { font-size:11px; color:var(--text-3); margin-left:auto; flex-shrink:0; }
+
+
+    /* ── PROPOSE BUTTON ON SCARD ── */
+    .scard-propose-link { display:none; align-items:center; gap:6px; padding:7px 10px; font-size:12px; font-weight:600; color:var(--blue); cursor:pointer; border-top:1px solid var(--border); background:rgba(79,124,255,0.05); border-radius:0 0 var(--r-sm) var(--r-sm); transition:background 0.15s; }
+    .scard-propose-link:hover { background:rgba(79,124,255,0.14); }
+    .other-ctx .scard-propose-link { display:flex; }
+
+    /* ── PROPOSAL CREATION FORM ── */
+    .prop-section-title { font-size:11px; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:0.07em; margin:16px 0 8px; }
+    .prop-row { display:flex; gap:10px; margin-bottom:10px; }
+    .prop-field { display:flex; flex-direction:column; gap:4px; flex:1; }
+    .prop-field label { font-size:11px; font-weight:600; color:var(--text-3); }
+    .prop-field input, .prop-field textarea { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r-sm); color:var(--text-1); font-size:13px; padding:8px 10px; outline:none; transition:border-color 0.15s; resize:vertical; }
+    .prop-field input:focus, .prop-field textarea:focus { border-color:var(--blue); }
+    .prop-savings { display:flex; align-items:center; gap:6px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.25); border-radius:var(--r-sm); padding:8px 10px; font-size:13px; font-weight:700; color:var(--green); margin-bottom:10px; }
+    .cond-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+    .cond-chip { padding:5px 12px; border-radius:20px; border:1.5px solid var(--border); font-size:12px; font-weight:600; color:var(--text-2); cursor:pointer; transition:all 0.15s; }
+    .cond-chip.active { border-color:var(--blue); background:var(--blue-bg); color:var(--blue); }
+    .step-list { display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
+    .step-row { display:flex; align-items:center; gap:8px; }
+    .step-num { width:22px; height:22px; border-radius:50%; background:var(--blue); color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .step-row input { flex:1; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r-sm); color:var(--text-1); font-size:13px; padding:7px 10px; outline:none; }
+    .step-row input:focus { border-color:var(--blue); }
+    .step-remove { width:22px; height:22px; border-radius:50%; background:var(--surface2); border:none; color:var(--text-3); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; line-height:1; }
+    .step-remove:hover { background:rgba(239,68,68,0.15); color:var(--red); }
+    .add-step-btn { font-size:12px; font-weight:600; color:var(--blue); cursor:pointer; padding:4px 0; display:inline-flex; align-items:center; gap:4px; }
+    .add-step-btn:hover { opacity:0.75; }
+    .urgent-row { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r-sm); margin-top:6px; margin-bottom:4px; }
+    .urgent-label { font-size:13px; font-weight:600; color:var(--text-1); }
+    .urgent-sub { font-size:11px; color:var(--text-3); margin-top:1px; }
+    .toggle-switch { position:relative; width:38px; height:22px; flex-shrink:0; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-track { position:absolute; inset:0; background:var(--border); border-radius:11px; cursor:pointer; transition:background 0.2s; }
+    .toggle-track::after { content:''; position:absolute; left:3px; top:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform 0.2s; }
+    .toggle-switch input:checked + .toggle-track { background:var(--brand); }
+    .toggle-switch input:checked + .toggle-track::after { transform:translateX(16px); }
+
+    /* ── PROPOSALS DASHBOARD ── */
+    .proposals-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+    .proposals-stats { display:flex; gap:10px; margin-bottom:20px; }
+    .prop-stat { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 14px; text-align:center; }
+    .prop-stat-num { font-size:22px; font-weight:800; color:var(--text-1); }
+    .prop-stat-label { font-size:11px; color:var(--text-3); margin-top:2px; }
+    .proposal-item { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r-md); padding:14px 16px; margin-bottom:10px; transition:box-shadow 0.15s; }
+    .proposal-item:hover { box-shadow:var(--sh-sm); }
+    .prop-item-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+    .prop-item-av { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff; flex-shrink:0; }
+    .prop-item-info { flex:1; min-width:0; }
+    .prop-item-name { font-size:13px; font-weight:700; color:var(--text-1); }
+    .prop-item-card { font-size:12px; color:var(--text-2); margin-top:1px; }
+    .prop-status-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; flex-shrink:0; white-space:nowrap; }
+    .prop-status-badge.pending { background:rgba(234,179,8,0.15); color:#ca8a04; }
+    .prop-status-badge.accepted { background:rgba(34,197,94,0.15); color:var(--green); }
+    .prop-status-badge.declined { background:rgba(239,68,68,0.12); color:var(--red); }
+    .prop-status-badge.cancelled,.prop-status-badge.expired { background:var(--surface2); color:var(--text-3); }
+    .prop-item-offer { display:flex; align-items:baseline; gap:8px; margin-bottom:4px; flex-wrap:wrap; }
+    .prop-offer-name { font-size:14px; font-weight:700; color:var(--text-1); }
+    .prop-offer-price { font-size:16px; font-weight:800; color:var(--blue); }
+    .prop-offer-savings { font-size:12px; color:var(--green); font-weight:600; }
+    .prop-item-meta { font-size:11px; color:var(--text-3); margin-bottom:6px; }
+    .prop-item-msg { font-size:12px; color:var(--text-2); background:var(--surface2); border-left:3px solid var(--blue); padding:6px 10px; border-radius:0 var(--r-sm) var(--r-sm) 0; margin-bottom:8px; font-style:italic; }
+    .prop-declined-reason { font-size:11px; color:var(--text-3); font-style:italic; padding:4px 8px; background:var(--surface2); border-radius:var(--r-sm); margin-bottom:8px; }
+    .prop-item-footer { display:flex; gap:8px; justify-content:flex-end; }
+    .prop-cancel-btn { font-size:12px; font-weight:600; color:var(--red); background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:var(--r-sm); padding:5px 12px; cursor:pointer; }
+    .prop-cancel-btn:hover { background:rgba(239,68,68,0.15); }
+    .prop-remind-btn { font-size:12px; font-weight:600; color:var(--blue); background:var(--blue-bg); border:1px solid rgba(79,124,255,0.25); border-radius:var(--r-sm); padding:5px 12px; cursor:pointer; }
+
+    /* ── FILTER TABS (propositions & réseau) ── */
+    .filter-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; }
+    .filter-tab { padding:9px 18px; font-size:13px; font-weight:600; color:var(--text-2); background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+    .filter-tab:hover { color:var(--text-1); }
+    .filter-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+    .filter-tab .tab-count { font-size:11px; font-weight:700; background:var(--surface2); padding:1px 6px; border-radius:10px; margin-left:5px; }
+    .filter-tab.active .tab-count { background:rgba(79,124,255,0.15); color:var(--blue); }
+
+    /* ── MON RÉSEAU : type badges ── */
+    .conn-badge.manager { background:rgba(101,163,13,0.12); color:#65a30d; border:1px solid rgba(101,163,13,0.3); }
+    .conn-badge.admin   { background:rgba(79,124,255,0.1); color:var(--blue); border:1px solid rgba(79,124,255,0.25); }
+    .conn-badge.share   { background:rgba(20,184,166,0.1); color:#14b8a6; border:1px solid rgba(20,184,166,0.25); }
+    .conn-badge { font-size:11px; font-weight:700; padding:2px 9px; border-radius:20px; }
+    .reseau-legend { display:flex; gap:12px; flex-wrap:wrap; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); margin-bottom:16px; }
+    .reseau-legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-2); }
+    .reseau-legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
   </style>
 </head>
 <body>
@@ -694,13 +1199,14 @@
     <a href="version-faisable.html"><span class="dot-green"></span> Version faisable</a>
     <a href="apercu-v1.html"><span class="dot-purple"></span> Aperçu V1</a>
     <a href="apercu-v1bis.html" class="active"><span class="dot-orange"></span> Aperçu V1.bis</a>
+    <a href="features-couple.html"><span style="width:6px;height:6px;border-radius:50%;background:#e91e8c;display:inline-block;"></span> Couple &amp; Famille</a>
   </nav>
 
   <!-- ── APP HEADER ── -->
   <header class="app-header">
     <a class="brand" href="#">
       <div class="superman-logo"></div>
-      <span class="brand-label">Admin</span>
+      <span class="brand-label">SuperAdmin</span>
     </a>
     <div class="search-bar">
       <input type="text" placeholder="Rechercher..." />
@@ -717,12 +1223,9 @@
   <nav class="cat-nav">
     <span class="rubrique-label">Rubrique</span>
     <div class="cat-tabs">
+      <div class="cat-tab active" onclick="showSection('forfaits', this)">Forfait &amp; services</div>
       <div class="cat-tab" onclick="showSection('identite', this)">Identité</div>
       <div class="cat-tab" onclick="showSection('sante', this)">Santé &amp; Assurance</div>
-      <div class="cat-tab" onclick="showSection('taxes', this)">Taxes</div>
-      <div class="cat-tab active" onclick="showSection('forfaits', this)">Forfait &amp; services</div>
-      <div class="cat-tab" onclick="showSection('biens', this)">Biens</div>
-      <div class="cat-tab" onclick="showSection('pro', this)">Professionnel</div>
     </div>
     <div class="sort-wrap">
       Trier par
@@ -742,15 +1245,14 @@
     <aside class="sidebar">
       <div class="sa-title">SuperAdmin</div>
       <ul>
-        <li onclick="showSection('identite', null)">• Mes cartes</li>
-        <li>• Mes actions requises <span style="color:#c62828;font-weight:700;">(2)</span></li>
-        <li>• Mon agenda</li>
-        <li>• Mes recommandations</li>
-        <li>• Mes Super administrateur</li>
-        <li class="sub">&gt; Votre Admin</li>
-        <li class="sub">&gt; Votre neveu geek</li>
-        <li>• Vos contacts</li>
-        <li class="section-sep">• Forum</li>
+        <li onclick="showSection('forfaits', null)">Mes forfaits &amp; services</li>
+        <li onclick="showSection('identite', null)">Mes cartes</li>
+        <li>Mes actions requises <span style="background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">2</span></li>
+        <li>Mon agenda</li>
+        <li>Mes recommandations</li>
+        <li onclick="showSection('propositions', null); clearCatTabs(); renderProposalsDashboard();">Mes propositions <span id="proposals-badge" style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">1</span></li>
+        <li onclick="showSection('connexions', null); clearCatTabs(); renderConnectionsList();" id="sidebar-connexions">Mon réseau <span id="connexions-count" style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">4</span></li>
+        <li class="section-sep">Forum</li>
       </ul>
     </aside>
 
@@ -804,6 +1306,7 @@
               <div class="scard-price-bar green-bar">
                 <span>Internet</span><span>20€/mois</span>
               </div>
+              <a class="scard-link" href="https://www.free.fr" target="_blank">🔗 free.fr</a>
               <div class="scard-docs" onclick="toggleAttach('ap-free')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-free">
@@ -832,12 +1335,13 @@
               <div style="font-size:22px; font-weight:900; color:#fff;">9.99<sup style="font-size:12px;">€</sup></div>
               <div style="font-size:11px; color:#fce4ec; font-weight:600;">/mois</div>
               <div style="font-size:10px; color:#fff; text-align:center; margin-top:6px;">Des appels illimités avant tout<br/>Appels illimités<br/>SMS/MMS illimités<br/>Internet 50 Mo en France et en Europe**</div>
-              <div class="stamp stamp-orange" style="color:#fff; border-color:#fff; transform:rotate(-8deg);">Valide au 10/05/2027</div>
+              <div class="stamp stamp-green">Valide au 10/05/2027</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar green-bar">
                 <span>Mobile</span><span>10€/mois</span>
               </div>
+              <a class="scard-link" href="https://www.sfr.fr" target="_blank">🔗 sfr.fr</a>
               <div class="scard-docs" onclick="toggleAttach('ap-mobile')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-mobile">
@@ -860,13 +1364,14 @@
             <div class="scard-img" style="background:#000; flex-direction:column; gap:2px; cursor:pointer;" onclick="openModal('canal')">
               <div style="font-size:11px; font-weight:700; color:#fff; letter-spacing:0.1em;">LES CHAÎNES</div>
               <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-1px;">CANAL<span style="color:#f9a825;">+</span></div>
-              <div class="stamp stamp-orange" style="color:#fff3e0; border-color:#ff8f00;">Fin le 31/12/2026</div>
+              <div class="stamp stamp-orange" style="bottom: 34px;">Fin le 31/12/2026</div>
               <div class="action-banner orange">Action en cours — Résilier !</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar red-bar">
                 <span>Canal+</span><span>20€/mois</span>
               </div>
+              <a class="scard-link" href="https://www.canalplus.com" target="_blank">🔗 canalplus.com</a>
               <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-canal')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-canal">
@@ -888,12 +1393,13 @@
           <div class="scard">
             <div class="scard-img" style="background:#000;">
               <div style="font-size:44px; font-weight:900; color:#e50914; font-family:Impact,Arial; letter-spacing:-2px;">NETFLIX</div>
-              <div class="stamp stamp-orange" style="color:#fff3e0; border-color:#ff8f00;">Fin le 31/12/2026</div>
+              <div class="stamp stamp-orange">Fin le 31/12/2026</div>
             </div>
             <div class="scard-footer">
               <div class="scard-price-bar green-bar">
                 <span>Netflix</span><span>0€/mois</span>
               </div>
+              <a class="scard-link" href="https://www.netflix.com" target="_blank">🔗 netflix.com</a>
               <div class="scard-docs" onclick="toggleAttach('ap-netflix')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-netflix">
@@ -923,6 +1429,7 @@
               <div class="scard-price-bar grey-bar">
                 <span>Spotify</span><span>inactif</span>
               </div>
+              <a class="scard-link" href="https://www.spotify.com" target="_blank">🔗 spotify.com</a>
               <div class="scard-docs" onclick="toggleAttach('ap-spotify')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-spotify">
@@ -965,7 +1472,8 @@
               <p>3. C'est finit</p>
             </div>
             <div class="reco-comments">
-              Voir les commentaires de <span>SuperAdmin</span> 💬
+              <div class="sa-label">💬 SuperAdmin dit :</div>
+              <div class="sa-text">Bonne offre fiable. Votre neveu vous aidera à l'activer.</div>
             </div>
           </div>
 
@@ -1062,14 +1570,14 @@
               <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-cni')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-cni">
-              <div class="attach-item" onclick="viewAttach(this)">
+              <div class="attach-item" onclick="viewAttach(this)" data-url="assets/img/cni_recto.png">
                 <div class="at-icon img">IMG</div>
-                <div class="at-info"><span class="at-name">CNI_recto.jpg</span><span class="at-meta">2,3 Mo · scan 300dpi</span></div>
+                <div class="at-info"><span class="at-name">CNI_recto.png</span><span class="at-meta">2,3 Mo · scan 300dpi</span></div>
                 <span class="at-dl">⬇</span>
               </div>
-              <div class="attach-item" onclick="viewAttach(this)">
+              <div class="attach-item" onclick="viewAttach(this)" data-url="assets/img/cni_verso.png">
                 <div class="at-icon img">IMG</div>
-                <div class="at-info"><span class="at-name">CNI_verso.jpg</span><span class="at-meta">1,9 Mo · scan 300dpi</span></div>
+                <div class="at-info"><span class="at-name">CNI_verso.png</span><span class="at-meta">1,9 Mo · scan 300dpi</span></div>
                 <span class="at-dl">⬇</span>
               </div>
               <div class="attach-item" onclick="viewAttach(this)">
@@ -1098,7 +1606,7 @@
               <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-passeport')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-passeport">
-              <div class="attach-item" onclick="viewAttach(this)">
+              <div class="attach-item" onclick="viewAttach(this)" data-url="assets/img/passeport_bio.jpg">
                 <div class="at-icon img">IMG</div>
                 <div class="at-info"><span class="at-name">Passeport_scan.jpg</span><span class="at-meta">3,1 Mo · pages bio</span></div>
                 <span class="at-dl">⬇</span>
@@ -1130,18 +1638,24 @@
               <div class="scard-docs" onclick="toggleAttach('ap-permis')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-permis">
-              <div class="attach-item" onclick="viewAttach(this)">
+              <div class="attach-item" onclick="viewAttach(this)" data-url="assets/img/permis_recto.jpg">
                 <div class="at-icon img">IMG</div>
                 <div class="at-info"><span class="at-name">Permis_recto.jpg</span><span class="at-meta">2,1 Mo · scan recto</span></div>
                 <span class="at-dl">⬇</span>
               </div>
-              <div class="attach-item" onclick="viewAttach(this)">
+              <div class="attach-item" onclick="viewAttach(this)" data-url="assets/img/permis_alt.jpg">
                 <div class="at-icon img">IMG</div>
                 <div class="at-info"><span class="at-name">Permis_verso.jpg</span><span class="at-meta">1,8 Mo · scan verso</span></div>
                 <span class="at-dl">⬇</span>
               </div>
               <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
+          </div>
+
+          <!-- Carte + Ajouter (identité) -->
+          <div class="scard-add" onclick="openAddCardPicker('identite')">
+            <div class="scard-add-icon">+</div>
+            <div class="scard-add-label">Ajouter<br>une carte</div>
           </div>
 
         </div>
@@ -1330,6 +1844,10 @@
               <div class="stamp stamp-green" style="color:#fff;border-color:#fff;background:rgba(0,0,0,0.2);">Valide ✓</div>
             </div>
             <div class="scard-footer">
+              <div class="shared-from-bar">
+                <div class="shared-from-av" style="background:#f97316;">FB</div>
+                Partagée par Fanny Bardanouve
+              </div>
               <div class="scard-price-bar" style="background:#f3e5f5;color:#6a1b9a;display:flex;align-items:center;justify-content:space-between;padding:8px 10px;font-size:12px;font-weight:700;">
                 <span>Mutuelle Fanny</span><span style="font-size:10px;">Attestation OK</span>
               </div>
@@ -1387,6 +1905,12 @@
               </div>
               <div class="attach-add" onclick="event.stopPropagation(); pickFiles(this.closest('.attach-panel').id)">📁 Ajouter depuis le répertoire</div>
             </div>
+          </div>
+
+          <!-- Carte + Ajouter (santé) -->
+          <div class="scard-add" onclick="openAddCardPicker('sante')">
+            <div class="scard-add-icon">+</div>
+            <div class="scard-add-label">Ajouter<br>une carte</div>
           </div>
 
         </div>
@@ -1460,59 +1984,49 @@
         </div>
       </div>
 
-      <div id="section-taxes" class="page-section">
-
-        <!-- Sélecteur de membre -->
-        <div class="member-switcher">
-          <span class="member-switcher-label">Géré pour :</span>
-          <div class="member-pill active" onclick="switchMember(this,'ctx-taxes','','','')">
-            <div class="mp-av" style="background:#d32f2f;color:#fff;">DD</div>
-            Vous
+      <!-- ══════════════════════════════════════ -->
+      <!-- SECTION : MES PROPOSITIONS           -->
+      <!-- ══════════════════════════════════════ -->
+      <div id="section-propositions" class="page-section">
+        <div class="conn-section-header">
+          <div class="conn-section-title">
+            Mes propositions envoyées
+            <span id="prop-count-title" style="font-size:13px;font-weight:400;color:var(--text-3);margin-left:6px;"></span>
           </div>
-          <div class="member-pill" onclick="switchMember(this,'ctx-taxes','Fanny Bardanouve','#f97316','FB')">
-            <div class="mp-av" style="background:#f97316;color:#fff;">FB</div>
-            Fanny
-          </div>
-          <div class="member-pill" onclick="switchMember(this,'ctx-taxes','Linon De Roland','#14b8a6','LI')">
-            <div class="mp-av" style="background:#14b8a6;color:#fff;">LI</div>
-            Linon
-          </div>
-          <div class="member-pill" onclick="switchMember(this,'ctx-taxes','Lucho De Roland','#8b5cf6','LU')">
-            <div class="mp-av" style="background:#8b5cf6;color:#fff;">LU</div>
-            Lucho
-          </div>
-          <div class="member-add-pill" onclick="openModal('add-member')">+ Ajouter un administré</div>
         </div>
-        <div id="ctx-taxes" class="member-ctx-bar">
-          <div class="mp-av ctx-av" style="width:26px;height:26px;font-size:10px;font-weight:800;"></div>
-          <span>Taxes &amp; fiscalité gérées pour <strong class="ctx-name"></strong></span>
-          <span class="ctx-badge">DROITS GESTION</span>
+        <div class="proposals-stats" id="prop-stats"></div>
+        <div class="filter-tabs" id="prop-filter-tabs">
+          <button class="filter-tab active" onclick="filterProposals('all',this)">Toutes <span class="tab-count" id="fc-all"></span></button>
+          <button class="filter-tab" onclick="filterProposals('pending',this)">En attente <span class="tab-count" id="fc-pending"></span></button>
+          <button class="filter-tab" onclick="filterProposals('accepted',this)">Acceptées <span class="tab-count" id="fc-accepted"></span></button>
+          <button class="filter-tab" onclick="filterProposals('declined',this)">Refusées <span class="tab-count" id="fc-declined"></span></button>
         </div>
-
-        <div style="padding:40px;text-align:center;color:#999;">
-          <div style="font-size:48px;margin-bottom:12px;">🧾</div>
-          <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Taxes &amp; Fiscalité</div>
-          <div style="font-size:13px;">Avis d'imposition, déclarations, taxe foncière...</div>
-          <div style="margin-top:16px;padding:10px 16px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:4px;display:inline-block;font-size:12px;color:#2e7d32;">✓ Disponible en V1 — Section en construction</div>
-        </div>
+        <div id="prop-list"></div>
       </div>
 
-      <div id="section-biens" class="page-section">
-        <div style="padding:40px;text-align:center;color:#999;">
-          <div style="font-size:48px;margin-bottom:12px;">🏠</div>
-          <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Biens</div>
-          <div style="font-size:13px;">Logement, véhicules, biens mobiliers...</div>
-          <div style="margin-top:16px;padding:10px 16px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:4px;display:inline-block;font-size:12px;color:#2e7d32;">✓ Disponible en V1 — Section en construction</div>
+      <!-- ══════════════════════════════════════ -->
+      <!-- SECTION : MON RÉSEAU                  -->
+      <!-- ══════════════════════════════════════ -->
+      <div id="section-connexions" class="page-section">
+        <div class="conn-section-header">
+          <div class="conn-section-title">
+            Mon réseau
+            <span id="connexions-count-title"></span>
+          </div>
+          <button class="conn-add-btn" onclick="openModal('add-member')">+ Ajouter</button>
         </div>
-      </div>
-
-      <div id="section-pro" class="page-section">
-        <div style="padding:40px;text-align:center;color:#999;">
-          <div style="font-size:48px;margin-bottom:12px;">💼</div>
-          <div style="font-size:16px;font-weight:600;margin-bottom:6px;">Professionnel</div>
-          <div style="font-size:13px;">Contrats de travail, fiches de paie, mutuelle pro...</div>
-          <div style="margin-top:16px;padding:10px 16px;background:#e8f5e9;border:1px solid #c8e6c9;border-radius:4px;display:inline-block;font-size:12px;color:#2e7d32;">✓ Disponible en V1 — Section en construction</div>
+        <div class="reseau-legend">
+          <div class="reseau-legend-item"><div class="reseau-legend-dot" style="background:#4f7cff;"></div> <strong>Je gère</strong> — je vois leurs abonnements et documents, je peux faire des propositions</div>
+          <div class="reseau-legend-item"><div class="reseau-legend-dot" style="background:#65a30d;"></div> <strong>Ils me gèrent</strong> — ils voient mes données et peuvent me faire des suggestions</div>
+          <div class="reseau-legend-item"><div class="reseau-legend-dot" style="background:#14b8a6;"></div> <strong>Foyer</strong> — partage symétrique de certaines cartes (conjoint·e, colocataire)</div>
         </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterConnections('all',this)">Tous <span class="tab-count" id="rc-all"></span></button>
+          <button class="filter-tab" onclick="filterConnections('admin',this)">Je gère <span class="tab-count" id="rc-admin"></span></button>
+          <button class="filter-tab" onclick="filterConnections('manager',this)">Ils me gèrent <span class="tab-count" id="rc-manager"></span></button>
+          <button class="filter-tab" onclick="filterConnections('share',this)">Foyer <span class="tab-count" id="rc-share"></span></button>
+        </div>
+        <div id="conn-list" class="conn-list"></div>
       </div>
 
     </main>
@@ -1654,18 +2168,128 @@
     </div>
   </div>
 
+  <!-- ═══ MODAL AJOUTER UNE CARTE ═══ -->
+  <div id="modal-add-card" class="modal-overlay" onclick="closeModal('add-card')">
+    <div class="modal-box" style="max-width:560px;width:95%;" onclick="event.stopPropagation()">
+      <h3 id="add-card-title" style="margin-bottom:16px;">Quelle carte voulez-vous ajouter ?</h3>
+      <div id="add-card-suggestions"></div>
+      <div class="modal-actions" style="margin-top:12px;">
+        <button class="modal-btn-cancel" onclick="closeModal('add-card')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL : CRÉER UNE PROPOSITION ═══ -->
+  <div id="modal-propose" class="modal-overlay" onclick="closeModal('propose')">
+    <div class="modal-box" style="max-width:520px;width:95%;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+        <div id="prop-member-av" style="width:36px;height:36px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;"></div>
+        <div>
+          <h3 style="margin:0;">💡 Proposer une offre</h3>
+          <p style="margin:0;font-size:12px;color:var(--text-3);">Pour <strong id="prop-member-name"></strong> · <span id="prop-card-label" style="color:var(--blue);font-weight:700;"></span></p>
+        </div>
+      </div>
+
+      <div class="prop-section-title">L'offre proposée</div>
+      <div class="prop-row">
+        <div class="prop-field">
+          <label>Nouveau fournisseur</label>
+          <input id="prop-provider" type="text" placeholder="ex : RED by SFR" />
+        </div>
+        <div class="prop-field" style="max-width:130px;">
+          <label>Nouveau prix (€/mois)</label>
+          <input id="prop-price" type="number" step="0.01" min="0" placeholder="9.99" oninput="updatePropSavings()" />
+        </div>
+      </div>
+      <div id="prop-savings-bar" class="prop-savings" style="display:none;">
+        💶 Économie estimée : <span id="prop-savings-amount"></span>/mois · <span id="prop-savings-year"></span>/an
+      </div>
+
+      <div class="prop-section-title">Conditions</div>
+      <div class="cond-chips" id="prop-cond-chips">
+        <div class="cond-chip active" onclick="selectCondChip(this)">Sans engagement</div>
+        <div class="cond-chip" onclick="selectCondChip(this)">Avec engagement</div>
+        <div class="cond-chip" onclick="selectCondChip(this)">Offre limitée</div>
+        <div class="cond-chip" onclick="selectCondChip(this)">Période d'essai</div>
+      </div>
+      <div class="prop-field" style="margin-bottom:4px;">
+        <label>Durée / précision (optionnel)</label>
+        <input id="prop-duration" type="text" placeholder="ex : Durant 2 ans, Offre jusqu'au 30 juin..." />
+      </div>
+
+      <div class="prop-section-title">Étapes pour en profiter</div>
+      <div class="step-list" id="prop-steps-list">
+        <div class="step-row"><div class="step-num">1</div><input type="text" placeholder="ex : Cliquer sur le lien ci-dessous" /><button class="step-remove" onclick="removeProposalStep(this)">×</button></div>
+        <div class="step-row"><div class="step-num">2</div><input type="text" placeholder="ex : Entrer le code promo SUPERADMIN" /><button class="step-remove" onclick="removeProposalStep(this)">×</button></div>
+      </div>
+      <div class="add-step-btn" onclick="addProposalStep()">＋ Ajouter une étape</div>
+
+      <div class="prop-section-title">Votre message</div>
+      <div class="prop-field" style="margin-bottom:10px;">
+        <label>SuperAdmin dit… (conseils, contexte, aide proposée)</label>
+        <textarea id="prop-message" rows="3" placeholder="ex : J'ai testé cette offre, elle est fiable. Je peux t'aider à l'activer si besoin."></textarea>
+      </div>
+
+      <div class="prop-field" style="margin-bottom:10px;">
+        <label>Offre valable jusqu'au (optionnel)</label>
+        <input id="prop-expires" type="date" />
+      </div>
+
+      <div class="urgent-row">
+        <div>
+          <div class="urgent-label">🔴 Marquer comme urgent</div>
+          <div class="urgent-sub">Remonte en priorité dans les actions requises de la personne</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="prop-urgent" />
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="modal-actions" style="margin-top:14px;">
+        <button class="modal-btn-cancel" onclick="closeModal('propose')">Annuler</button>
+        <button class="modal-btn-ok" onclick="submitProposal()">Envoyer la proposition →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL : MES PROPOSITIONS ENVOYÉES ═══ -->
+  <div id="modal-proposals" class="modal-overlay" onclick="closeModal('proposals')">
+    <div class="modal-box" style="max-width:580px;width:95%;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <div class="proposals-header">
+        <h3 style="margin:0;">📤 Mes propositions envoyées</h3>
+        <button class="modal-btn-cancel" onclick="closeModal('proposals')" style="margin:0;padding:6px 14px;">Fermer</button>
+      </div>
+      <div class="proposals-stats" id="prop-stats"></div>
+      <div id="prop-list"></div>
+    </div>
+  </div>
+
   <!-- ═══ MODAL AJOUTER UN ADMINISTRÉ ═══ -->
   <div id="modal-add-member" class="modal-overlay" onclick="closeModal('add-member')">
     <div class="modal-box" style="max-width:440px;width:95%;" onclick="event.stopPropagation()">
-      <h3 style="margin-bottom:6px;">👤 Ajouter un administré</h3>
-      <p>Ajoutez une personne dont vous êtes le SuperAdmin — légalement responsable ou de confiance — et choisissez les droits de gestion à lui accorder.</p>
+      <h3 style="margin-bottom:6px;">👤 Ajouter un contact</h3>
+      <p>Connectez une personne de votre entourage pour partager des cartes avec elle ou gérer ses documents à sa place.</p>
 
-      <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin:14px 0 8px;">Relation</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <div id="type-btn-share" onclick="selectConnType('share',this)" style="flex:1;padding:10px 12px;border:2px solid var(--blue);border-radius:var(--r-sm);background:var(--blue-bg);cursor:pointer;text-align:center;">
+          <div style="font-size:15px;margin-bottom:3px;">🔗</div>
+          <div style="font-size:12px;font-weight:700;color:var(--blue);">Partage mutuel</div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:2px;">Partage de cartes spécifiques · Symétrique</div>
+        </div>
+        <div id="type-btn-admin" onclick="selectConnType('admin',this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;text-align:center;">
+          <div style="font-size:15px;margin-bottom:3px;">🛡️</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-2);">Administré</div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:2px;">Gestion complète de son profil</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px;">Relation</div>
       <div class="role-chips" id="role-chips">
         <div class="role-chip active" onclick="selectRole(this)">👫 Conjoint·e</div>
         <div class="role-chip" onclick="selectRole(this)">👴 Parent / Grand-parent</div>
         <div class="role-chip" onclick="selectRole(this)">👶 Enfant</div>
-        <div class="role-chip" onclick="selectRole(this)">👤 Autre administré</div>
+        <div class="role-chip" onclick="selectRole(this)">👤 Autre</div>
       </div>
 
       <div class="add-member-field">
@@ -1673,22 +2297,24 @@
         <input type="text" id="new-member-name" placeholder="ex : Jacqueline Dupont" />
       </div>
 
-      <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Droits de gestion accordés</div>
-      <div class="perm-checks">
-        <label><input type="checkbox" checked /> Forfaits &amp; services (abonnements, contrats)</label>
-        <label><input type="checkbox" checked /> Identité &amp; documents (CNI, passeport…)</label>
-        <label><input type="checkbox" checked /> Taxes &amp; fiscalité (impôts, déclarations)</label>
-        <label><input type="checkbox" checked /> Santé &amp; assurance (mutuelles, remboursements)</label>
-        <label><input type="checkbox" /> Recevoir les alertes par email en son nom</label>
+      <div id="perm-section" style="display:none;">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Droits de gestion accordés</div>
+        <div class="perm-checks">
+          <label><input type="checkbox" checked /> Forfaits &amp; services (abonnements, contrats)</label>
+          <label><input type="checkbox" checked /> Identité &amp; documents (CNI, passeport…)</label>
+          <label><input type="checkbox" checked /> Taxes &amp; fiscalité (impôts, déclarations)</label>
+          <label><input type="checkbox" checked /> Santé &amp; assurance (mutuelles, remboursements)</label>
+          <label><input type="checkbox" /> Recevoir les alertes par email en son nom</label>
+        </div>
       </div>
 
-      <div style="background:#e8f5e9;border:1px solid #c8e6c9;border-radius:3px;padding:8px 10px;font-size:11px;color:#2e7d32;margin-bottom:14px;">
-        ✓ Vous restez seul décisionnaire. Chaque action est horodatée et le mandat est révocable à tout moment depuis <em>Mes Super administrateur</em>.
+      <div style="background:#e8f5e9;border:1px solid #c8e6c9;border-radius:var(--r-sm);padding:10px 12px;font-size:11px;color:#166534;line-height:1.55;margin-bottom:14px;">
+        ✓ La personne recevra une invitation par email et devra accepter l'invitation. Vous pouvez révoquer l'accès à tout moment depuis <em>Mes contacts</em>.
       </div>
 
       <div class="modal-actions">
         <button class="modal-btn-cancel" onclick="closeModal('add-member')">Annuler</button>
-        <button class="modal-btn-ok" onclick="addMember()">Ajouter ➜</button>
+        <button class="modal-btn-ok" onclick="addMember()">Envoyer une invitation →</button>
       </div>
     </div>
   </div>
@@ -1705,10 +2331,441 @@
     </div>
   </div>
 
+  <!-- ═══ MODAL PARTAGER UNE CARTE ═══ -->
+  <div id="modal-share-card" class="modal-overlay" onclick="closeModal('share-card')">
+    <div class="modal-box" style="max-width:430px;width:95%;" onclick="event.stopPropagation()">
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+        <div style="font-size:22px;">👥</div>
+        <h3>Partager cette carte</h3>
+      </div>
+      <p id="share-card-label" style="font-size:12px;color:var(--text-3);margin-bottom:20px;"></p>
+
+      <div id="share-user-list" class="share-user-list"></div>
+
+      <div style="background:var(--blue-bg);border:1px solid rgba(37,99,235,0.15);border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:#1d4ed8;line-height:1.6;margin-bottom:18px;">
+        La carte et ses documents seront visibles dans le tableau de bord des personnes sélectionnées, synchronisés en temps réel.<br>
+        <strong>Vous restez propriétaire</strong> et pouvez révoquer l'accès à tout moment en recliquant.
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn-cancel" onclick="closeModal('share-card')">Fermer</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ TOAST ═══ -->
   <div id="toast" class="toast"></div>
 
   <script>
+    /* ═══════════════════════════════════════════════════════════════════
+       COUCHE DONNÉES — toutes les données sont ici, comme une base.
+       Migration backend : remplacer initApp(DB) (tout en bas) par :
+         fetch('/api/data').then(r => r.json()).then(data => initApp(data));
+       ═══════════════════════════════════════════════════════════════════ */
+    const DB = {
+
+      user: { id: 'user-1', name: 'Daniel De Roland', initials: 'DD', color: '#d32f2f' },
+
+      members: [
+        { id: 'me',    name: 'Vous',             initials: 'DD', color: '#d32f2f', relation: null,         connectionType: null,      status: null,      dateConnected: null },
+        { id: 'fanny', name: 'Fanny Bardanouve', initials: 'FB', color: '#f97316', relation: 'Conjoint·e', connectionType: 'share',   status: 'active',  dateConnected: '10/05/2026' },
+        { id: 'linon', name: 'Linon De Roland',  initials: 'LI', color: '#14b8a6', relation: 'Enfant',     connectionType: 'admin',   status: 'active',  dateConnected: '03/01/2026' },
+        { id: 'lucho', name: 'Lucho De Roland',  initials: 'LU', color: '#8b5cf6', relation: 'Enfant',     connectionType: 'admin',   status: 'active',  dateConnected: '03/01/2026' },
+        { id: 'neveu', name: 'Thomas Bardanouve',initials: 'TB', color: '#0284c7', relation: 'Neveu',      connectionType: 'manager', status: 'active',  dateConnected: '12/01/2026' },
+        { id: 'papa',  name: 'Jean De Roland',   initials: 'JR', color: '#65a30d', relation: 'Parent',     connectionType: 'manager', status: 'active',  dateConnected: '01/09/2025' }
+      ],
+
+      services: [
+        {
+          id: 'free', name: 'Internet', url: 'https://www.free.fr', urlLabel: 'free.fr',
+          status: 'active',
+          price: { label: '20€/mois', barClass: 'green-bar' },
+          logo: { type: 'free', bg: '#f5f5f5' },
+          stamp: { text: 'Sans engagement', type: 'red', bottom: null },
+          actionBanner: null, modal: null,
+          attachments: [
+            { name: 'Contrat_Freebox_Revolution.pdf', meta: '2,1 Mo · Jan 2023', type: 'pdf' },
+            { name: 'Facture_Avr_2026.pdf',            meta: '340 Ko · Avr 2026',  type: 'ok'  },
+            { name: 'CGV_Free_2023.pdf',               meta: '1,2 Mo',             type: 'pdf' }
+          ]
+        },
+        {
+          id: 'mobile', name: 'Mobile', url: 'https://www.sfr.fr', urlLabel: 'sfr.fr',
+          status: 'active',
+          price: { label: '10€/mois', barClass: 'green-bar' },
+          logo: { type: 'mobile', bg: 'linear-gradient(135deg,#c2185b,#e91e63)', amount: '9.99' },
+          stamp: { text: 'Valide au 10/05/2027', type: 'green', bottom: null },
+          actionBanner: null, modal: null,
+          attachments: [
+            { name: 'Contrat_Mobile_9.99.pdf',     meta: '1,8 Mo · Jan 2024', type: 'pdf' },
+            { name: 'Facture_Mobile_Avr_2026.pdf', meta: '280 Ko',            type: 'ok'  }
+          ]
+        },
+        {
+          id: 'canal', name: 'Canal+', url: 'https://www.canalplus.com', urlLabel: 'canalplus.com',
+          status: 'active',
+          price: { label: '20€/mois', barClass: 'red-bar' },
+          logo: { type: 'canal', bg: '#000' },
+          stamp: { text: 'Fin le 31/12/2026', type: 'orange', bottom: 34 },
+          actionBanner: { text: 'Action en cours — Résilier !', color: 'orange' },
+          modal: 'canal',
+          attachments: [
+            { name: 'Contrat_CanalPlus_2024.pdf', meta: '2,4 Mo · Déc 2024', type: 'pdf'     },
+            { name: 'Lettre_résiliation.pdf',     meta: 'À générer — urgent', type: 'missing', onclick: "openModal('canal')" }
+          ]
+        },
+        {
+          id: 'netflix', name: 'Netflix', url: 'https://www.netflix.com', urlLabel: 'netflix.com',
+          status: 'active',
+          price: { label: '0€/mois', barClass: 'green-bar' },
+          logo: { type: 'netflix', bg: '#000' },
+          stamp: { text: 'Fin le 31/12/2026', type: 'orange', bottom: null },
+          actionBanner: null, modal: null,
+          attachments: [
+            { name: 'Email_confirmation_Netflix.pdf', meta: '45 Ko · inclus Canal+', type: 'ok' }
+          ]
+        },
+        {
+          id: 'spotify', name: 'Spotify', url: 'https://www.spotify.com', urlLabel: 'spotify.com',
+          status: 'inactive',
+          price: { label: 'inactif', barClass: 'grey-bar' },
+          logo: { type: 'spotify', bg: '#191414' },
+          stamp: null, actionBanner: null, modal: null,
+          attachments: [
+            { name: 'Ancien_contrat_Spotify.pdf', meta: '380 Ko · expiré', type: 'pdf' }
+          ]
+        }
+      ],
+
+      cardSuggestions: [
+        { id: 'forfaits', label: 'Forfaits & Services', items: [
+          { emoji: '📺', label: 'Streaming',       sub: 'Netflix, Disney+, Max…' },
+          { emoji: '📱', label: 'Forfait mobile',  sub: 'SFR, Bouygues, Free…' },
+          { emoji: '🌐', label: 'Box internet',    sub: 'Fibre, ADSL…' },
+          { emoji: '🎵', label: 'Musique',         sub: 'Spotify, Deezer…' },
+          { emoji: '🎮', label: 'Gaming',          sub: 'Xbox, PlayStation…' },
+          { emoji: '⚡', label: 'Énergie',         sub: 'EDF, Engie…' },
+          { emoji: '📰', label: 'Presse / Lecture',sub: 'Le Monde, Kindle…' },
+          { emoji: '➕', label: 'Autre service',   sub: '' },
+        ]},
+        { id: 'identite', label: 'Identité & Documents', items: [
+          { emoji: '🪪', label: 'Carte d\'identité', sub: '' },
+          { emoji: '🛂', label: 'Passeport',          sub: '' },
+          { emoji: '🚗', label: 'Permis de conduire', sub: '' },
+          { emoji: '💳', label: 'Carte de séjour',    sub: '' },
+          { emoji: '🎓', label: 'Carte étudiant',     sub: '' },
+          { emoji: '🏦', label: 'RIB / IBAN',         sub: '' },
+          { emoji: '➕', label: 'Autre document',     sub: '' },
+        ]},
+        { id: 'sante', label: 'Santé & Assurance', items: [
+          { emoji: '🏥', label: 'Mutuelle',              sub: '' },
+          { emoji: '💊', label: 'Ordonnance',             sub: '' },
+          { emoji: '🩺', label: 'Médecin / Spécialiste',  sub: '' },
+          { emoji: '🔬', label: 'Analyses médicales',     sub: '' },
+          { emoji: '🦷', label: 'Dentiste',               sub: '' },
+          { emoji: '🧬', label: 'Vaccins',                sub: '' },
+          { emoji: '➕', label: 'Autre',                  sub: '' },
+        ]},
+        { id: 'taxes', label: 'Taxes & Fiscal', items: [
+          { emoji: '📊', label: 'Impôts',              sub: 'Avis d\'imposition' },
+          { emoji: '🏠', label: 'Taxe foncière',       sub: '' },
+          { emoji: '🏡', label: 'Taxe d\'habitation',  sub: '' },
+          { emoji: '💼', label: 'TVA professionnelle', sub: '' },
+          { emoji: '➕', label: 'Autre taxe',          sub: '' },
+        ]},
+        { id: 'biens', label: 'Biens', items: [
+          { emoji: '🏠', label: 'Immobilier',            sub: '' },
+          { emoji: '🚗', label: 'Véhicule',              sub: '' },
+          { emoji: '📱', label: 'Appareil électronique', sub: '' },
+          { emoji: '💎', label: 'Objet de valeur',       sub: '' },
+          { emoji: '➕', label: 'Autre bien',            sub: '' },
+        ]},
+        { id: 'pro', label: 'Professionnel', items: [
+          { emoji: '📋', label: 'Contrat de travail',  sub: '' },
+          { emoji: '🏢', label: 'Entreprise / SIRET',  sub: '' },
+          { emoji: '📈', label: 'Retraite / Épargne',  sub: '' },
+          { emoji: '📄', label: 'Fiche de paie',       sub: '' },
+          { emoji: '➕', label: 'Autre document pro',  sub: '' },
+        ]},
+      ],
+
+      recommendations: [
+        {
+          id: 'red-box', proposedBy: 'neveu geek',
+          brand: 'RED Box', price: 10,
+          sub: 'sans engagement · sans condition de durée',
+          duration: 'Durant 2 ans', currentPrice: '15€/mois', category: 'Internet',
+          steps: ['Cliquer', 'Prendre RDV tel ici', "C'est finit"],
+          comment: "Bonne offre fiable. Votre neveu vous aidera à l'activer."
+        }
+      ],
+
+      // Cartes pré-remplies pour un nouvel utilisateur (sections sans données backend)
+      sectionDefaults: [
+        { section: 'taxes',    emoji: '📊', label: "Avis d'imposition" },
+        { section: 'taxes',    emoji: '🏠', label: 'Taxe foncière' },
+        { section: 'taxes',    emoji: '🚗', label: 'Taxe d\'habitation' },
+        { section: 'biens',    emoji: '🏠', label: 'Logement principal' },
+        { section: 'biens',    emoji: '🚗', label: 'Véhicule' },
+        { section: 'pro',      emoji: '📋', label: 'Contrat de travail' },
+        { section: 'pro',      emoji: '📄', label: 'Fiche de paie' },
+        { section: 'pro',      emoji: '📈', label: 'Retraite / Épargne' },
+      ]
+    };
+
+    /* ─── Logo par type ─── */
+    function renderLogo(logo) {
+      switch (logo.type) {
+        case 'free': return `
+          <div style="font-size:32px;font-weight:900;color:#d32f2f;font-family:Georgia,serif;letter-spacing:-2px;">free</div>
+          <div style="font-size:11px;color:#555;text-align:center;font-weight:600;">Freebox Révolution<br>avec TV by CANAL</div>
+          <div style="font-size:14px;font-weight:900;color:#d32f2f;margin-top:4px;">19<sup style="font-size:10px">99</sup><span style="font-size:11px;">/mois</span></div>
+          <div style="font-size:10px;color:#888;text-align:center;">pendant 1 an, au lieu de 49,99€/mois<br>Engagement 1 an</div>`;
+        case 'mobile': return `
+          <div style="font-size:22px;font-weight:900;color:#fff;">${logo.amount}<sup style="font-size:12px;">€</sup></div>
+          <div style="font-size:11px;color:#fce4ec;font-weight:600;">/mois</div>
+          <div style="font-size:10px;color:#fff;text-align:center;margin-top:6px;">Des appels illimités avant tout<br>Appels illimités<br>SMS/MMS illimités<br>Internet 50 Mo en France et en Europe**</div>`;
+        case 'canal': return `
+          <div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:0.1em;">LES CHAÎNES</div>
+          <div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;">CANAL<span style="color:#f9a825;">+</span></div>`;
+        case 'netflix': return `
+          <div style="font-size:44px;font-weight:900;color:#e50914;font-family:Impact,Arial;letter-spacing:-2px;">NETFLIX</div>`;
+        case 'spotify': return `
+          <div style="font-size:30px;font-weight:900;color:#1db954;font-family:Arial;">Spotify</div>`;
+        default: return `<div style="font-size:18px;font-weight:700;">${logo.type}</div>`;
+      }
+    }
+
+    /* ─── Pièces jointes ─── */
+    function renderAttachItems(attachments, id) {
+      const label = { pdf: 'PDF', ok: 'PDF', img: 'IMG', missing: '!' };
+      const items = attachments.map(a => {
+        if (a.type === 'missing') return `
+          <div class="attach-item" onclick="${a.onclick || ''}; event.stopPropagation();">
+            <div class="at-icon missing">!</div>
+            <div class="at-info"><span class="at-name">${a.name}</span><span class="at-meta" style="color:#e65100;">${a.meta}</span></div>
+            <span class="at-dl" style="color:#e65100;">→</span>
+          </div>`;
+        const dataUrl = a.url ? ` data-url="${a.url}"` : '';
+        const thumb = a.url && a.type === 'img'
+          ? `<img src="${a.url}" style="width:26px;height:32px;object-fit:cover;border-radius:2px;flex-shrink:0;" />`
+          : `<div class="at-icon ${a.type}">${label[a.type] || 'PDF'}</div>`;
+        return `
+          <div class="attach-item" onclick="viewAttach(this)"${dataUrl}>
+            ${thumb}
+            <div class="at-info"><span class="at-name">${a.name}</span><span class="at-meta">${a.meta}</span></div>
+            <span class="at-dl">⬇</span>
+          </div>`;
+      }).join('');
+      return `<div class="attach-panel" onclick="event.stopPropagation()" id="ap-${id}">
+        ${items}
+        <div class="attach-add" onclick="event.stopPropagation(); pickFiles('ap-${id}')">📁 Ajouter depuis le répertoire</div>
+      </div>`;
+    }
+
+    /* ─── Carte service ─── */
+    function renderServiceCard(s) {
+      const firstImg = s.attachments.find(a => a.type === 'img' && a.url);
+      const imgStyle = `background:${s.logo.bg}; flex-direction:column; gap:4px;${s.modal ? ' cursor:pointer;' : ''}`;
+      const imgClick = s.modal ? ` onclick="openModal('${s.modal}')"` : '';
+      const stamp    = s.stamp ? `<div class="stamp stamp-${s.stamp.type}"${s.stamp.bottom ? ` style="bottom:${s.stamp.bottom}px;"` : ''}>${s.stamp.text}</div>` : '';
+      const banner   = s.actionBanner ? `<div class="action-banner ${s.actionBanner.color}">${s.actionBanner.text}</div>` : '';
+      const inactive = s.status === 'inactive' ? `<div class="inactif-overlay"><span class="inactif-badge">Inactif</span></div>` : '';
+      const stop     = s.modal ? 'event.stopPropagation(); ' : '';
+      // Image jointe prend le dessus sur le logo par défaut
+      const imgContent = firstImg
+        ? `<img src="${firstImg.url}" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">${stamp}${banner}${inactive}`
+        : `${renderLogo(s.logo)}${stamp}${banner}${inactive}`;
+      return `
+        <div class="scard"${s.status === 'inactive' ? ' style="position:relative;"' : ''}>
+          <div class="scard-img" style="${imgStyle}"${imgClick}>
+            ${imgContent}
+          </div>
+          <div class="scard-footer">
+            <div class="scard-price-bar ${s.price.barClass}">
+              <span>${s.name}</span><span>${s.price.label}</span>
+            </div>
+            <a class="scard-link" href="${s.url}" target="_blank">🔗 ${s.urlLabel}</a>
+            <div class="scard-docs" onclick="${stop}toggleAttach('ap-${s.id}')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+          </div>
+          ${renderAttachItems(s.attachments, s.id)}
+        </div>`;
+    }
+
+    /* ─── Carte recommandation ─── */
+    function renderRecoCard(r) {
+      const steps = r.steps.map((s, i) => `<p>${i + 1}. ${s}</p>`).join('');
+      return `
+        <div style="display:flex; flex-direction:column; padding-top:20px; gap:4px; align-items:center;">
+          <div style="background:#fff9c4; border:2px solid #f9a825; border-radius:4px; padding:6px 10px; font-size:11px; font-weight:700; color:#555; white-space:nowrap;">
+            Proposé par...<br>Votre <span style="color:#d32f2f; font-style:italic;">${r.proposedBy}</span>
+          </div>
+          <div style="font-size:36px; color:#f9a825; transform:rotate(15deg); margin-top:4px;">➜</div>
+        </div>
+        <div class="reco-card" style="margin-top:0;">
+          <div class="reco-card-header">
+            <div class="reco-brand">${r.brand}</div>
+            <div class="reco-price-big">= ${r.price}<sup>€</sup></div>
+            <div class="reco-sub">${r.sub}</div>
+            <div class="reco-duration">${r.duration}</div>
+          </div>
+          <button class="reco-cta-btn" onclick="event.stopPropagation(); showToast('Ouverture de l\\'offre ${r.brand}...')">J'en profite</button>
+          <div class="accept-decline">
+            <button class="btn-accept" onclick="event.stopPropagation(); acceptReco()">Accepter</button>
+            <button class="btn-decline" onclick="event.stopPropagation(); declineReco()">Décliner</button>
+          </div>
+          <div class="reco-card-footer"><span>${r.category}</span><span>${r.currentPrice}</span></div>
+          <div class="reco-steps">${steps}</div>
+          <div class="reco-comments">
+            <div class="sa-label">💬 SuperAdmin dit :</div>
+            <div class="sa-text">${r.comment}</div>
+          </div>
+        </div>`;
+    }
+
+    /* ─── Carte + Ajouter ─── */
+    function renderAddCard(sectionId) {
+      return `<div class="scard-add" onclick="openAddCardPicker('${sectionId}')">
+        <div class="scard-add-icon">+</div>
+        <div class="scard-add-label">Ajouter<br>une carte</div>
+      </div>`;
+    }
+
+    function openAddCardPicker(fromSectionId) {
+      document.getElementById('add-card-title').textContent = 'Quelle carte voulez-vous ajouter ?';
+      document.getElementById('add-card-suggestions').innerHTML = DB.cardSuggestions.map(cat => {
+        const isCurrent = cat.id === fromSectionId;
+        const buttons = cat.items.map(s => `
+          <button class="cs-btn"
+            data-cat="${cat.id}" data-emoji="${s.emoji}" data-label="${s.label.replace(/"/g,'&quot;')}"
+            onclick="pickCard(this)">
+            <span class="cs-emoji">${s.emoji}</span>
+            <div><div class="cs-label">${s.label}</div>${s.sub ? `<div class="cs-sub">${s.sub}</div>` : ''}</div>
+          </button>`).join('');
+        return `
+          <div class="cs-category${isCurrent ? ' cs-category--current' : ''}">
+            <div class="cs-category-label">${cat.label}${isCurrent ? ' <span class="cs-current-tag">onglet actif</span>' : ''}</div>
+            <div class="card-suggestions-grid">${buttons}</div>
+          </div>`;
+      }).join('');
+      openModal('add-card');
+    }
+
+    function pickCard(btn) {
+      closeModal('add-card');
+      addCard(btn.dataset.cat, btn.dataset.emoji, btn.dataset.label);
+    }
+
+    function buildCardEl(emoji, label) {
+      const id = 'card-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
+      const card = document.createElement('div');
+      card.className = 'scard';
+      card.id = id;
+      card.style.cssText = 'position:relative;';
+      card.innerHTML = `
+        <div class="scard-img" style="background:var(--bg); flex-direction:column; gap:8px;">
+          <div style="font-size:44px;line-height:1;">${emoji}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text-1);">${label}</div>
+          <div style="font-size:10px;color:var(--text-3);">Appuyer sur 📎 pour joindre des fichiers</div>
+        </div>
+        <div class="scard-footer">
+          <div class="scard-price-bar grey-bar">
+            <span>${label}</span><span style="font-size:10px;color:var(--text-3);">À compléter</span>
+          </div>
+          <div class="scard-docs" onclick="toggleAttach('ap-${id}')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+        </div>
+        <div class="attach-panel" id="ap-${id}" onclick="event.stopPropagation()">
+          <div class="attach-add" onclick="event.stopPropagation(); pickFiles('ap-${id}')">📁 Ajouter depuis le répertoire</div>
+        </div>`;
+      return card;
+    }
+
+    function insertCardInSection(section, card) {
+      const addBtn = section.querySelector('.scard-add');
+      if (addBtn) {
+        addBtn.parentElement.insertBefore(card, addBtn);
+      } else {
+        const row = document.createElement('div');
+        row.className = 'section-row';
+        row.appendChild(card);
+        section.appendChild(row);
+      }
+      const panel = card.querySelector('.attach-panel');
+      if (panel) makeSortable(panel);
+    }
+
+    function addCard(sectionId, emoji, label) {
+      const section = document.getElementById('section-' + sectionId);
+      if (!section) return;
+
+      const card = buildCardEl(emoji, label);
+      card.style.animation = 'fadeIn 0.3s ease';
+      insertCardInSection(section, card);
+
+      const catLabel = DB.cardSuggestions.find(c => c.id === sectionId)?.label || sectionId;
+      showToast(`✓ "${label}" ajouté dans ${catLabel}`);
+
+      const tab = document.querySelector(`.cat-tab[onclick*="'${sectionId}'"]`);
+      if (tab && !tab.classList.contains('active')) {
+        showSection(sectionId, tab);
+      }
+
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+    }
+
+    function initDefaultCards(defaults) {
+      defaults.forEach(({ section: sectionId, emoji, label }) => {
+        const section = document.getElementById('section-' + sectionId);
+        if (!section) return;
+        const card = buildCardEl(emoji, label);
+        insertCardInSection(section, card);
+      });
+    }
+
+    /* ─── Initialisation ─────────────────────────────────────────────
+       Pour migrer vers un vrai backend, remplacer la dernière ligne par :
+         fetch('/api/data').then(r => r.json()).then(data => initApp(data));
+       ─────────────────────────────────────────────────────────────── */
+    function initApp(data) {
+      const section = document.getElementById('section-forfaits');
+      // Retire le HTML statique (sert de fallback noscript)
+      Array.from(section.querySelectorAll(':scope > .section-row')).forEach(el => el.remove());
+
+      const grid = document.createElement('div');
+      grid.id = 'services-grid';
+
+      const mainServices = data.services.slice(0, -1);
+      const lastService  = data.services[data.services.length - 1];
+
+      grid.innerHTML = `
+        <div class="section-row">
+          ${mainServices.map(renderServiceCard).join('')}
+          ${renderAddCard('forfaits')}
+        </div>
+        <div class="section-row" style="align-items:flex-start; position:relative;">
+          ${renderServiceCard(lastService)}
+          ${data.recommendations.map(renderRecoCard).join('')}
+        </div>`;
+      section.appendChild(grid);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp(DB);
+      initDefaultCards(DB.sectionDefaults);
+      document.querySelectorAll('.attach-panel').forEach(p => {
+        makeSortable(p);
+        syncCardThumbnail(p);
+      });
+      injectShareButtons();
+      applyInitialShares();
+      renderConnectionsList();
+    });
+
+    /* ══════════════════════════════════════════════════════════════════
+       FIN COUCHE DONNÉES
+       ══════════════════════════════════════════════════════════════════ */
+
     function showSection(name, el) {
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
@@ -1757,11 +2814,133 @@
         bar.querySelector('.ctx-name').textContent = name;
         bar.classList.add('show');
       }
+      // Afficher/masquer le bouton "Proposer" sur chaque carte
+      const section = pill.closest('.page-section');
+      if (name) {
+        section.classList.add('other-ctx');
+        section.querySelectorAll('.scard-propose-link').forEach(btn => {
+          btn.dataset.member = name;
+          btn.dataset.memberInitials = initials;
+          btn.dataset.memberColor = bg;
+        });
+      } else {
+        section.classList.remove('other-ctx');
+      }
     }
 
     function selectRole(chip) {
       document.querySelectorAll('#role-chips .role-chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
+    }
+
+    function selectConnType(type, el) {
+      const shareBtn   = document.getElementById('type-btn-share');
+      const adminBtn   = document.getElementById('type-btn-admin');
+      const permSec    = document.getElementById('perm-section');
+      const addBtn     = document.querySelector('#modal-add-member .modal-btn-ok');
+      if (type === 'share') {
+        shareBtn.style.cssText = 'flex:1;padding:10px 12px;border:2px solid var(--blue);border-radius:var(--r-sm);background:var(--blue-bg);cursor:pointer;text-align:center;';
+        shareBtn.querySelector('div:nth-child(2)').style.color = 'var(--blue)';
+        adminBtn.style.cssText = 'flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;text-align:center;';
+        adminBtn.querySelector('div:nth-child(2)').style.color = 'var(--text-2)';
+        if (permSec) permSec.style.display = 'none';
+        if (addBtn) addBtn.textContent = 'Envoyer une invitation →';
+      } else {
+        adminBtn.style.cssText = 'flex:1;padding:10px 12px;border:2px solid var(--blue);border-radius:var(--r-sm);background:var(--blue-bg);cursor:pointer;text-align:center;';
+        adminBtn.querySelector('div:nth-child(2)').style.color = 'var(--blue)';
+        shareBtn.style.cssText = 'flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;text-align:center;';
+        shareBtn.querySelector('div:nth-child(2)').style.color = 'var(--text-2)';
+        if (permSec) permSec.style.display = 'block';
+        if (addBtn) addBtn.textContent = 'Ajouter comme administré ➜';
+      }
+    }
+
+    const IMG_EXTS = ['JPG','JPEG','PNG','GIF','WEBP'];
+
+    /* ─── Vignette : synchro avec la 1re image du panel ─── */
+    function syncCardThumbnail(panel) {
+      const scard = panel.closest('.scard');
+      if (!scard) return;
+      const first = panel.querySelector('.attach-item[data-url]');
+      if (first) setCardThumbnail(scard, first.dataset.url);
+      else restoreCardThumbnail(scard);
+    }
+
+    function removeAttachItem(el) {
+      const panel = el.closest('.attach-panel');
+      el.remove();
+      syncCardThumbnail(panel);
+      showToast('Document retiré.');
+    }
+
+    /* ─── Tri par glisser-déposer des pièces jointes ─── */
+    function makeSortable(panel) {
+      let dragged = null;
+
+      function prepareItem(item) {
+        if (item.dataset.sortable) return;
+        item.dataset.sortable = '1';
+        item.draggable = true;
+        const handle = document.createElement('span');
+        handle.className = 'at-drag';
+        handle.textContent = '⠿';
+        handle.addEventListener('click', e => e.stopPropagation());
+        item.prepend(handle);
+      }
+
+      panel.querySelectorAll('.attach-item').forEach(prepareItem);
+
+      new MutationObserver(muts => muts.forEach(m =>
+        m.addedNodes.forEach(n => { if (n.classList?.contains('attach-item')) prepareItem(n); })
+      )).observe(panel, { childList: true });
+
+      panel.addEventListener('dragstart', e => {
+        const item = e.target.closest('.attach-item');
+        if (!item) return;
+        dragged = item;
+        setTimeout(() => item.classList.add('dragging'), 0);
+      });
+
+      panel.addEventListener('dragend', () => {
+        if (dragged) dragged.classList.remove('dragging');
+        panel.querySelectorAll('.drag-over').forEach(i => i.classList.remove('drag-over'));
+        dragged = null;
+      });
+
+      panel.addEventListener('dragover', e => {
+        e.preventDefault();
+        const item = e.target.closest('.attach-item');
+        panel.querySelectorAll('.drag-over').forEach(i => i.classList.remove('drag-over'));
+        if (item && item !== dragged) item.classList.add('drag-over');
+      });
+
+      panel.addEventListener('drop', e => {
+        e.preventDefault();
+        const item = e.target.closest('.attach-item');
+        panel.querySelectorAll('.drag-over').forEach(i => i.classList.remove('drag-over'));
+        if (!item || !dragged || item === dragged) return;
+        const rect = item.getBoundingClientRect();
+        if (e.clientY < rect.top + rect.height / 2) panel.insertBefore(dragged, item);
+        else item.after(dragged);
+        syncCardThumbnail(panel);
+      });
+    }
+
+    function setCardThumbnail(scard, url) {
+      const scardImg = scard.querySelector('.scard-img');
+      if (!scardImg) return;
+      // Sauvegarde le contenu par défaut la première fois
+      if (!scardImg.dataset.defaultHtml) {
+        scardImg.dataset.defaultHtml = scardImg.innerHTML;
+      }
+      scardImg.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">`;
+    }
+
+    function restoreCardThumbnail(scard) {
+      const scardImg = scard.querySelector('.scard-img');
+      if (scardImg && scardImg.dataset.defaultHtml) {
+        scardImg.innerHTML = scardImg.dataset.defaultHtml;
+      }
     }
 
     function pickFiles(panelId) {
@@ -1771,6 +2950,7 @@
       inp.accept = '.pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt';
       inp.onchange = function() {
         const panel = document.getElementById(panelId);
+        const scard = panel.closest('.scard');
         const addBtn = panel.querySelector('.attach-add');
         Array.from(this.files).forEach(file => {
           const sizeKo = file.size / 1024;
@@ -1778,26 +2958,28 @@
             ? Math.round(sizeKo) + ' Ko'
             : (sizeKo / 1024).toFixed(1) + ' Mo';
           const ext = file.name.split('.').pop().toUpperCase();
-          const iconCls = ['PDF'].includes(ext) ? 'pdf'
-            : ['JPG','JPEG','PNG','GIF','WEBP'].includes(ext) ? 'img' : 'ok';
-          const url = ['JPG','JPEG','PNG','GIF','WEBP'].includes(ext)
-            ? URL.createObjectURL(file) : null;
+          const isImg = IMG_EXTS.includes(ext);
+          const iconCls = ext === 'PDF' ? 'pdf' : isImg ? 'img' : 'ok';
+          const url = isImg ? URL.createObjectURL(file) : null;
+
           const item = document.createElement('div');
           item.className = 'attach-item';
           item.style.cssText = 'animation: fadeIn 0.2s ease; cursor:pointer;';
           if (url) item.dataset.url = url;
           item.onclick = function(e) { if (!e.target.classList.contains('at-dl')) viewAttach(this); };
-          item.innerHTML = url
+          item.innerHTML = (url
             ? `<img src="${url}" style="width:26px;height:32px;object-fit:cover;border-radius:2px;flex-shrink:0;" />`
-            : `<div class="at-icon ${iconCls}">${ext}</div>`;
-          item.innerHTML += `
-            <div class="at-info">
-              <span class="at-name">${file.name}</span>
-              <span class="at-meta">${sizeStr} · ajouté à l'instant</span>
-            </div>
-            <span class="at-dl" title="Supprimer" onclick="event.stopPropagation();this.parentElement.remove();showToast('Document retiré.')" style="cursor:pointer;color:#ccc;">✕</span>`;
+            : `<div class="at-icon ${iconCls}">${ext}</div>`)
+            + `<div class="at-info">
+                <span class="at-name">${file.name}</span>
+                <span class="at-meta">${sizeStr} · ajouté à l'instant</span>
+               </div>
+               <span class="at-dl" title="Supprimer"
+                 onclick="event.stopPropagation(); removeAttachItem(this.parentElement);"
+                 style="cursor:pointer;color:#ccc;">✕</span>`;
           panel.insertBefore(item, addBtn);
         });
+        syncCardThumbnail(panel);
         if (this.files.length)
           showToast('✓ ' + this.files.length + ' fichier(s) ajouté(s) !');
       };
@@ -1820,10 +3002,39 @@
     }
 
     function addMember() {
-      const name = (document.getElementById('new-member-name').value.trim()) || 'Nouvel administré';
+      const nameVal = document.getElementById('new-member-name').value.trim();
+      if (!nameVal) { showToast('Veuillez saisir un prénom et nom.'); return; }
+
+      // Lire le type sélectionné
+      const shareBtn  = document.getElementById('type-btn-share');
+      const isShare   = shareBtn && shareBtn.style.border.includes('2px');
+      const connType  = isShare ? 'share' : 'admin';
+
+      // Lire la relation sélectionnée
+      const activeChip = document.querySelector('#role-chips .role-chip.active');
+      const relation   = activeChip ? activeChip.textContent.replace(/^[^\w]+/, '').trim() : 'Autre';
+
+      // Construire les initiales
+      const parts    = nameVal.trim().split(' ');
+      const initials = (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+      const colors   = ['#0ea5e9','#8b5cf6','#14b8a6','#f59e0b','#ec4899','#10b981'];
+      const color    = colors[DB.members.length % colors.length];
+
+      const newMember = {
+        id: 'member-' + Date.now(),
+        name: nameVal, initials, color, relation,
+        connectionType: connType,
+        status: 'pending',
+        dateConnected: new Date().toLocaleDateString('fr-FR')
+      };
+
+      DB.members.push(newMember);
       document.getElementById('new-member-name').value = '';
       closeModal('add-member');
-      showToast('✓ ' + name + ' ajouté·e comme administré·e !');
+      renderConnectionsList();
+      showSection('connexions', null);
+      clearCatTabs();
+      showToast('✓ Invitation envoyée à ' + nameVal + ' !');
     }
 
     function viewAttach(el) {
@@ -1922,6 +3133,491 @@
       document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.cat-tab')[0].classList.add('active');
     });
+
+    /* ══════════════════════════════════════════════════════════════════
+       GESTION DES CONNEXIONS
+       ══════════════════════════════════════════════════════════════════ */
+
+    function clearCatTabs() {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    }
+
+    // Retourne toutes les cartes présentes dans le DOM (pour les administrés)
+    function getAllCardIds() {
+      const result = [];
+      document.querySelectorAll('.attach-panel[id^="ap-"]').forEach(panel => {
+        const cardId = panel.id.replace('ap-', '');
+        const card   = panel.closest('.scard');
+        if (!card) return;
+        const label  = card.querySelector('.scard-price-bar span:first-child')?.textContent.trim();
+        if (label) result.push({ cardId, label });
+      });
+      return result;
+    }
+
+    function getSharedCardsFor(uid) {
+      const result = [];
+      Object.entries(sharingState).forEach(([cardId, usersSet]) => {
+        if (usersSet.has(uid)) {
+          const panel = document.getElementById('ap-' + cardId);
+          const card  = panel ? panel.closest('.scard') : null;
+          const label = card ? (card.querySelector('.scard-price-bar span:first-child')?.textContent.trim() || cardId) : cardId;
+          result.push({ cardId, label });
+        }
+      });
+      return result;
+    }
+
+    function revokeSharedCard(uid, cardId) {
+      if (sharingState[cardId]) sharingState[cardId].delete(uid);
+      updateCardShareUI(cardId);
+      renderConnectionsList();
+      const user = DB.members.find(m => m.id === uid);
+      showToast('Partage retiré pour ' + (user?.name || uid));
+    }
+
+    function revokeConnection(uid) {
+      const user = DB.members.find(m => m.id === uid);
+      if (!user) return;
+      if (!confirm('Révoquer l\'accès à ' + user.name + ' ?\nTous les partages actifs seront supprimés.')) return;
+      Object.keys(sharingState).forEach(cardId => {
+        if (sharingState[cardId].has(uid)) {
+          sharingState[cardId].delete(uid);
+          updateCardShareUI(cardId);
+        }
+      });
+      const idx = DB.members.findIndex(m => m.id === uid);
+      if (idx !== -1) DB.members.splice(idx, 1);
+      renderConnectionsList();
+      showToast('Accès de ' + user.name + ' révoqué.');
+    }
+
+    function renderConnectionsList() {
+      const list = document.getElementById('conn-list');
+      if (!list) return;
+      const contacts = DB.members.filter(m => m.id !== 'me' && m.connectionType);
+
+      if (contacts.length === 0) {
+        list.innerHTML = `<div style="text-align:center;padding:48px 24px;color:var(--text-3);">
+          <div style="font-size:48px;margin-bottom:12px;">👥</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Aucun contact</div>
+          <div style="font-size:13px;">Ajoutez votre conjoint·e, vos enfants ou un proche pour partager vos cartes.</div>
+        </div>`;
+        updateConnexionsCount(0);
+        return;
+      }
+
+      const nAdmin   = contacts.filter(c => c.connectionType === 'admin').length;
+      const nManager = contacts.filter(c => c.connectionType === 'manager').length;
+      const nShare   = contacts.filter(c => c.connectionType === 'share').length;
+      updateConnexionsCount(contacts.length, nAdmin, nManager, nShare);
+
+      list.innerHTML = contacts.map(c => {
+        const isPending = c.status === 'pending';
+        const typeBadge = {
+          share:   `<span class="conn-badge share">🏠 Foyer</span>`,
+          admin:   `<span class="conn-badge admin">👤 Je gère</span>`,
+          manager: `<span class="conn-badge manager">🛡️ Me gère</span>`
+        }[c.connectionType] || '';
+        const statusBadge = isPending
+          ? `<span class="conn-status pending">⏳ En attente</span>`
+          : `<span class="conn-status active">✓ Actif</span>`;
+
+        let bodyContent = '';
+        if (c.connectionType === 'share') {
+          const cards = getSharedCardsFor(c.id);
+          const chips = cards.length
+            ? cards.map(sc => `<span class="conn-chip">${sc.label}<span class="conn-chip-x" onclick="event.stopPropagation();revokeSharedCard('${c.id}','${sc.cardId}')" title="Retirer ce partage">×</span></span>`).join('')
+            : `<span class="conn-no-shares">Aucune carte partagée — cliquez 👥 sur une carte pour partager.</span>`;
+          bodyContent = `<div class="conn-body-label">Cartes partagées avec ${c.name.split(' ')[0]}</div><div class="conn-shared-chips">${chips}</div>`;
+        } else if (c.connectionType === 'admin') {
+          const allCards = getAllCardIds();
+          const chips = allCards.map(sc =>
+            `<span class="conn-chip" style="opacity:0.8;">${sc.label}<span style="font-size:10px;color:var(--text-3);margin-left:2px;" title="Accès complet">🔒</span></span>`
+          ).join('');
+          bodyContent = `<div class="conn-body-label">Accès complet à tous ses abonnements &amp; documents</div><div class="conn-shared-chips">${chips || '<span class="conn-no-shares">Aucune carte dans le profil.</span>'}</div>`;
+        } else if (c.connectionType === 'manager') {
+          bodyContent = `<div class="conn-body-label">Voit vos abonnements &amp; documents · Peut vous faire des propositions</div><div class="conn-shared-chips"><span class="conn-chip" style="opacity:0.8;">Forfaits &amp; services 🔒</span><span class="conn-chip" style="opacity:0.8;">Identité 🔒</span><span class="conn-chip" style="opacity:0.8;">Santé 🔒</span></div>`;
+        }
+
+        const footerExtra = isPending
+          ? `<button class="conn-resend-btn" onclick="showToast('Invitation renvoyée à ${c.name} !')">Renvoyer l\'invitation</button>`
+          : (c.connectionType === 'admin' ? `<button class="conn-resend-btn" onclick="showToast('Ouverture du profil de ${c.name}…')">Voir ses abonnements →</button>` : '');
+
+        return `<div class="conn-card" id="conn-${c.id}">
+          <div class="conn-header">
+            <div class="conn-av" style="background:${c.color}">${c.initials}</div>
+            <div class="conn-info">
+              <div class="conn-name">${c.name}</div>
+              <div class="conn-meta">${c.relation || ''}</div>
+              <div class="conn-badges">${typeBadge}${statusBadge}</div>
+            </div>
+            <div class="conn-date">Depuis le ${c.dateConnected || '—'}</div>
+          </div>
+          <div class="conn-body">${bodyContent}</div>
+          <div class="conn-footer">${footerExtra}<button class="conn-revoke-btn" onclick="revokeConnection('${c.id}')">Révoquer l'accès</button></div>
+        </div>`;
+      }).join('');
+    }
+
+    let _connFilter = 'all';
+    function filterConnections(type, tab) {
+      _connFilter = type;
+      document.querySelectorAll('.filter-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      if (tab) tab.classList.add('active');
+      const allContacts = DB.members.filter(m => m.id !== 'me' && m.connectionType);
+      const filtered = type === 'all' ? allContacts : allContacts.filter(c => c.connectionType === type);
+      const list = document.getElementById('conn-list');
+      if (!list) return;
+      // Temporarily swap contacts for render
+      const saved = DB.members;
+      const fake  = [DB.members.find(m => m.id === 'me'), ...filtered];
+      DB.members = fake;
+      renderConnectionsList();
+      DB.members = saved;
+    }
+
+    function updateConnexionsCount(n, nAdmin, nManager, nShare) {
+      const badge = document.getElementById('connexions-count');
+      const title = document.getElementById('connexions-count-title');
+      if (badge) { badge.textContent = n; badge.style.display = n > 0 ? 'inline' : 'none'; }
+      if (title) title.textContent = '— ' + n + ' personne' + (n > 1 ? 's' : '');
+      const ids = { all: n, admin: nAdmin || 0, manager: nManager || 0, share: nShare || 0 };
+      Object.entries(ids).forEach(([k, v]) => {
+        const el = document.getElementById('rc-' + k);
+        if (el) el.textContent = v;
+      });
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PARTAGE DE CARTES
+       ══════════════════════════════════════════════════════════════════ */
+
+    // État initial : Freebox et RC partagés avec Fanny (cartes foyer)
+    const sharingState = {
+      'free': new Set(['fanny']),
+      'rc':   new Set(['fanny']),
+    };
+
+    let _shareCardId   = null;
+    let _shareCardName = null;
+
+    function openShareModal(cardId, cardName) {
+      _shareCardId   = cardId;
+      _shareCardName = cardName;
+      document.getElementById('share-card-label').textContent = 'Carte : ' + cardName;
+      renderShareUserList(cardId);
+      openModal('share-card');
+    }
+
+    function renderShareUserList(cardId) {
+      const shared   = sharingState[cardId] || new Set();
+      const contacts = DB.members.filter(m => m.id !== 'me');
+      document.getElementById('share-user-list').innerHTML = contacts.map(c => {
+        const isShared = shared.has(c.id);
+        return `
+          <div class="share-user-row ${isShared ? 'shared' : ''}" onclick="toggleShare('${cardId}','${c.id}')">
+            <div class="su-av" style="background:${c.color}">${c.initials}</div>
+            <div style="flex:1;">
+              <div class="su-name">${c.name}</div>
+              <div class="su-relation">${c.relation || ''}</div>
+            </div>
+            ${isShared
+              ? `<div class="su-check">✓</div>`
+              : `<div class="su-hint">Partager →</div>`}
+          </div>`;
+      }).join('');
+    }
+
+    function toggleShare(cardId, userId) {
+      if (!sharingState[cardId]) sharingState[cardId] = new Set();
+      const shared = sharingState[cardId];
+      const user   = DB.members.find(m => m.id === userId);
+      if (shared.has(userId)) {
+        shared.delete(userId);
+        showToast('Partage retiré pour ' + (user?.name || userId));
+      } else {
+        shared.add(userId);
+        showToast('✓ Carte partagée avec ' + (user?.name || userId));
+      }
+      renderShareUserList(cardId);
+      updateCardShareUI(cardId);
+      renderConnectionsList();
+    }
+
+    function updateCardShareUI(cardId) {
+      const panel = document.getElementById('ap-' + cardId);
+      if (!panel) return;
+      const card = panel.closest('.scard');
+      if (!card) return;
+
+      const shared   = sharingState[cardId] || new Set();
+      const users    = DB.members.filter(m => shared.has(m.id));
+      const shareBtn = card.querySelector('.scard-share-btn');
+
+      // Badge avatars sur l'image
+      let badge = card.querySelector('.share-badge');
+
+      if (users.length === 0) {
+        badge?.remove();
+        if (shareBtn) { shareBtn.classList.remove('has-shares'); shareBtn.innerHTML = '👥 Partager cette carte'; }
+        return;
+      }
+
+      const imgWrap = card.querySelector('.scard-img');
+      if (imgWrap && imgWrap.style.position !== 'relative') imgWrap.style.position = 'relative';
+      if (!badge && imgWrap) {
+        badge = document.createElement('div');
+        badge.className = 'share-badge';
+        imgWrap.appendChild(badge);
+      }
+      if (badge) {
+        badge.innerHTML = users.map(u =>
+          `<div class="share-av" style="background:${u.color}" title="Partagé avec ${u.name}">${u.initials}</div>`
+        ).join('');
+      }
+
+      if (shareBtn) {
+        const firstNames = users.map(u => u.name.split(' ')[0]).join(', ');
+        shareBtn.classList.add('has-shares');
+        shareBtn.innerHTML = `👥 Partagé avec ${firstNames}`;
+      }
+    }
+
+    // Injecte un bouton "Partager" dans chaque .scard du DOM
+    function injectShareButtons() {
+      document.querySelectorAll('.scard').forEach(card => {
+        const panel = card.querySelector('.attach-panel');
+        if (!panel) return;
+        const cardId   = panel.id.replace('ap-', '');
+        const nameSel  = card.querySelector('.scard-price-bar span:first-child');
+        const cardName = nameSel ? nameSel.textContent.trim() : cardId;
+
+        const btn = document.createElement('div');
+        btn.className = 'scard-share-btn';
+        btn.dataset.cardId = cardId;
+        btn.innerHTML = '👥 Partager cette carte';
+        btn.addEventListener('click', e => { e.stopPropagation(); openShareModal(cardId, cardName); });
+        panel.before(btn);
+      });
+    }
+
+    // Applique l'état de partage initial sur les cartes déjà dans le DOM
+    function applyInitialShares() {
+      Object.keys(sharingState).forEach(cardId => {
+        if (sharingState[cardId].size > 0) updateCardShareUI(cardId);
+      });
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PROPOSITIONS
+       ══════════════════════════════════════════════════════════════════ */
+
+    // Données exemple (en mémoire — sera Supabase en prod)
+    const proposals = [
+      {
+        id: 'p1', to: 'Fanny Bardanouve', toInitials: 'FB', toColor: '#f97316',
+        card: 'Spotify', cardCurrentPrice: null,
+        provider: 'RED Music', price: 4.99, conditions: 'Sans engagement', duration: '',
+        steps: ['Cliquer sur le lien RED Music', 'Créer un compte avec ton email', 'Activer dans l\'app (24h max)'],
+        message: 'Même qualité audio que Spotify, bien moins cher. Je t\'aide si besoin !',
+        urgent: false, status: 'pending', date: 'il y a 3j', expires: '15 juin 2026', declinedReason: null
+      },
+      {
+        id: 'p2', to: 'Linon De Roland', toInitials: 'LI', toColor: '#14b8a6',
+        card: 'Canal+', cardCurrentPrice: 20,
+        provider: 'Netflix', price: 13.49, conditions: 'Sans engagement', duration: '',
+        steps: ['Créer un compte Netflix', 'Je génère la lettre résiliation Canal+', 'Envoi en recommandé'],
+        message: 'Netflix + Prime Video = moins cher que Canal+ seul. Et plus de contenu.',
+        urgent: false, status: 'accepted', date: 'il y a 1 semaine', expires: null, declinedReason: null
+      },
+      {
+        id: 'p3', to: 'Lucho De Roland', toInitials: 'LU', toColor: '#8b5cf6',
+        card: 'Freebox', cardCurrentPrice: 39.99,
+        provider: 'RED Box', price: 10, conditions: 'Sans engagement', duration: 'Durant 2 ans',
+        steps: ['Cliquer sur le lien', 'Prendre RDV téléphonique', 'C\'est activé !'],
+        message: 'Bonne offre fiable. Je t\'aiderai à l\'activer.',
+        urgent: true, status: 'declined', date: 'il y a 5j', expires: null, declinedReason: 'Préfère changer seul'
+      }
+    ];
+
+    let _propCtx = { memberName: '', memberInitials: '', memberColor: '', cardLabel: '', cardPrice: null };
+
+    // Injecter le bouton "Proposer" sur chaque scard du forfaits
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#section-forfaits .scard-footer').forEach(footer => {
+        const priceBar = footer.querySelector('[class*="price-bar"]');
+        const cardLabel = priceBar?.querySelector('span:first-child')?.textContent?.trim() || 'Abonnement';
+        const cardPriceText = priceBar?.querySelector('span:last-child')?.textContent || '';
+        const cardPrice = parseFloat(cardPriceText) || null;
+        const btn = document.createElement('div');
+        btn.className = 'scard-propose-link';
+        btn.innerHTML = '💡 Proposer une meilleure offre';
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          openProposalModal(cardLabel, cardPrice, btn.dataset.member || '', btn.dataset.memberInitials || '', btn.dataset.memberColor || 'var(--blue)');
+        };
+        footer.appendChild(btn);
+      });
+      updateProposalsBadge();
+    });
+
+    function openProposalModal(cardLabel, cardPrice, memberName, memberInitials, memberColor) {
+      _propCtx = { memberName, memberInitials, memberColor, cardLabel, cardPrice };
+      document.getElementById('prop-member-av').textContent = memberInitials;
+      document.getElementById('prop-member-av').style.background = memberColor;
+      document.getElementById('prop-member-name').textContent = memberName;
+      document.getElementById('prop-card-label').textContent = cardLabel;
+      // Reset
+      ['prop-provider','prop-duration','prop-message','prop-expires'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('prop-price').value = '';
+      document.getElementById('prop-urgent').checked = false;
+      document.getElementById('prop-savings-bar').style.display = 'none';
+      document.querySelectorAll('#prop-cond-chips .cond-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
+      document.getElementById('prop-steps-list').innerHTML = `
+        <div class="step-row"><div class="step-num">1</div><input type="text" placeholder="ex : Cliquer sur le lien ci-dessous" /><button class="step-remove" onclick="removeProposalStep(this)">×</button></div>
+        <div class="step-row"><div class="step-num">2</div><input type="text" placeholder="ex : Entrer le code promo" /><button class="step-remove" onclick="removeProposalStep(this)">×</button></div>`;
+      openModal('propose');
+    }
+
+    function selectCondChip(chip) {
+      document.querySelectorAll('#prop-cond-chips .cond-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    }
+
+    function addProposalStep() {
+      const list = document.getElementById('prop-steps-list');
+      const n = list.children.length + 1;
+      const row = document.createElement('div');
+      row.className = 'step-row';
+      row.innerHTML = `<div class="step-num">${n}</div><input type="text" placeholder="Étape ${n}…" /><button class="step-remove" onclick="removeProposalStep(this)">×</button>`;
+      list.appendChild(row);
+    }
+
+    function removeProposalStep(btn) {
+      const list = document.getElementById('prop-steps-list');
+      if (list.children.length <= 1) return;
+      btn.closest('.step-row').remove();
+      list.querySelectorAll('.step-num').forEach((el, i) => el.textContent = i + 1);
+    }
+
+    function updatePropSavings() {
+      const newPrice = parseFloat(document.getElementById('prop-price').value);
+      const current  = _propCtx.cardPrice;
+      const bar      = document.getElementById('prop-savings-bar');
+      if (current && !isNaN(newPrice) && newPrice < current) {
+        const s = current - newPrice;
+        document.getElementById('prop-savings-amount').textContent = s.toFixed(2) + '€';
+        document.getElementById('prop-savings-year').textContent   = (s * 12).toFixed(0) + '€';
+        bar.style.display = 'flex';
+      } else {
+        bar.style.display = 'none';
+      }
+    }
+
+    function submitProposal() {
+      const provider = document.getElementById('prop-provider').value.trim();
+      const price    = parseFloat(document.getElementById('prop-price').value);
+      if (!provider) { showToast('Veuillez indiquer le fournisseur.'); return; }
+      if (isNaN(price) || price < 0) { showToast('Veuillez indiquer un prix valide.'); return; }
+      const steps      = Array.from(document.querySelectorAll('#prop-steps-list input')).map(i => i.value.trim()).filter(Boolean);
+      const conditions = document.querySelector('#prop-cond-chips .cond-chip.active')?.textContent || 'Sans engagement';
+      const expiresRaw = document.getElementById('prop-expires').value;
+      const expires    = expiresRaw ? new Date(expiresRaw).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }) : null;
+      proposals.unshift({
+        id: 'p' + Date.now(),
+        to: _propCtx.memberName, toInitials: _propCtx.memberInitials, toColor: _propCtx.memberColor,
+        card: _propCtx.cardLabel, cardCurrentPrice: _propCtx.cardPrice,
+        provider, price, conditions,
+        duration:  document.getElementById('prop-duration').value.trim(),
+        steps,
+        message:   document.getElementById('prop-message').value.trim(),
+        urgent:    document.getElementById('prop-urgent').checked,
+        status: 'pending', date: 'à l\'instant', expires, declinedReason: null
+      });
+      closeModal('propose');
+      updateProposalsBadge();
+      showToast('Proposition envoyée à ' + _propCtx.memberName + ' 📨');
+    }
+
+    function updateProposalsBadge() {
+      const n     = proposals.filter(p => p.status === 'pending').length;
+      const badge = document.getElementById('proposals-badge');
+      if (badge) { badge.textContent = n; badge.style.display = n > 0 ? 'inline' : 'none'; }
+    }
+
+    function openProposalsDashboard() {
+      renderProposalsDashboard();
+      openModal('proposals');
+    }
+
+    let _propFilter = 'all';
+    function filterProposals(type, tab) {
+      _propFilter = type;
+      document.querySelectorAll('#prop-filter-tabs .filter-tab').forEach(t => t.classList.remove('active'));
+      if (tab) tab.classList.add('active');
+      renderProposalsDashboard();
+    }
+
+    function renderProposalsDashboard() {
+      const pending   = proposals.filter(p => p.status === 'pending').length;
+      const accepted  = proposals.filter(p => p.status === 'accepted').length;
+      const declined  = proposals.filter(p => p.status === 'declined').length;
+      const savings   = proposals.filter(p => p.status === 'accepted' && p.cardCurrentPrice).reduce((a, p) => a + (p.cardCurrentPrice - p.price), 0);
+      // Update tab counts
+      const counts = { all: proposals.length, pending, accepted, declined };
+      Object.entries(counts).forEach(([k, v]) => { const el = document.getElementById('fc-' + k); if (el) el.textContent = v; });
+      // Update section title
+      const title = document.getElementById('prop-count-title');
+      if (title) title.textContent = '— ' + proposals.length + ' proposition' + (proposals.length > 1 ? 's' : '');
+      document.getElementById('prop-stats').innerHTML = `
+        <div class="prop-stat"><div class="prop-stat-num" style="color:#ca8a04">${pending}</div><div class="prop-stat-label">En attente</div></div>
+        <div class="prop-stat"><div class="prop-stat-num" style="color:var(--green)">${accepted}</div><div class="prop-stat-label">Acceptées</div></div>
+        <div class="prop-stat"><div class="prop-stat-num" style="color:var(--red)">${declined}</div><div class="prop-stat-label">Refusées</div></div>
+        ${savings > 0 ? `<div class="prop-stat"><div class="prop-stat-num" style="color:var(--green)">${savings.toFixed(0)}€</div><div class="prop-stat-label">Éco./mois générées</div></div>` : ''}`;
+      const labels = { pending:'En attente', accepted:'Acceptée ✓', declined:'Refusée', cancelled:'Annulée', expired:'Expirée' };
+      const filtered = _propFilter === 'all' ? proposals : proposals.filter(p => p.status === _propFilter);
+      document.getElementById('prop-list').innerHTML = filtered.map(p => {
+        const savings = p.cardCurrentPrice ? (p.cardCurrentPrice - p.price) : null;
+        return `<div class="proposal-item">
+          <div class="prop-item-header">
+            <div class="prop-item-av" style="background:${p.toColor}">${p.toInitials}</div>
+            <div class="prop-item-info">
+              <div class="prop-item-name">${p.to}</div>
+              <div class="prop-item-card">Concerne : ${p.card} · ${p.date}</div>
+            </div>
+            <span class="prop-status-badge ${p.status}">${labels[p.status]||p.status}</span>
+            ${p.urgent ? '<span style="font-size:11px;color:var(--red);font-weight:700;white-space:nowrap;">🔴 URGENT</span>' : ''}
+          </div>
+          <div class="prop-item-offer">
+            <span class="prop-offer-name">${p.provider}</span>
+            <span class="prop-offer-price">${p.price}€/mois</span>
+            ${savings > 0 ? `<span class="prop-offer-savings">↓ ${savings.toFixed(2)}€/mois d'économie</span>` : ''}
+          </div>
+          ${p.duration ? `<div class="prop-item-meta">📅 ${p.duration}${p.conditions ? ' · ' + p.conditions : ''}</div>` : (p.conditions ? `<div class="prop-item-meta">${p.conditions}</div>` : '')}
+          ${p.expires ? `<div class="prop-item-meta">⏳ Valable jusqu'au ${p.expires}</div>` : ''}
+          ${p.message ? `<div class="prop-item-msg">"${p.message}"</div>` : ''}
+          ${p.declinedReason ? `<div class="prop-declined-reason">Motif : "${p.declinedReason}"</div>` : ''}
+          <div class="prop-item-footer">
+            ${p.status === 'pending' ? `<button class="prop-remind-btn" onclick="showToast('Relance envoyée à ${p.to} !')">Relancer</button><button class="prop-cancel-btn" onclick="cancelProposal('${p.id}')">Annuler</button>` : ''}
+          </div>
+        </div>`;
+      }).join('') || `<div style="text-align:center;padding:48px 24px;color:var(--text-3);">
+        <div style="font-size:40px;margin-bottom:12px;">💡</div>
+        <div style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Aucune proposition ${_propFilter !== 'all' ? 'dans cette catégorie' : 'envoyée'}</div>
+        <div style="font-size:13px;">Sélectionnez un membre dans Forfaits &amp; services, puis cliquez sur une carte pour proposer une offre.</div>
+      </div>`;
+    }
+
+    function cancelProposal(id) {
+      if (!confirm('Annuler cette proposition ?')) return;
+      const p = proposals.find(p => p.id === id);
+      if (p) p.status = 'cancelled';
+      renderProposalsDashboard();
+      updateProposalsBadge();
+      showToast('Proposition annulée.');
+    }
+
   </script>
 </body>
 </html>
