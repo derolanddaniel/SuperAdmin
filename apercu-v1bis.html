@@ -2782,6 +2782,26 @@
       if (panel) makeSortable(panel);
     }
 
+    function injectCardButtons(card, label, price = null) {
+      const footer = card.querySelector('.scard-footer');
+      if (!footer) return;
+      const propBtn = document.createElement('div');
+      propBtn.className = 'scard-propose-link';
+      propBtn.innerHTML = '💡 Proposer une meilleure offre';
+      propBtn.onclick = (e) => {
+        e.stopPropagation();
+        const m = card.closest('[class*="other-ctx"]') ? (propBtn.dataset.member || '') : '';
+        openProposalModal(label, price, m, propBtn.dataset.memberInitials || '', propBtn.dataset.memberColor || 'var(--blue)');
+      };
+      footer.appendChild(propBtn);
+
+      const editBtn = document.createElement('div');
+      editBtn.className = 'scard-edit-link';
+      editBtn.innerHTML = '✏️ Modifier cet abonnement';
+      editBtn.onclick = (e) => { e.stopPropagation(); openEditModal(editBtn.closest('.scard')); };
+      footer.appendChild(editBtn);
+    }
+
     function addCard(sectionId, emoji, label) {
       const section = document.getElementById('section-' + sectionId);
       if (!section) return;
@@ -2789,6 +2809,8 @@
       const card = buildCardEl(emoji, label);
       card.style.animation = 'fadeIn 0.3s ease';
       insertCardInSection(section, card);
+
+      if (sectionId === 'forfaits') injectCardButtons(card, label);
 
       const catLabel = DB.cardSuggestions.find(c => c.id === sectionId)?.label || sectionId;
       showToast(`✓ "${label}" ajouté dans ${catLabel}`);
@@ -3214,12 +3236,6 @@
       }
     }
 
-    // Ouvrir Identité depuis sidebar
-    document.querySelector('.sidebar ul li:first-child').addEventListener('click', function() {
-      showSection('identite', null);
-      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.cat-tab')[0].classList.add('active');
-    });
 
     /* ══════════════════════════════════════════════════════════════════
        GESTION DES CONNEXIONS
@@ -3530,21 +3546,14 @@
 
     let _propCtx = { memberName: '', memberInitials: '', memberColor: '', cardLabel: '', cardPrice: null };
 
-    // Injecter le bouton "Proposer" sur chaque scard du forfaits
+    // Injecter les boutons "Proposer" et "Modifier" sur chaque scard de forfaits
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('#section-forfaits .scard-footer').forEach(footer => {
-        const priceBar = footer.querySelector('[class*="price-bar"]');
+      document.querySelectorAll('#section-forfaits .scard').forEach(scard => {
+        const priceBar = scard.querySelector('.scard-price-bar');
         const cardLabel = priceBar?.querySelector('span:first-child')?.textContent?.trim() || 'Abonnement';
         const cardPriceText = priceBar?.querySelector('span:last-child')?.textContent || '';
         const cardPrice = parseFloat(cardPriceText) || null;
-        const btn = document.createElement('div');
-        btn.className = 'scard-propose-link';
-        btn.innerHTML = '💡 Proposer une meilleure offre';
-        btn.onclick = (e) => {
-          e.stopPropagation();
-          openProposalModal(cardLabel, cardPrice, btn.dataset.member || '', btn.dataset.memberInitials || '', btn.dataset.memberColor || 'var(--blue)');
-        };
-        footer.appendChild(btn);
+        injectCardButtons(scard, cardLabel, cardPrice);
       });
       updateProposalsBadge();
     });
@@ -3709,28 +3718,16 @@
     let _editScard = null;
     let _editSelectedStatus = 'active';
 
-    // Inject edit button on every forfaits scard footer
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('#section-forfaits .scard-footer').forEach(footer => {
-        const btn = document.createElement('div');
-        btn.className = 'scard-edit-link';
-        btn.innerHTML = '✏️ Modifier cet abonnement';
-        btn.onclick = (e) => {
-          e.stopPropagation();
-          openEditModal(btn.closest('.scard'));
-        };
-        footer.appendChild(btn);
-      });
-    });
-
     function openEditModal(scard) {
       _editScard = scard;
       // Detect current status from overlay / bar class
       const bar = scard.querySelector('.scard-price-bar');
-      const hasInactif = !!scard.querySelector('.inactif-overlay');
-      const isCancelling = bar && bar.classList.contains('orange-bar') && bar.querySelector('span:last-child')?.textContent?.includes('résil');
-      const isCancelled = bar && bar.classList.contains('grey-bar') && bar.querySelector('span:last-child')?.textContent?.toLowerCase() === 'résilié';
-      _editSelectedStatus = hasInactif ? 'inactive' : isCancelling ? 'cancelling' : isCancelled ? 'cancelled' : 'active';
+      const barText = bar?.querySelector('span:last-child')?.textContent?.toLowerCase().trim() || '';
+      const hasCancelOverlay = !!scard.querySelector('.cancel-overlay');
+      _editSelectedStatus = hasCancelOverlay ? 'cancelling'
+        : barText === 'résilié' ? 'cancelled'
+        : (barText === 'inactif' || (!!scard.querySelector('.inactif-overlay') && !hasCancelOverlay)) ? 'inactive'
+        : 'active';
 
       // Title
       const label = bar?.querySelector('span:first-child')?.textContent?.trim() || 'Abonnement';
@@ -3796,40 +3793,20 @@
         if (spans[1]) spans[1].textContent = priceSpanTexts[_editSelectedStatus];
       }
 
-      // Inactif overlay
-      let overlay = _editScard.querySelector('.inactif-overlay');
-      if (_editSelectedStatus === 'inactive' || _editSelectedStatus === 'cancelled') {
-        if (!overlay) {
-          const img = _editScard.querySelector('.scard-img');
-          if (img) {
-            overlay = document.createElement('div');
-            overlay.className = 'inactif-overlay';
-            overlay.innerHTML = `<span class="inactif-badge">${_editSelectedStatus === 'cancelled' ? 'Résilié' : 'Inactif'}</span>`;
-            img.style.position = 'relative';
-            img.appendChild(overlay);
-          }
+      // Clear all overlays first, then add the right one
+      _editScard.querySelectorAll('.inactif-overlay').forEach(el => el.remove());
+      const img = _editScard.querySelector('.scard-img');
+      if (img && _editSelectedStatus !== 'active') {
+        img.style.position = 'relative';
+        const overlay = document.createElement('div');
+        if (_editSelectedStatus === 'cancelling') {
+          overlay.className = 'inactif-overlay cancel-overlay';
+          overlay.innerHTML = `<span class="inactif-badge" style="background:#f97316;">Résiliation en cours</span>`;
         } else {
-          overlay.querySelector('.inactif-badge').textContent = _editSelectedStatus === 'cancelled' ? 'Résilié' : 'Inactif';
+          overlay.className = 'inactif-overlay';
+          overlay.innerHTML = `<span class="inactif-badge">${_editSelectedStatus === 'cancelled' ? 'Résilié' : 'Inactif'}</span>`;
         }
-      } else {
-        if (overlay) overlay.remove();
-      }
-
-      // Orange "résiliation" overlay for cancelling
-      let cancelOverlay = _editScard.querySelector('.cancel-overlay');
-      if (_editSelectedStatus === 'cancelling') {
-        if (!cancelOverlay) {
-          const img = _editScard.querySelector('.scard-img');
-          if (img) {
-            cancelOverlay = document.createElement('div');
-            cancelOverlay.className = 'inactif-overlay cancel-overlay';
-            cancelOverlay.innerHTML = `<span class="inactif-badge" style="background:#f97316;">Résiliation en cours</span>`;
-            img.style.position = 'relative';
-            img.appendChild(cancelOverlay);
-          }
-        }
-      } else {
-        if (cancelOverlay) cancelOverlay.remove();
+        img.appendChild(overlay);
       }
 
       // Renewal date stamp
