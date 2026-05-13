@@ -1189,6 +1189,19 @@
     .reseau-legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-2); }
     .reseau-legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 
+    /* ── EDIT SUBSCRIPTION ── */
+    .scard-edit-link { display:flex; align-items:center; gap:6px; padding:7px 10px; font-size:12px; font-weight:600; color:var(--text-3); cursor:pointer; border-top:1px solid var(--border); transition:background 0.15s; }
+    .scard-edit-link:hover { background:var(--surface2); color:var(--text-1); }
+    .status-options { display:flex; flex-direction:column; gap:6px; margin-bottom:4px; }
+    .status-opt { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1.5px solid var(--border); border-radius:var(--r-sm); cursor:pointer; transition:all 0.15s; }
+    .status-opt:hover { border-color:var(--blue); }
+    .status-opt.active { border-color:var(--blue); background:var(--blue-bg); }
+    .status-opt-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .status-opt-label { font-size:13px; font-weight:600; color:var(--text-1); }
+    .status-opt-sub { font-size:11px; color:var(--text-3); margin-top:1px; }
+    .delete-card-btn { width:100%; padding:10px; font-size:13px; font-weight:600; color:var(--red); background:rgba(239,68,68,0.06); border:1.5px solid rgba(239,68,68,0.2); border-radius:var(--r-sm); cursor:pointer; margin-bottom:12px; transition:all 0.15s; }
+    .delete-card-btn:hover { background:rgba(239,68,68,0.14); border-color:rgba(239,68,68,0.4); }
+
   </style>
 </head>
 <body>
@@ -2176,6 +2189,80 @@
       <div class="modal-actions" style="margin-top:12px;">
         <button class="modal-btn-cancel" onclick="closeModal('add-card')">Annuler</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL : MODIFIER UN ABONNEMENT ═══ -->
+  <div id="modal-edit-scard" class="modal-overlay" onclick="closeModal('edit-scard')">
+    <div class="modal-box" style="max-width:420px;width:95%;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px;">Modifier</div>
+          <h3 style="margin:0;" id="edit-modal-title">Abonnement</h3>
+        </div>
+        <button onclick="closeModal('edit-scard')" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-3);padding:4px 8px;">×</button>
+      </div>
+
+      <!-- Statut -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:8px;">Statut</div>
+        <div class="status-options">
+          <div class="status-opt active" data-status="active" onclick="selectStatus(this)">
+            <div class="status-opt-dot" style="background:#22c55e;"></div>
+            <div>
+              <div class="status-opt-label">Actif</div>
+              <div class="status-opt-sub">Abonnement en cours</div>
+            </div>
+          </div>
+          <div class="status-opt" data-status="inactive" onclick="selectStatus(this)">
+            <div class="status-opt-dot" style="background:#94a3b8;"></div>
+            <div>
+              <div class="status-opt-label">Inactif</div>
+              <div class="status-opt-sub">Suspendu ou non utilisé</div>
+            </div>
+          </div>
+          <div class="status-opt" data-status="cancelling" onclick="selectStatus(this)">
+            <div class="status-opt-dot" style="background:#f97316;"></div>
+            <div>
+              <div class="status-opt-label">En cours de résiliation</div>
+              <div class="status-opt-sub">Résiliation initiée, préavis en cours</div>
+            </div>
+          </div>
+          <div class="status-opt" data-status="cancelled" onclick="selectStatus(this)">
+            <div class="status-opt-dot" style="background:#ef4444;"></div>
+            <div>
+              <div class="status-opt-label">Résilié</div>
+              <div class="status-opt-sub">Abonnement terminé</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prix -->
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px;font-weight:700;color:var(--text-2);display:block;margin-bottom:6px;">Prix mensuel (€)</label>
+        <input id="edit-price" type="number" min="0" step="0.01" placeholder="ex : 9.99"
+          style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:14px;font-weight:600;color:var(--text-1);outline:none;font-family:inherit;" />
+      </div>
+
+      <!-- Date de renouvellement -->
+      <div style="margin-bottom:18px;">
+        <label style="font-size:12px;font-weight:700;color:var(--text-2);display:block;margin-bottom:6px;">Date de renouvellement</label>
+        <input id="edit-date" type="date"
+          style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;color:var(--text-1);outline:none;font-family:inherit;" />
+      </div>
+
+      <!-- Note -->
+      <div style="margin-bottom:22px;">
+        <label style="font-size:12px;font-weight:700;color:var(--text-2);display:block;margin-bottom:6px;">Note (optionnel)</label>
+        <textarea id="edit-note" rows="2" placeholder="ex : Résilié le 12/05, en attente confirmation…"
+          style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;color:var(--text-1);resize:vertical;outline:none;font-family:inherit;"></textarea>
+      </div>
+
+      <!-- Boutons -->
+      <button onclick="saveCardEdit()" style="width:100%;padding:11px;background:var(--blue);color:#fff;border:none;border-radius:var(--r-sm);font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit;">Enregistrer</button>
+      <button class="delete-card-btn" onclick="deleteCard()">🗑 Supprimer cet abonnement</button>
+      <button onclick="closeModal('edit-scard')" style="width:100%;padding:9px;background:none;border:none;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit;">Annuler</button>
     </div>
   </div>
 
@@ -3616,6 +3703,179 @@
       renderProposalsDashboard();
       updateProposalsBadge();
       showToast('Proposition annulée.');
+    }
+
+    // ── EDIT SUBSCRIPTION CARD ──
+    let _editScard = null;
+    let _editSelectedStatus = 'active';
+
+    // Inject edit button on every forfaits scard footer
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#section-forfaits .scard-footer').forEach(footer => {
+        const btn = document.createElement('div');
+        btn.className = 'scard-edit-link';
+        btn.innerHTML = '✏️ Modifier cet abonnement';
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          openEditModal(btn.closest('.scard'));
+        };
+        footer.appendChild(btn);
+      });
+    });
+
+    function openEditModal(scard) {
+      _editScard = scard;
+      // Detect current status from overlay / bar class
+      const bar = scard.querySelector('.scard-price-bar');
+      const hasInactif = !!scard.querySelector('.inactif-overlay');
+      const isCancelling = bar && bar.classList.contains('orange-bar') && bar.querySelector('span:last-child')?.textContent?.includes('résil');
+      const isCancelled = bar && bar.classList.contains('grey-bar') && bar.querySelector('span:last-child')?.textContent?.toLowerCase() === 'résilié';
+      _editSelectedStatus = hasInactif ? 'inactive' : isCancelling ? 'cancelling' : isCancelled ? 'cancelled' : 'active';
+
+      // Title
+      const label = bar?.querySelector('span:first-child')?.textContent?.trim() || 'Abonnement';
+      document.getElementById('edit-modal-title').textContent = label;
+
+      // Highlight current status
+      document.querySelectorAll('#modal-edit-scard .status-opt').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.status === _editSelectedStatus);
+      });
+
+      // Price
+      const priceText = bar?.querySelector('span:last-child')?.textContent || '';
+      const priceMatch = priceText.match(/[\d,.]+/);
+      document.getElementById('edit-price').value = priceMatch ? parseFloat(priceMatch[0].replace(',', '.')) : '';
+
+      // Date — look for existing stamp text like "Renouvellement : DD/MM/YYYY"
+      const stamp = scard.querySelector('.renew-stamp-text');
+      let dateVal = '';
+      if (stamp) {
+        const m = stamp.textContent.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+        if (m) dateVal = `${m[3]}-${m[2]}-${m[1]}`;
+      }
+      document.getElementById('edit-date').value = dateVal;
+
+      // Note
+      const noteEl = scard.querySelector('.scard-note');
+      document.getElementById('edit-note').value = noteEl ? noteEl.textContent : '';
+
+      openModal('edit-scard');
+    }
+
+    function selectStatus(opt) {
+      document.querySelectorAll('#modal-edit-scard .status-opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      _editSelectedStatus = opt.dataset.status;
+    }
+
+    function saveCardEdit() {
+      if (!_editScard) return;
+      const bar = _editScard.querySelector('.scard-price-bar');
+      const label = bar?.querySelector('span:first-child')?.textContent?.trim() || 'Abonnement';
+      const priceInput = parseFloat(document.getElementById('edit-price').value);
+      const dateVal = document.getElementById('edit-date').value;
+      const note = document.getElementById('edit-note').value.trim();
+
+      // Update price bar class + text
+      const barClasses = { active:'green-bar', inactive:'grey-bar', cancelling:'orange-bar', cancelled:'grey-bar' };
+      const barTexts = {
+        active: isNaN(priceInput) ? label : `${label} · ${priceInput.toFixed(2).replace('.00','')}€/mois`,
+        inactive: label,
+        cancelling: label,
+        cancelled: label
+      };
+      const priceSpanTexts = {
+        active: isNaN(priceInput) ? '—' : `${priceInput.toFixed(2).replace('.00','')}€/mois`,
+        inactive: 'inactif',
+        cancelling: 'résiliation…',
+        cancelled: 'résilié'
+      };
+      if (bar) {
+        bar.className = 'scard-price-bar ' + barClasses[_editSelectedStatus];
+        const spans = bar.querySelectorAll('span');
+        if (spans[1]) spans[1].textContent = priceSpanTexts[_editSelectedStatus];
+      }
+
+      // Inactif overlay
+      let overlay = _editScard.querySelector('.inactif-overlay');
+      if (_editSelectedStatus === 'inactive' || _editSelectedStatus === 'cancelled') {
+        if (!overlay) {
+          const img = _editScard.querySelector('.scard-img');
+          if (img) {
+            overlay = document.createElement('div');
+            overlay.className = 'inactif-overlay';
+            overlay.innerHTML = `<span class="inactif-badge">${_editSelectedStatus === 'cancelled' ? 'Résilié' : 'Inactif'}</span>`;
+            img.style.position = 'relative';
+            img.appendChild(overlay);
+          }
+        } else {
+          overlay.querySelector('.inactif-badge').textContent = _editSelectedStatus === 'cancelled' ? 'Résilié' : 'Inactif';
+        }
+      } else {
+        if (overlay) overlay.remove();
+      }
+
+      // Orange "résiliation" overlay for cancelling
+      let cancelOverlay = _editScard.querySelector('.cancel-overlay');
+      if (_editSelectedStatus === 'cancelling') {
+        if (!cancelOverlay) {
+          const img = _editScard.querySelector('.scard-img');
+          if (img) {
+            cancelOverlay = document.createElement('div');
+            cancelOverlay.className = 'inactif-overlay cancel-overlay';
+            cancelOverlay.innerHTML = `<span class="inactif-badge" style="background:#f97316;">Résiliation en cours</span>`;
+            img.style.position = 'relative';
+            img.appendChild(cancelOverlay);
+          }
+        }
+      } else {
+        if (cancelOverlay) cancelOverlay.remove();
+      }
+
+      // Renewal date stamp
+      let stamp = _editScard.querySelector('.renew-stamp');
+      if (dateVal) {
+        const [y, m, d] = dateVal.split('-');
+        const formatted = `${d}/${m}/${y}`;
+        if (!stamp) {
+          stamp = document.createElement('div');
+          stamp.className = 'renew-stamp';
+          stamp.style.cssText = 'font-size:11px;color:var(--text-3);padding:5px 12px 4px;border-top:1px solid var(--border-lt);';
+          const footer = _editScard.querySelector('.scard-footer');
+          if (footer) footer.insertBefore(stamp, footer.firstChild);
+        }
+        stamp.innerHTML = `<span class="renew-stamp-text">🔁 Renouvellement : ${formatted}</span>`;
+      } else if (stamp) {
+        stamp.remove();
+      }
+
+      // Note
+      let noteEl = _editScard.querySelector('.scard-note');
+      if (note) {
+        if (!noteEl) {
+          noteEl = document.createElement('div');
+          noteEl.className = 'scard-note';
+          noteEl.style.cssText = 'font-size:11px;color:var(--text-3);padding:4px 12px 6px;font-style:italic;';
+          const footer = _editScard.querySelector('.scard-footer');
+          if (footer) footer.appendChild(noteEl);
+        }
+        noteEl.textContent = note;
+      } else if (noteEl) {
+        noteEl.remove();
+      }
+
+      closeModal('edit-scard');
+      showToast('Abonnement mis à jour ✓');
+    }
+
+    function deleteCard() {
+      if (!_editScard) return;
+      const label = _editScard.querySelector('.scard-price-bar span:first-child')?.textContent?.trim() || 'cet abonnement';
+      if (!confirm(`Supprimer "${label}" ? Cette action est irréversible.`)) return;
+      _editScard.remove();
+      _editScard = null;
+      closeModal('edit-scard');
+      showToast('Abonnement supprimé.');
     }
 
   </script>
