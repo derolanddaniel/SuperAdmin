@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Analyse de risque</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent: #4f7cff;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --orange: #f97316;
+      --teal: #14b8a6;
+      --purple: #a855f7;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      padding-bottom: 80px;
+    }
+
+    /* ── NAV ── */
+    .topnav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; gap: 0;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .topnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 20px;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted); text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a0a0a 0%, #0f1117 50%, #0f1a1a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 48px 32px;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.35);
+      color: var(--red);
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .hero p { color: var(--muted); font-size: 15px; max-width: 680px; }
+    .hero .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .pill {
+      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+    }
+    .pill-red    { background: rgba(239,68,68,0.1);   color: var(--red);    border: 1px solid rgba(239,68,68,0.25); }
+    .pill-yellow { background: rgba(234,179,8,0.1);   color: var(--yellow); border: 1px solid rgba(234,179,8,0.25); }
+    .pill-green  { background: rgba(34,197,94,0.1);   color: var(--green);  border: 1px solid rgba(34,197,94,0.25); }
+    .pill-blue   { background: rgba(79,124,255,0.1);  color: var(--accent); border: 1px solid rgba(79,124,255,0.25); }
+
+    /* ── LAYOUT ── */
+    .content { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 56px; }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--red);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-size: 20px; font-weight: 700; color: #fff;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── RISK CARDS ── */
+    .risk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+    .risk-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+    }
+    .risk-card.critical { border-left: 4px solid var(--red); }
+    .risk-card.major    { border-left: 4px solid var(--orange); }
+    .risk-card.moderate { border-left: 4px solid var(--yellow); }
+    .risk-card.low      { border-left: 4px solid var(--green); }
+
+    .risk-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+    .risk-title { font-size: 13px; font-weight: 700; color: #fff; }
+    .risk-level {
+      font-size: 10px; font-weight: 700; padding: 3px 8px;
+      border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+    }
+    .level-critical { background: rgba(239,68,68,0.15);   color: var(--red); }
+    .level-major    { background: rgba(249,115,22,0.15);  color: var(--orange); }
+    .level-moderate { background: rgba(234,179,8,0.15);   color: var(--yellow); }
+    .level-low      { background: rgba(34,197,94,0.15);   color: var(--green); }
+
+    .risk-desc { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.6; }
+    .risk-mitigation {
+      font-size: 12px;
+      background: rgba(79,124,255,0.06);
+      border: 1px solid rgba(79,124,255,0.15);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #94c5f8;
+    }
+    .risk-mitigation strong { color: #a8d4ff; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* ── VERDICT ── */
+    .verdict {
+      background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(79,124,255,0.06));
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      text-align: center;
+      margin: 24px 0;
+    }
+    .verdict .icon { font-size: 36px; margin-bottom: 12px; }
+    .verdict h3 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .verdict p { color: var(--muted); font-size: 14px; max-width: 640px; margin: 0 auto; }
+    .verdict p + p { margin-top: 8px; }
+
+    /* ── TABLE ── */
+    .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: var(--surface2); color: var(--muted);
+      font-size: 11px; font-weight: 600; text-align: left;
+      padding: 9px 14px; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid rgba(46,51,80,0.5); color: var(--text); vertical-align: top; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* ── TAGS ── */
+    .tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 10px; margin: 1px 2px;
+    }
+    .tag-green  { background: rgba(34,197,94,0.12);   color: var(--green); }
+    .tag-blue   { background: rgba(79,124,255,0.12);  color: var(--accent); }
+    .tag-yellow { background: rgba(234,179,8,0.12);   color: var(--yellow); }
+    .tag-orange { background: rgba(249,115,22,0.12);  color: var(--orange); }
+    .tag-red    { background: rgba(239,68,68,0.12);   color: var(--red); }
+    .tag-purple { background: rgba(168,85,247,0.12);  color: var(--purple); }
+
+    /* ── SCORE MATRIX ── */
+    .matrix { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-radius: 8px; overflow: hidden; margin: 16px 0; }
+    .matrix-cell {
+      background: var(--surface);
+      padding: 12px;
+      font-size: 12px;
+      text-align: center;
+    }
+    .matrix-cell.header { background: var(--surface2); color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .score-high { background: rgba(239,68,68,0.15); color: var(--red); font-weight: 700; font-size: 13px; }
+    .score-med  { background: rgba(234,179,8,0.1);  color: var(--yellow); font-weight: 600; font-size: 13px; }
+    .score-low  { background: rgba(34,197,94,0.1);  color: var(--green); font-weight: 600; font-size: 13px; }
+
+    @media (max-width: 768px) {
+      .risk-grid { grid-template-columns: 1fr; }
+      .hero { padding: 24px; }
+      .content { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="apercu-v1.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#a855f7;display:inline-block;"></span>
+      Maquette
+    </a>
+    <a href="apercu-v1bis.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#f97316;display:inline-block;"></span>
+      SuperAdmin
+    </a>
+    <a href="features-couple.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#e91e8c;display:inline-block;"></span>
+      Couple &amp; Famille
+    </a>
+    <a href="pitch.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#0d9488;display:inline-block;"></span>
+      Le Produit
+    </a>
+    <a href="making-of.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+      Making Of
+    </a>
+    <a href="analyse-risques.html" class="active" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#ef4444;display:inline-block;"></span>
+      Analyse de risque
+    </a>
+  </nav>
+
+  <div class="hero">
+    <div class="badge">Risques · Légal · Technique · Business</div>
+    <h1>Analyse de risque — SuperAdmin</h1>
+    <p>Risques légaux, techniques, base de données et business. Chaque risque est accompagné de sa mitigation concrète avant le lancement en production.</p>
+    <div class="pills">
+      <span class="pill pill-red">4 risques critiques</span>
+      <span class="pill pill-yellow">6 risques majeurs</span>
+      <span class="pill pill-blue">5 risques techniques BDD</span>
+      <span class="pill pill-green">V1 viable avec cadrage</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 1. RÉSUMÉ EXÉCUTIF                                  -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Verdict</div>
+      <h2>Résumé exécutif</h2>
+
+      <div class="verdict">
+        <div class="icon">✅</div>
+        <h3>V1 faisable — avec une structure légale adaptée</h3>
+        <p>La version <strong>"délégation familiale + alertes abonnements"</strong> peut se lancer rapidement si la plateforme reste un <strong>outil d'information et d'organisation</strong>, jamais un acteur agissant à la place de l'utilisateur.</p>
+        <p style="margin-top: 10px;"><strong>L'idée est bonne. L'exécution légale sera le vrai différenciateur face aux clones.</strong></p>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Dimension</th><th>Score</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Viabilité légale V1</td><td><span class="tag tag-green">Haute</span></td><td>Possible sans ORIAS ni HDS si périmètre respecté</td></tr>
+            <tr><td>Risque RGPD</td><td><span class="tag tag-yellow">Moyen</span></td><td>Gérable avec DPO + consentement granulaire + chiffrement</td></tr>
+            <tr><td>Risque activités réglementées</td><td><span class="tag tag-red">Critique</span></td><td>ORIAS requis dès qu'on "négocie" une assurance pour autrui</td></tr>
+            <tr><td>Différenciation marché</td><td><span class="tag tag-green">Forte</span></td><td>Aucun acteur ne combine coffre-fort + délégation + alertes</td></tr>
+            <tr><td>Complexité technique V1</td><td><span class="tag tag-yellow">Modérée</span></td><td>Stack Supabase + RLS + pg_cron bien adapté</td></tr>
+            <tr><td>Rétention couple/famille</td><td><span class="tag tag-green">Excellente</span></td><td>Résiliation nécessite accord des 2 membres → fort lock-in naturel</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 2. RISQUES LÉGAUX                                   -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Risques légaux</div>
+      <h2>Risques juridiques & réglementaires</h2>
+
+      <div class="risk-grid">
+
+        <div class="risk-card critical">
+          <div class="risk-header">
+            <div class="risk-title">⚖️ ORIAS — Activité réglementée assurance</div>
+            <span class="risk-level level-critical">CRITIQUE</span>
+          </div>
+          <div class="risk-desc">
+            Tout professionnel qui négocie, souscrit ou présente une assurance pour le compte de tiers doit être immatriculé ORIAS (Art. L. 511-1 Code des assurances). Sans cela : exercice illégal d'une activité réglementée, sanctions pénales.<br><br>
+            En V1 : les recommandations d'assurance doivent être des redirections vers un courtier ORIAS tiers, jamais une intermédiation directe.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation V1 :</strong> Redirection vers comparateur agréé ou courtier ORIAS partenaire. Aucun acte d'intermédiation directe. Mention "En partenariat avec [courtier ORIAS immatriculé]" obligatoire. V2 : partenaire ORIAS. V3 seulement : ORIAS propre.
+          </div>
+        </div>
+
+        <div class="risk-card critical">
+          <div class="risk-header">
+            <div class="risk-title">🏥 HDS — Données de santé</div>
+            <span class="risk-level level-critical">CRITIQUE</span>
+          </div>
+          <div class="risk-desc">
+            Le stockage de données de santé (carte vitale, ordonnances, bilans médicaux) requiert la certification HDS (Hébergeur de Données de Santé) — Art. L. 1111-8 CSP. Coût estimé : 20 000–80 000€ et 6 à 12 mois de délai (audit ANSSI).
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation V1 :</strong> Exclure toutes les données de santé du coffre-fort V1. La catégorie "Santé" dans le schéma est créée mais désactivée (feature flag = false). Le schéma <code>health</code> est prévu en V3 uniquement.
+          </div>
+        </div>
+
+        <div class="risk-card critical">
+          <div class="risk-header">
+            <div class="risk-title">🪪 Données d'identité biométriques</div>
+            <span class="risk-level level-critical">CRITIQUE</span>
+          </div>
+          <div class="risk-desc">
+            Le stockage de CNI recto/verso et passeport pages biographiques est soumis à la délibération CNIL 2023 sur les données biométriques et d'identité. Requiert un audit CNIL préalable et des mesures techniques renforcées.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation V1 :</strong> Documents d'identité exclus de la V1 (feature flag = false sur catégorie "identite"). Prévu en V2 après audit CNIL. La catégorie existe dans le schéma mais la UI est grisée/masquée.
+          </div>
+        </div>
+
+        <div class="risk-card major">
+          <div class="risk-header">
+            <div class="risk-title">📊 RGPD — Données personnelles sensibles</div>
+            <span class="risk-level level-major">MAJEUR</span>
+          </div>
+          <div class="risk-desc">
+            Documents fiscaux, contrats, IBAN, quittances : toutes des données personnelles Art. 4 RGPD. Nécessite consentement explicite (Art. 6.1.a), politique de conservation claire, DPO désigné si traitement à grande échelle.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Table <code>rgpd_consent_logs</code> (append-only, Art. 7). Soft-delete cascade + anonymisation PII J+30. Export JSON/CSV en 1 clic (portabilité). Registre des traitements Art. 30. Chiffrement AES-256 documents. DPA avec hébergeur Supabase.
+          </div>
+        </div>
+
+        <div class="risk-card major">
+          <div class="risk-header">
+            <div class="risk-title">🔀 Conflits d'intérêts — DGCCRF</div>
+            <span class="risk-level level-major">MAJEUR</span>
+          </div>
+          <div class="risk-desc">
+            Le modèle de commissions sur les recommandations (affilié télécom, courtier assurance) crée un risque de conflit d'intérêt si non déclaré. Pratique commerciale trompeuse sous Art. L. 121-1 Code de la consommation.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Contrainte DB <code>commission_must_be_disclosed</code> — impossible d'insérer sans <code>commission_disclosed = TRUE</code>. Mention obligatoire sur chaque carte de recommandation : "Commission perçue si souscription : ~X€". Architecture déclarative by design.
+          </div>
+        </div>
+
+        <div class="risk-card major">
+          <div class="risk-header">
+            <div class="risk-title">⚖️ Mandats SSP — Horodatage légal</div>
+            <span class="risk-level level-major">MAJEUR</span>
+          </div>
+          <div class="risk-desc">
+            Les mandats sous Art. 1301 Code Civil doivent être horodatés et révocables à tout moment. En V1, l'horodatage simple (<code>created_at TIMESTAMPTZ</code> + <code>document_hash SHA-256</code>) peut être contesté. La preuve de date est limitée.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation V1 :</strong> <code>created_at</code> précis + SHA-256 du PDF. <strong>V2 :</strong> Prestataire TSA (Trusted Service Authority) qualifié eIDAS ou intégration CertEurope/DocuSign pour horodatage qualifié. Mandat max 1 an, non auto-renouvelable (contrainte DB).
+          </div>
+        </div>
+
+        <div class="risk-card moderate">
+          <div class="risk-header">
+            <div class="risk-title">🏛 Concurrence étatique — France Connect+</div>
+            <span class="risk-level level-moderate">MODÉRÉ</span>
+          </div>
+          <div class="risk-desc">
+            France Connect+, Espace Santé CNAM, Mon Espace Agent FP sont des initiatives étatiques avec accès privilégié aux données. Risque que l'État développe un "super-coffre-fort" concurrent avec accès direct aux bases opérateurs.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Différenciation par la délégation familiale (que l'État ne fera jamais), l'UX, et le segment couple/aidant. En V3 : intégration France Connect+ comme source de données plutôt que concurrent.
+          </div>
+        </div>
+
+        <div class="risk-card moderate">
+          <div class="risk-header">
+            <div class="risk-title">📱 Loi Chatel — Délais de notification</div>
+            <span class="risk-level level-moderate">MODÉRÉ</span>
+          </div>
+          <div class="risk-desc">
+            La Loi Chatel impose à l'opérateur de notifier l'utilisateur avant la reconduction tacite. L'application ne peut pas garantir que l'opérateur a bien notifié — elle s'appuie sur les dates saisies par l'utilisateur.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Disclaimer explicite "Dates basées sur votre saisie — vérifiez votre contrat". La <code>tacit_renewal_date</code> n'est jamais auto-calculée. Le trigger d'alerte est basé sur la date saisie, pas sur une API opérateur.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 3. RISQUES TECHNIQUES BDD                           -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Risques techniques</div>
+      <h2>Risques base de données & architecture</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Risque</th><th>Niveau</th><th>Description</th><th>Mitigation</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>FK circulaire households ↔ profiles</strong></td>
+              <td><span class="tag tag-orange">Majeur</span></td>
+              <td><code>profiles.household_id → households.id</code> et <code>households.created_by → profiles.id</code>. Chicken-and-egg à l'INSERT.</td>
+              <td>Créer household FIRST, puis UPDATE <code>profiles.household_id</code> dans une fonction SECURITY DEFINER atomique.</td>
+            </tr>
+            <tr>
+              <td><strong>Race condition Stripe webhooks</strong></td>
+              <td><span class="tag tag-orange">Majeur</span></td>
+              <td>Stripe garantit at-least-once delivery. Double webhook → double mise à jour de plan_tier.</td>
+              <td>Ajouter <code>stripe_event_id TEXT UNIQUE</code> sur <code>user_subscriptions</code>. Dédupliquer au niveau applicatif avant d'appeler le trigger.</td>
+            </tr>
+            <tr>
+              <td><strong>RLS multi-politiques perf</strong></td>
+              <td><span class="tag tag-yellow">Modéré</span></td>
+              <td>3-4 politiques PERMISSIVE par table (documents, subscriptions) → évaluées en OR → risque de seq scan si mal indexé.</td>
+              <td>Toutes les conditions RLS sur colonnes indexées. Index partiels <code>WHERE deleted_at IS NULL</code>. Monitoring EXPLAIN ANALYZE sur les requêtes critiques.</td>
+            </tr>
+            <tr>
+              <td><strong>Quota storage non-natif</strong></td>
+              <td><span class="tag tag-yellow">Modéré</span></td>
+              <td>Supabase Storage n'a pas de limite native par utilisateur. Un user peut dépasser son quota si la vérification applicative est bypassed.</td>
+              <td>Vérification <code>v_user_storage &lt; plan.storage_quota_bytes</code> AVANT l'upload côté serveur (Edge Function). Jamais côté client.</td>
+            </tr>
+            <tr>
+              <td><strong>Mandats sans auto-expiration</strong></td>
+              <td><span class="tag tag-yellow">Modéré</span></td>
+              <td>Les mandats expirés restent avec <code>revoked_at IS NULL</code> si le pg_cron n'a pas tourné. Un mandataire pourrait accéder à des données post-expiration si la RLS ne vérifie pas <code>expiry_date</code>.</td>
+              <td>La RLS sur documents vérifie <code>expiry_date >= CURRENT_DATE</code>. Le pg_cron alerte J-30 mais ne révoque pas automatiquement (décision légale : révocation toujours par le mandant).</td>
+            </tr>
+            <tr>
+              <td><strong>RGPD Art. 17 — PII résiduels</strong></td>
+              <td><span class="tag tag-yellow">Modéré</span></td>
+              <td>Soft-delete rend les données invisibles via RLS mais elles restent physiquement en base. <code>audit_logs</code> et <code>rgpd_consent_logs</code> contiennent des PII.</td>
+              <td>Job pg_cron J+30 post-soft-delete : anonymise colonnes PII (email → "[SUPPRIMÉ]", ip_address → NULL). <code>audit_logs</code> conservés pour obligation légale (mention dans CGU/politique de conservation).</td>
+            </tr>
+            <tr>
+              <td><strong>Multi-devises V3</strong></td>
+              <td><span class="tag tag-green">Faible</span></td>
+              <td><code>v_user_monthly_cost</code> assume tout en EUR. Ajout de devises casse la vue.</td>
+              <td>Ajout d'un filtre <code>WHERE currency = 'EUR'</code> à la vue dès V1. Colonne <code>currency CHAR(3)</code> déjà présente sur subscriptions. Migration V3 : table exchange_rates.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 4. RISQUES BUSINESS                                 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Risques business</div>
+      <h2>Risques commerciaux & marché</h2>
+
+      <div class="risk-grid">
+
+        <div class="risk-card major">
+          <div class="risk-header">
+            <div class="risk-title">🏆 Concurrents existants</div>
+            <span class="risk-level level-major">MAJEUR</span>
+          </div>
+          <div class="risk-desc">
+            <strong>Pappers, Tricount, Bankin' (Budget Insight), Papiers (La Banque Postale)</strong> couvrent des segments adjacents. Aucun ne combine coffre-fort + délégation familiale + alertes reconduction, mais ils ont des bases d'utilisateurs établies.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Différenciation :</strong> Aucun concurrent ne cible explicitement le segment "enfant adulte qui gère les abonnements de ses parents vieillissants". La délégation familiale SSP est un moat légal difficile à copier rapidement.
+          </div>
+        </div>
+
+        <div class="risk-card major">
+          <div class="risk-header">
+            <div class="risk-title">💸 Dépendance revenus affiliation</div>
+            <span class="risk-level level-major">MAJEUR</span>
+          </div>
+          <div class="risk-desc">
+            Les revenus d'affiliation (commissions télécom/streaming) dépendent des programmes partenaires qui peuvent changer leurs termes ou taux à tout moment. Amazon Associates a coupé des taux de 10% à 3% en 2020.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Diversifier les sources de revenus. SaaS subscriptions comme revenus principaux et stables. Commissions affiliation = upside, pas baseline. Contractualiser les partenariats clés (SFR, Free, etc.).
+          </div>
+        </div>
+
+        <div class="risk-card moderate">
+          <div class="risk-header">
+            <div class="risk-title">📉 Churn plan couple en cas de séparation</div>
+            <span class="risk-level level-moderate">MODÉRÉ</span>
+          </div>
+          <div class="risk-desc">
+            Le plan couple est lié à deux comptes. Une séparation peut provoquer un churn de 2 utilisateurs simultanément. Si mal géré (perte de documents partagés), risque de réputation.
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Table <code>life_events</code> avec type 'separation' → workflow de séparation guidé (qui garde quoi, export des documents partagés). La séparation doit être une feature premium, pas un abandon brutal.
+          </div>
+        </div>
+
+        <div class="risk-card low">
+          <div class="risk-header">
+            <div class="risk-title">🔒 Sécurité — Fuite de documents</div>
+            <span class="risk-level level-low">FAIBLE (si implémenté)</span>
+          </div>
+          <div class="risk-desc">
+            Les documents (contrats, IBAN, baux) ont une forte valeur pour des acteurs malveillants. Une fuite = fin de confiance et potentiellement RGPD Art. 83 (amendes jusqu'à 4% CA mondial).
+          </div>
+          <div class="risk-mitigation">
+            <strong>Mitigation :</strong> Chiffrement AES-256 au repos via Supabase Vault. TLS 1.3 en transit. RLS stricte par <code>user_id</code>. Buckets privés (jamais public). Audit logs sur tous les accès documents. 2FA obligatoire sur plan Famille+.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 5. MATRICE DE PRIORITÉ                              -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Priorisation</div>
+      <h2>Matrice d'action — Avant lancement V1</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Priorité</th>
+              <th>Délai</th>
+              <th>Responsable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Désactiver catégories Santé & Identité en V1</strong><br><span style="font-size:12px;color:var(--muted)">Feature flags dans platform_plans.features</span></td>
+              <td><span class="tag tag-red">Bloquant</span></td>
+              <td>Avant lancement</td>
+              <td>Dev</td>
+            </tr>
+            <tr>
+              <td><strong>Contractualiser partenaire ORIAS pour recommandations assurance</strong><br><span style="font-size:12px;color:var(--muted)">Sinon : exclure assurance des recommandations V1</span></td>
+              <td><span class="tag tag-red">Bloquant</span></td>
+              <td>Avant lancement</td>
+              <td>Business/Legal</td>
+            </tr>
+            <tr>
+              <td><strong>Désigner un DPO et rédiger le registre des traitements Art. 30</strong></td>
+              <td><span class="tag tag-red">Bloquant</span></td>
+              <td>Avant lancement</td>
+              <td>Legal/DPO</td>
+            </tr>
+            <tr>
+              <td><strong>Implémenter contrainte commission_disclosed en DB</strong><br><span style="font-size:12px;color:var(--muted)">CHECK constraint déjà dans le schéma</span></td>
+              <td><span class="tag tag-orange">Critique</span></td>
+              <td>Avant V1</td>
+              <td>Dev</td>
+            </tr>
+            <tr>
+              <td><strong>DPA avec Supabase (sous-traitant RGPD)</strong></td>
+              <td><span class="tag tag-orange">Critique</span></td>
+              <td>Avant V1</td>
+              <td>Legal</td>
+            </tr>
+            <tr>
+              <td><strong>Implémenter 2FA obligatoire pour plans Famille+</strong></td>
+              <td><span class="tag tag-orange">Critique</span></td>
+              <td>Avant V1</td>
+              <td>Dev</td>
+            </tr>
+            <tr>
+              <td><strong>Rédiger CGU/CGV avec droit de rétractation 14j</strong></td>
+              <td><span class="tag tag-orange">Critique</span></td>
+              <td>Avant V1</td>
+              <td>Legal</td>
+            </tr>
+            <tr>
+              <td><strong>Tester isolation RLS entre users (User A ≠ User B)</strong></td>
+              <td><span class="tag tag-yellow">Important</span></td>
+              <td>Tests avant lancement</td>
+              <td>Dev</td>
+            </tr>
+            <tr>
+              <td><strong>Workflow séparation couple — UX & données</strong></td>
+              <td><span class="tag tag-green">V2</span></td>
+              <td>Mois 6-12</td>
+              <td>Produit/Dev</td>
+            </tr>
+            <tr>
+              <td><strong>Horodatage qualifié TSA pour mandats actifs</strong></td>
+              <td><span class="tag tag-green">V2</span></td>
+              <td>Mois 6-12</td>
+              <td>Dev/Legal</td>
+            </tr>
+            <tr>
+              <td><strong>Audit CNIL pour stockage CNI/Passeport</strong></td>
+              <td><span class="tag tag-green">V2</span></td>
+              <td>Mois 3-6</td>
+              <td>Legal/DPO</td>
+            </tr>
+            <tr>
+              <td><strong>Certification HDS pour données santé</strong></td>
+              <td><span class="tag tag-purple">V3</span></td>
+              <td>Mois 18+</td>
+              <td>Legal/Infra</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 6. CE QUI EST AUTORISÉ EN V1                        -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Périmètre légal V1</div>
+      <h2>Ce qui est autorisé sans licence — V1 OK</h2>
+
+      <p style="color:var(--muted); margin-bottom: 20px; font-size: 13px;">Principe directeur : la plateforme est un <strong style="color: var(--text);">outil d'information et d'organisation</strong>, jamais un acteur qui agit <em>à la place</em> de l'utilisateur. La plateforme <em>prépare, alerte, suggère</em> — l'utilisateur <em>décide et exécute</em>.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Feature</th><th>Statut</th><th>Loi applicable</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Coffre-fort documents (contrats, logement, fiscalité)</td>
+              <td><span class="tag tag-green">V1 — OK</span></td>
+              <td>Loi LCEN (hébergeur), RGPD</td>
+            </tr>
+            <tr>
+              <td>Alertes reconduction tacite (Loi Chatel)</td>
+              <td><span class="tag tag-green">V1 — OK</span></td>
+              <td>Art. L. 136-1 Code conso</td>
+            </tr>
+            <tr>
+              <td>Génération lettre Loi Hamon (modèle à compléter)</td>
+              <td><span class="tag tag-green">V1 — OK</span></td>
+              <td>Art. L. 113-15-2 Code assurances</td>
+            </tr>
+            <tr>
+              <td>Recommandations télécom/streaming (affiliation)</td>
+              <td><span class="tag tag-green">V1 — OK si commission déclarée</span></td>
+              <td>DGCCRF, pratiques commerciales</td>
+            </tr>
+            <tr>
+              <td>Mandat familial consultatif (lecture + suggestions)</td>
+              <td><span class="tag tag-green">V1 — OK</span></td>
+              <td>Art. 1301 Code Civil (mandat SSP)</td>
+            </tr>
+            <tr>
+              <td>Agenda administratif partagé (couple/famille)</td>
+              <td><span class="tag tag-green">V1 — OK</span></td>
+              <td>RGPD (traitement licite, intérêt légitime)</td>
+            </tr>
+            <tr>
+              <td>Export données RGPD (portabilité JSON/CSV)</td>
+              <td><span class="tag tag-green">V1 — OK</span></td>
+              <td>Art. 20 RGPD (droit à la portabilité)</td>
+            </tr>
+            <tr>
+              <td>CNI, Passeport, Permis de conduire (stockage)</td>
+              <td><span class="tag tag-yellow">V2 — Après audit CNIL</span></td>
+              <td>CNIL délibération 2023</td>
+            </tr>
+            <tr>
+              <td>Recommandations assurance (avec intermédiation)</td>
+              <td><span class="tag tag-yellow">V2 — Via partenaire ORIAS</span></td>
+              <td>Art. L. 511-1 Code assurances</td>
+            </tr>
+            <tr>
+              <td>Données santé (carte vitale, ordonnances)</td>
+              <td><span class="tag tag-red">V3 — Certification HDS</span></td>
+              <td>Art. L. 1111-8 CSP</td>
+            </tr>
+            <tr>
+              <td>Intermédiation assurance directe (propre ORIAS)</td>
+              <td><span class="tag tag-red">V3 — ORIAS obligatoire</span></td>
+              <td>Art. L. 511-1 Code assurances</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+</body>
+</html>

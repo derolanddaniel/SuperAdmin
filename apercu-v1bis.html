@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SuperAdmin — Aperçu V1.bis</title>
+  <title>SuperAdmin — App</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -798,6 +798,12 @@
     .scard-price-bar.blue-bar   { background: var(--blue-bg);   color: var(--blue); }
     .scard-link { display: flex; align-items: center; gap: 4px; padding: 4px 13px 5px; font-size: 10.5px; color: var(--text-3); text-decoration: none; border-top: 1px solid var(--border-lt); }
     .scard-link:hover { color: var(--blue); background: var(--blue-bg); }
+    .scard-link-row { display:flex; align-items:center; }
+    .scard-link-row .scard-link { flex:1; border-top:1px solid var(--border-lt); }
+    .scard-link-pencil { font-size:12px; color:var(--text-3); cursor:pointer; padding:4px 10px; border-top:1px solid var(--border-lt); transition:color 0.1s; flex-shrink:0; }
+    .scard-link-pencil:hover { color:var(--blue); }
+    .scard-link-empty { display:flex; align-items:center; gap:5px; padding:4px 13px 5px; font-size:10.5px; color:var(--text-3); cursor:pointer; border-top:1px solid var(--border-lt); }
+    .scard-link-empty:hover { color:var(--blue); background:var(--blue-bg); }
     .scard-docs { font-size: 11px; color: var(--text-3); padding: 7px 13px; }
     .scard-docs:hover { background: var(--bg); color: var(--text-2); }
     .scard-docs.open { color: var(--brand); background: var(--brand-bg); }
@@ -1105,6 +1111,22 @@
     .su-relation { font-size:11px; color:var(--text-3); margin-top:1px; }
     .su-check { font-size:17px; color:var(--blue); margin-left:auto; flex-shrink:0; }
     .su-hint { font-size:11px; color:var(--text-3); margin-left:auto; flex-shrink:0; }
+    .su-perm { display:flex; gap:4px; margin-left:8px; }
+    .su-perm-btn { font-size:10px; font-weight:600; padding:3px 9px; border:1.5px solid var(--border); border-radius:20px; background:transparent; cursor:pointer; color:var(--text-2); transition:all 0.1s; white-space:nowrap; font-family:'Inter',sans-serif; }
+    .su-perm-btn:hover { border-color:var(--blue); color:var(--blue); }
+    .su-perm-btn.active-view { background:rgba(37,99,235,0.08); border-color:var(--blue); color:var(--blue); }
+    .su-perm-btn.active-edit { background:rgba(22,163,74,0.08); border-color:#16a34a; color:#16a34a; }
+    .su-revoke { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--text-3); cursor:pointer; margin-left:4px; flex-shrink:0; transition:all 0.1s; }
+    .su-revoke:hover { background:#fee2e2; color:var(--brand); }
+    .su-share-btn { font-size:11px; color:var(--blue); margin-left:auto; flex-shrink:0; cursor:pointer; padding:3px 10px; border:1.5px solid rgba(37,99,235,0.3); border-radius:20px; transition:all 0.1s; }
+    .su-share-btn:hover { background:var(--blue-bg); border-color:var(--blue); }
+    .scard-share-btn.collab { color:#16a34a !important; background:rgba(22,163,74,0.07) !important; }
+    .scard-share-btn.collab:hover { background:rgba(22,163,74,0.13) !important; }
+    .share-av.edit-av { box-shadow:0 0 0 2.5px #16a34a, 0 0 0 4px rgba(22,163,74,0.2); }
+    .collab-indicator { display:flex; align-items:center; gap:5px; padding:5px 10px 6px; font-size:11px; color:#15803d; background:rgba(22,163,74,0.05); border-top:1px solid rgba(22,163,74,0.15); }
+    .collab-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; flex-shrink:0; animation:pulse-green 2s infinite; }
+    @keyframes pulse-green { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .collab-name { font-weight:700; }
 
 
     /* ── PROPOSE BUTTON ON SCARD ── */
@@ -1202,17 +1224,132 @@
     .delete-card-btn { width:100%; padding:10px; font-size:13px; font-weight:600; color:var(--red); background:rgba(239,68,68,0.06); border:1.5px solid rgba(239,68,68,0.2); border-radius:var(--r-sm); cursor:pointer; margin-bottom:12px; transition:all 0.15s; }
     .delete-card-btn:hover { background:rgba(239,68,68,0.14); border-color:rgba(239,68,68,0.4); }
 
+    /* ── RÉSEAU REDESIGN ── */
+    .rconn-intro { font-size:13px; color:var(--text-2); margin-bottom:20px; line-height:1.6; }
+    .rconn-list { display:flex; flex-direction:column; gap:14px; }
+    .rconn-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; box-shadow:var(--sh-sm); }
+    .rconn-main { display:flex; align-items:center; gap:14px; padding:16px 18px; }
+    .rconn-av { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; color:#fff; flex-shrink:0; }
+    .rconn-info { flex:1; min-width:0; }
+    .rconn-name { font-size:14px; font-weight:700; color:var(--text-1); }
+    .rconn-rel { font-size:11px; color:var(--text-3); margin-top:1px; }
+    .rconn-desc { font-size:12px; color:var(--text-2); margin-top:6px; line-height:1.5; }
+    .rconn-manage-btn { padding:7px 14px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:12px; font-weight:600; color:var(--text-2); background:transparent; cursor:pointer; flex-shrink:0; transition:all 0.1s; font-family:'Inter',sans-serif; white-space:nowrap; }
+    .rconn-manage-btn:hover { border-color:var(--text-2); color:var(--text-1); background:var(--bg); }
+    .rconn-manage-btn.open { border-color:var(--brand); color:var(--brand); background:rgba(230,57,70,0.04); }
+    .rconn-access { padding:0 18px 16px; border-top:1px solid var(--border-lt); }
+    .rconn-access-label { font-size:10px; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin:12px 0 9px; }
+    .rconn-access-items { display:flex; flex-direction:column; gap:6px; margin-bottom:11px; }
+    .rconn-access-item { display:flex; align-items:center; gap:10px; padding:9px 13px; border-radius:var(--r-sm); }
+    .rconn-access-item.edit { background:rgba(22,163,74,0.06); border:1px solid rgba(22,163,74,0.2); }
+    .rconn-access-item.view { background:rgba(37,99,235,0.05); border:1px solid rgba(37,99,235,0.14); }
+    .rconn-access-item.full { background:rgba(109,40,217,0.04); border:1px solid rgba(109,40,217,0.15); }
+    .rconn-item-icon { font-size:15px; flex-shrink:0; }
+    .rconn-item-name { flex:1; font-size:12px; font-weight:600; color:var(--text-1); }
+    .rconn-item-perm { font-size:11px; font-weight:700; flex-shrink:0; }
+    .rconn-access-item.edit .rconn-item-perm { color:#15803d; }
+    .rconn-access-item.view .rconn-item-perm { color:var(--blue); }
+    .rconn-access-item.full .rconn-item-perm { color:#6d28d9; }
+    .rconn-item-x { font-size:14px; color:var(--text-3); cursor:pointer; padding:0 4px; margin-left:4px; transition:color 0.1s; }
+    .rconn-item-x:hover { color:var(--brand); }
+    .rconn-empty { font-size:12px; color:var(--text-3); margin-bottom:10px; font-style:italic; }
+    .rconn-add-share { font-size:11px; color:var(--blue); background:none; border:1.5px dashed rgba(37,99,235,0.3); border-radius:var(--r-sm); padding:7px 14px; cursor:pointer; font-weight:600; font-family:'Inter',sans-serif; transition:all 0.1s; width:100%; }
+    .rconn-add-share:hover { background:var(--blue-bg); border-color:var(--blue); }
+    .rconn-view-btn { font-size:12px; color:var(--blue); background:var(--blue-bg); border:1.5px solid rgba(37,99,235,0.2); border-radius:var(--r-sm); padding:7px 14px; cursor:pointer; font-weight:600; font-family:'Inter',sans-serif; }
+    .rconn-view-btn:hover { background:rgba(37,99,235,0.12); }
+    .rconn-manage-panel { border-top:1.5px solid rgba(230,57,70,0.15); padding:14px 18px; background:rgba(253,242,242,0.7); }
+    .rconn-danger-label { font-size:10px; font-weight:800; color:var(--brand); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
+    .rconn-revoke-btn { width:100%; padding:11px; font-size:12px; font-weight:600; color:var(--brand); background:rgba(230,57,70,0.06); border:1.5px solid rgba(230,57,70,0.2); border-radius:var(--r-sm); cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.15s; margin-bottom:8px; text-align:left; }
+    .rconn-revoke-btn:hover { background:rgba(230,57,70,0.12); border-color:rgba(230,57,70,0.4); }
+    .rconn-revoke-warn { font-size:11px; color:var(--text-3); line-height:1.6; }
+
+    /* ── DASHBOARD ── */
+    .dash-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+    .dash-stat { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:16px 18px; }
+    .dash-stat-icon { font-size:20px; margin-bottom:6px; }
+    .dash-stat-value { font-size:26px; font-weight:800; color:var(--text-1); line-height:1; }
+    .dash-stat-label { font-size:10px; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:0.07em; margin-top:5px; }
+    .dash-stat-sub { font-size:11px; color:var(--text-3); margin-top:3px; }
+    .dash-stat.alert { border-color:rgba(230,57,70,0.25); background:rgba(230,57,70,0.03); }
+    .dash-stat.alert .dash-stat-value { color:var(--brand); }
+    .dash-stat.ok .dash-stat-value { color:#16a34a; }
+    .dash-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
+    .dash-panel { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:18px 20px; }
+    .dash-panel-title { font-size:10px; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:0.09em; margin-bottom:16px; display:flex; align-items:center; gap:6px; }
+    .cat-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .cat-bar-row:last-child { margin-bottom:0; }
+    .cat-bar-emoji { font-size:15px; width:22px; text-align:center; flex-shrink:0; }
+    .cat-bar-label { font-size:12px; color:var(--text-2); font-weight:500; width:108px; flex-shrink:0; }
+    .cat-bar-track { flex:1; background:rgba(15,23,42,0.07); border-radius:4px; height:7px; overflow:hidden; }
+    .cat-bar-fill { height:7px; border-radius:4px; }
+    .cat-bar-amount { font-size:12px; font-weight:700; color:var(--text-1); width:54px; text-align:right; flex-shrink:0; }
+    .dash-agenda-item { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid var(--border-lt); }
+    .dash-agenda-item:last-child { border-bottom:none; padding-bottom:0; }
+    .dash-agenda-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .dash-agenda-body { flex:1; min-width:0; }
+    .dash-agenda-title { font-size:12px; font-weight:600; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .dash-agenda-sub { font-size:11px; color:var(--text-3); margin-top:2px; }
+    .dash-agenda-badge { font-size:10px; font-weight:700; padding:2px 9px; border-radius:20px; white-space:nowrap; flex-shrink:0; cursor:pointer; }
+    .dash-agenda-badge.red { background:rgba(230,57,70,0.1); color:var(--brand); }
+    .dash-agenda-badge.orange { background:rgba(194,65,12,0.1); color:#c2410c; }
+    .dash-agenda-badge.blue { background:rgba(37,99,235,0.1); color:var(--blue); }
+    .dash-agenda-badge.green { background:rgba(22,163,74,0.1); color:#16a34a; }
+    .dash-date-col { text-align:center; width:36px; flex-shrink:0; }
+    .dash-date-day { font-size:17px; font-weight:800; color:var(--text-1); line-height:1; }
+    .dash-date-mon { font-size:9px; font-weight:700; color:var(--text-3); text-transform:uppercase; }
+
+    /* ── LOGEMENT CARDS (réutilise .scard) ── */
+    .logement-header { margin-bottom:18px; }
+    .logement-header h2 { font-size:17px; font-weight:800; color:var(--text-1); margin-bottom:3px; }
+    .logement-header p { font-size:12px; color:var(--text-3); }
+
+    /* ── FORUM ── */
+    .forum-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+    .forum-header h2 { font-size:17px; font-weight:800; color:var(--text-1); }
+    .forum-header p { font-size:12px; color:var(--text-3); margin-top:2px; }
+    .forum-new-btn { padding:8px 16px; background:var(--brand); color:#fff; border:none; border-radius:var(--r-sm); font-size:12px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; white-space:nowrap; }
+    .forum-new-btn:hover { background:var(--brand-dk); }
+    .forum-stats { display:flex; gap:20px; margin-bottom:22px; padding:12px 16px; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); }
+    .forum-stat { text-align:center; }
+    .forum-stat-val { font-size:18px; font-weight:800; color:var(--text-1); }
+    .forum-stat-lbl { font-size:10px; color:var(--text-3); text-transform:uppercase; font-weight:600; letter-spacing:0.06em; margin-top:1px; }
+    .forum-categories { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+    .forum-cat { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:14px 16px; cursor:pointer; transition:box-shadow 0.15s, border-color 0.15s; }
+    .forum-cat:hover { box-shadow:var(--sh-sm); border-color:var(--brand); }
+    .forum-cat-icon { font-size:22px; margin-bottom:6px; }
+    .forum-cat-name { font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:2px; }
+    .forum-cat-desc { font-size:11px; color:var(--text-3); line-height:1.4; margin-bottom:8px; }
+    .forum-cat-meta { font-size:10px; color:var(--text-3); }
+    .forum-cat-meta strong { color:var(--text-2); }
+    .forum-threads-title { font-size:12px; font-weight:800; color:var(--text-3); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px; }
+    .forum-thread { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-lt); cursor:pointer; }
+    .forum-thread:last-child { border-bottom:none; }
+    .forum-thread:hover .forum-thread-title { color:var(--brand); }
+    .forum-thread-av { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#fff; flex-shrink:0; }
+    .forum-thread-body { flex:1; min-width:0; }
+    .forum-thread-title { font-size:13px; font-weight:600; color:var(--text-1); margin-bottom:3px; transition:color 0.1s; }
+    .forum-thread-meta { font-size:11px; color:var(--text-3); }
+    .forum-thread-tag { display:inline-block; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; margin-right:5px; }
+    .forum-thread-tag.question { background:rgba(37,99,235,0.1); color:var(--blue); }
+    .forum-thread-tag.bplan { background:rgba(22,163,74,0.1); color:#16a34a; }
+    .forum-thread-tag.alerte { background:rgba(230,57,70,0.1); color:var(--brand); }
+    .forum-thread-tag.aide { background:rgba(249,115,22,0.1); color:#ea580c; }
+    .forum-thread-right { text-align:right; flex-shrink:0; }
+    .forum-thread-replies { font-size:11px; font-weight:700; color:var(--text-2); }
+    .forum-thread-last { font-size:10px; color:var(--text-3); margin-top:2px; }
+
   </style>
 </head>
 <body>
 
   <!-- ── SITE NAV (vers les autres pages) ── -->
   <nav class="site-nav">
-    <a href="analyse-superadmin.html"><span class="dot-blue"></span> Analyse stratégique</a>
-    <a href="version-faisable.html"><span class="dot-green"></span> Version faisable</a>
-    <a href="apercu-v1.html"><span class="dot-purple"></span> Aperçu V1</a>
-    <a href="apercu-v1bis.html" class="active"><span class="dot-orange"></span> Aperçu V1.bis</a>
+    <a href="apercu-v1.html"><span class="dot-purple"></span> Maquette</a>
+    <a href="apercu-v1bis.html" class="active"><span class="dot-orange"></span> SuperAdmin</a>
     <a href="features-couple.html"><span style="width:6px;height:6px;border-radius:50%;background:#e91e8c;display:inline-block;"></span> Couple &amp; Famille</a>
+    <a href="pitch.html"><span style="width:6px;height:6px;border-radius:50%;background:#0d9488;display:inline-block;"></span> Le Produit</a>
+    <a href="making-of.html"><span class="dot-green"></span> Making Of</a>
+    <a href="analyse-risques.html"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Analyse de risque</a>
   </nav>
 
   <!-- ── APP HEADER ── -->
@@ -1234,13 +1371,14 @@
 
   <!-- ── CATEGORY NAV ── -->
   <nav class="cat-nav">
-    <span class="rubrique-label">Rubrique</span>
     <div class="cat-tabs">
-      <div class="cat-tab active" onclick="showSection('forfaits', this)">Forfait &amp; services</div>
-      <div class="cat-tab" onclick="showSection('identite', this)">Identité</div>
-      <div class="cat-tab" onclick="showSection('sante', this)">Santé &amp; Assurance</div>
+      <div class="cat-tab active" onclick="showSection('dashboard', this)">📊 Tableau de bord</div>
+      <div class="cat-tab" onclick="showSection('forfaits', this)">📱 Forfaits &amp; services</div>
+      <div class="cat-tab" onclick="showSection('logement', this)">🏠 Logement</div>
+      <div class="cat-tab" onclick="showSection('identite', this)">🪪 Identité</div>
+      <div class="cat-tab" onclick="showSection('sante', this)">🏥 Santé &amp; Assurance</div>
     </div>
-    <div class="sort-wrap">
+    <div class="sort-wrap" style="display:none;">
       Trier par
       <select>
         <option>Les plus populaires</option>
@@ -1256,26 +1394,181 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sa-title">SuperAdmin</div>
+      <div class="sa-title">Menu</div>
       <ul>
-        <li onclick="showSection('forfaits', null)">Mes forfaits &amp; services</li>
-        <li onclick="showSection('identite', null)">Mes cartes</li>
-        <li>Mes actions requises <span style="background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">2</span></li>
-        <li>Mon agenda</li>
-        <li>Mes recommandations</li>
-        <li onclick="showSection('propositions', null); clearCatTabs(); renderProposalsDashboard();">Mes propositions <span id="proposals-badge" style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">1</span></li>
-        <li onclick="showSection('connexions', null); clearCatTabs(); renderConnectionsList();" id="sidebar-connexions">Mon réseau <span id="connexions-count" style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">4</span></li>
-        <li class="section-sep">Forum</li>
+        <li>⚡ Actions requises <span style="background:var(--brand);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">3</span></li>
+        <li>📅 Mon agenda</li>
+        <li>💡 Mes recommandations</li>
+        <li onclick="showSection('propositions', null); clearCatTabs(); renderProposalsDashboard();">📤 Mes propositions <span id="proposals-badge" style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">1</span></li>
+        <li onclick="showSection('connexions', null); clearCatTabs(); renderConnectionsList();" id="sidebar-connexions">👥 Mon réseau <span id="connexions-count" style="background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:4px;">4</span></li>
+        <li class="section-sep" onclick="showSection('forum', null); clearCatTabs();" style="cursor:pointer;">💬 Forum communauté</li>
       </ul>
     </aside>
 
     <!-- CONTENT -->
     <main class="content">
 
+      <!-- ══════════════════════════════════════════ -->
+      <!-- SECTION : TABLEAU DE BORD                 -->
+      <!-- ══════════════════════════════════════════ -->
+      <div id="section-dashboard" class="page-section active">
+
+        <!-- 4 stat cards -->
+        <div class="dash-grid">
+          <div class="dash-stat">
+            <div class="dash-stat-icon">💶</div>
+            <div class="dash-stat-value">846<span style="font-size:14px;font-weight:600;">€</span></div>
+            <div class="dash-stat-label">Dépenses / mois</div>
+            <div class="dash-stat-sub">Tout foyer confondu</div>
+          </div>
+          <div class="dash-stat alert">
+            <div class="dash-stat-icon">🔴</div>
+            <div class="dash-stat-value">3</div>
+            <div class="dash-stat-label">Alertes actives</div>
+            <div class="dash-stat-sub">1 urgente · 2 en attente</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-icon">📂</div>
+            <div class="dash-stat-value">14</div>
+            <div class="dash-stat-label">Documents stockés</div>
+            <div class="dash-stat-sub">3,2 Mo utilisés</div>
+          </div>
+          <div class="dash-stat ok">
+            <div class="dash-stat-icon">📅</div>
+            <div class="dash-stat-value" style="font-size:20px;">Dans 9j</div>
+            <div class="dash-stat-label">Prochaine facture</div>
+            <div class="dash-stat-sub">Sosh Mobile — 24 mai</div>
+          </div>
+        </div>
+
+        <!-- Row 2 : catégories + alertes/agenda -->
+        <div class="dash-row">
+
+          <!-- Répartition mensuelle -->
+          <div class="dash-panel">
+            <div class="dash-panel-title">📊 Répartition mensuelle</div>
+
+            <div class="cat-bar-row">
+              <div class="cat-bar-emoji">🏠</div>
+              <div class="cat-bar-label">Logement</div>
+              <div class="cat-bar-track"><div class="cat-bar-fill" style="width:84%;background:#e63946;"></div></div>
+              <div class="cat-bar-amount">715 €</div>
+            </div>
+            <div class="cat-bar-row">
+              <div class="cat-bar-emoji">⚡</div>
+              <div class="cat-bar-label">Énergie</div>
+              <div class="cat-bar-track"><div class="cat-bar-fill" style="width:6%;background:#f97316;"></div></div>
+              <div class="cat-bar-amount">50 €</div>
+            </div>
+            <div class="cat-bar-row">
+              <div class="cat-bar-emoji">📱</div>
+              <div class="cat-bar-label">Télécom</div>
+              <div class="cat-bar-track"><div class="cat-bar-fill" style="width:5%;background:#2563eb;"></div></div>
+              <div class="cat-bar-amount">45 €</div>
+            </div>
+            <div class="cat-bar-row">
+              <div class="cat-bar-emoji">📺</div>
+              <div class="cat-bar-label">Streaming</div>
+              <div class="cat-bar-track"><div class="cat-bar-fill" style="width:2%;background:#8b5cf6;"></div></div>
+              <div class="cat-bar-amount">20 €</div>
+            </div>
+            <div class="cat-bar-row">
+              <div class="cat-bar-emoji">🌐</div>
+              <div class="cat-bar-label">Hébergement</div>
+              <div class="cat-bar-track"><div class="cat-bar-fill" style="width:2%;background:#14b8a6;"></div></div>
+              <div class="cat-bar-amount">16 €</div>
+            </div>
+
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border-lt);display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-size:11px;color:var(--text-3);">Total mensuel estimé</span>
+              <span style="font-size:20px;font-weight:800;color:var(--text-1);">846 <span style="font-size:12px;font-weight:600;">€</span></span>
+            </div>
+          </div>
+
+          <!-- Col droite : alertes + agenda -->
+          <div style="display:flex;flex-direction:column;gap:16px;">
+
+            <!-- Alertes actives -->
+            <div class="dash-panel">
+              <div class="dash-panel-title">🔔 Alertes actives</div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-agenda-dot" style="background:#e63946;"></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Attestation assurance habitation</div>
+                  <div class="dash-agenda-sub">Relance bailleur — document à fournir</div>
+                </div>
+                <div class="dash-agenda-badge red" onclick="showSection('logement', document.querySelector('.cat-tab[onclick*=logement]'))">→ Logement</div>
+              </div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-agenda-dot" style="background:#c2410c;"></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Paiement Neopulse échoué</div>
+                  <div class="dash-agenda-sub">Renouvellement 54931 — réactiver</div>
+                </div>
+                <div class="dash-agenda-badge orange" onclick="showSection('forfaits', document.querySelector('.cat-tab[onclick*=forfaits]'))">→ Forfaits</div>
+              </div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-agenda-dot" style="background:#2563eb;"></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Passeport — expiration proche</div>
+                  <div class="dash-agenda-sub">Expire 08/09/2026 · délai ANTS 6-10 sem.</div>
+                </div>
+                <div class="dash-agenda-badge blue" onclick="showSection('identite', document.querySelector('.cat-tab[onclick*=identite]'))">→ Identité</div>
+              </div>
+            </div>
+
+            <!-- Prochaines échéances -->
+            <div class="dash-panel">
+              <div class="dash-panel-title">📅 Prochaines échéances</div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-date-col"><div class="dash-date-day">24</div><div class="dash-date-mon">Mai</div></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Facture Sosh Mobile</div>
+                  <div class="dash-agenda-sub">~15 € · prélèvement auto</div>
+                </div>
+                <div class="dash-agenda-badge green">Auto</div>
+              </div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-date-col"><div class="dash-date-day">27</div><div class="dash-date-mon">Mai</div></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Loyer Juin — avis d'échéance</div>
+                  <div class="dash-agenda-sub">Cabinet Lecointe · à régler avant le 05/06</div>
+                </div>
+                <div class="dash-agenda-badge orange">Loyer</div>
+              </div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-date-col"><div class="dash-date-day">04</div><div class="dash-date-mon">Juin</div></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Facture Sosh Internet</div>
+                  <div class="dash-agenda-sub">~30 € · prélèvement auto</div>
+                </div>
+                <div class="dash-agenda-badge green">Auto</div>
+              </div>
+
+              <div class="dash-agenda-item">
+                <div class="dash-date-col"><div class="dash-date-day">08</div><div class="dash-date-mon">Mars 27</div></div>
+                <div class="dash-agenda-body">
+                  <div class="dash-agenda-title">Amazon Prime — renouvellement annuel</div>
+                  <div class="dash-agenda-sub">~7 € ou ~69 €/an</div>
+                </div>
+                <div class="dash-agenda-badge blue">Annuel</div>
+              </div>
+
+            </div>
+          </div><!-- end col droite -->
+        </div><!-- end dash-row -->
+      </div><!-- end section-dashboard -->
+
       <!-- ══════════════════════════════ -->
       <!-- SECTION : FORFAIT & SERVICES  -->
       <!-- ══════════════════════════════ -->
-      <div id="section-forfaits" class="page-section active">
+      <div id="section-forfaits" class="page-section">
 
         <!-- Sélecteur de membre -->
         <div class="member-switcher">
@@ -1319,7 +1612,7 @@
               <div class="scard-price-bar green-bar">
                 <span>Internet</span><span>20€/mois</span>
               </div>
-              <a class="scard-link" href="https://www.free.fr" target="_blank">🔗 free.fr</a>
+              <div id="link-free"></div>
               <div class="scard-docs" onclick="toggleAttach('ap-free')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-free">
@@ -1354,7 +1647,7 @@
               <div class="scard-price-bar green-bar">
                 <span>Mobile</span><span>10€/mois</span>
               </div>
-              <a class="scard-link" href="https://www.sfr.fr" target="_blank">🔗 sfr.fr</a>
+              <div id="link-mobile"></div>
               <div class="scard-docs" onclick="toggleAttach('ap-mobile')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-mobile">
@@ -1384,7 +1677,7 @@
               <div class="scard-price-bar red-bar">
                 <span>Canal+</span><span>20€/mois</span>
               </div>
-              <a class="scard-link" href="https://www.canalplus.com" target="_blank">🔗 canalplus.com</a>
+              <div id="link-canal"></div>
               <div class="scard-docs" onclick="event.stopPropagation(); toggleAttach('ap-canal')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-canal">
@@ -1412,7 +1705,7 @@
               <div class="scard-price-bar green-bar">
                 <span>Netflix</span><span>0€/mois</span>
               </div>
-              <a class="scard-link" href="https://www.netflix.com" target="_blank">🔗 netflix.com</a>
+              <div id="link-netflix"></div>
               <div class="scard-docs" onclick="toggleAttach('ap-netflix')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-netflix">
@@ -1442,7 +1735,7 @@
               <div class="scard-price-bar grey-bar">
                 <span>Spotify</span><span>inactif</span>
               </div>
-              <a class="scard-link" href="https://www.spotify.com" target="_blank">🔗 spotify.com</a>
+              <div id="link-spotify"></div>
               <div class="scard-docs" onclick="toggleAttach('ap-spotify')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
             </div>
             <div class="attach-panel" onclick="event.stopPropagation()" id="ap-spotify">
@@ -1492,6 +1785,127 @@
 
         </div>
       </div>
+
+      <!-- ══════════════════════════════ -->
+      <!-- SECTION : LOGEMENT            -->
+      <!-- ══════════════════════════════ -->
+      <div id="section-logement" class="page-section">
+
+        <!-- Sélecteur de membre -->
+        <div class="member-switcher">
+          <span class="member-switcher-label">Géré pour :</span>
+          <div class="member-pill active" onclick="switchMember(this,'ctx-logement','','','')">
+            <div class="mp-av" style="background:#d32f2f;color:#fff;">DD</div>
+            Vous
+          </div>
+          <div class="member-pill" onclick="switchMember(this,'ctx-logement','Fanny Bardanouve','#f97316','FB')">
+            <div class="mp-av" style="background:#f97316;color:#fff;">FB</div>
+            Fanny
+          </div>
+          <div class="member-add-pill" onclick="openModal('add-member')">+ Ajouter un administré</div>
+        </div>
+        <div id="ctx-logement" class="member-ctx-bar">
+          <div class="mp-av ctx-av" style="width:26px;height:26px;font-size:10px;font-weight:800;"></div>
+          <span>Logement géré pour <strong class="ctx-name"></strong></span>
+          <span class="ctx-badge">DROITS GESTION</span>
+        </div>
+
+        <div class="section-row">
+
+          <!-- Loyer -->
+          <div class="scard">
+            <div class="scard-img" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);flex-direction:column;gap:3px;">
+              <div style="font-size:10px;font-weight:700;color:#93c5fd;letter-spacing:0.08em;">CABINET LECOINTE</div>
+              <div style="font-size:17px;font-weight:900;color:#fff;">Loyer</div>
+              <div style="font-size:10px;color:#bfdbfe;">Résidence principale</div>
+              <div style="font-size:24px;font-weight:900;color:#fff;margin-top:4px;line-height:1;">700 <sup style="font-size:12px;font-weight:600;">€</sup></div>
+              <div style="font-size:10px;color:#93c5fd;">/mois · Échéance le 1<sup>er</sup></div>
+              <div class="stamp stamp-green">À jour ✓</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar green-bar"><span>Loyer mai 2026</span><span>700 €</span></div>
+              <div id="link-loyer"></div>
+              <div class="scard-docs" onclick="toggleAttach('ap-loyer')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-loyer">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Bail_Lecointe_2024.pdf</span><span class="at-meta">Contrat de location · Oct 2024</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Quittance_loyer_avril_2026.pdf</span><span class="at-meta">Cabinet Lecointe · Avr 2026</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Avis_echeance_mai_2026.pdf</span><span class="at-meta">Reçu le 27/04/2026</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles('ap-loyer')">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Assurance habitation (URGENT) -->
+          <div class="scard">
+            <div class="scard-img" style="background:linear-gradient(135deg,#7c3aed,#a855f7);flex-direction:column;gap:3px;">
+              <div style="font-size:10px;font-weight:700;color:#e9d5ff;letter-spacing:0.06em;">ASSURANCE HABITATION</div>
+              <div style="font-size:15px;font-weight:900;color:#fff;">Rés. principale</div>
+              <div style="font-size:10px;color:#e9d5ff;text-align:center;margin-top:4px;">Multirisques habitation<br>Vol · Incendie · Dégâts des eaux</div>
+              <div class="action-banner red">⚠ Attestation à fournir</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar red-bar"><span>Assurance hab.</span><span>~15 €/mois</span></div>
+              <div id="link-assur-hab"></div>
+              <div class="scard-docs" onclick="toggleAttach('ap-assur-hab')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-assur-hab">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon pdf">PDF</div>
+                <div class="at-info"><span class="at-name">Contrat_assurance_hab_2025.pdf</span><span class="at-meta">Contrat en cours · 2025</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-item">
+                <div class="at-icon missing">!</div>
+                <div class="at-info"><span class="at-name">Attestation_assurance_2026.pdf</span><span class="at-meta" style="color:#e65100;">Demandé par le bailleur — à fournir</span></div>
+                <span class="at-dl" style="color:#e65100;">→</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles('ap-assur-hab')">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- EDF -->
+          <div class="scard">
+            <div class="scard-img" style="background:#0d47a1;flex-direction:column;gap:3px;">
+              <div style="font-size:30px;font-weight:900;color:#fff;letter-spacing:-1px;">EDF</div>
+              <div style="font-size:10px;font-weight:700;color:#90caf9;letter-spacing:0.08em;">ÉLECTRICITÉ</div>
+              <div style="font-size:10px;color:#bbdefb;text-align:center;margin-top:6px;">N° client : 6008744577<br>Identifiant : DA****@GMAIL.COM</div>
+              <div class="stamp stamp-green">À jour ✓</div>
+            </div>
+            <div class="scard-footer">
+              <div class="scard-price-bar blue-bar"><span>EDF Électricité</span><span>~50 €/mois</span></div>
+              <div id="link-edf"></div>
+              <div class="scard-docs" onclick="toggleAttach('ap-edf')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
+            </div>
+            <div class="attach-panel" onclick="event.stopPropagation()" id="ap-edf">
+              <div class="attach-item" onclick="viewAttach(this)">
+                <div class="at-icon ok">PDF</div>
+                <div class="at-info"><span class="at-name">Facture_EDF_janv_2026.pdf</span><span class="at-meta">Janv 2026 · info.particuliers@edf.fr</span></div>
+                <span class="at-dl">⬇</span>
+              </div>
+              <div class="attach-add" onclick="event.stopPropagation(); pickFiles('ap-edf')">📁 Ajouter depuis le répertoire</div>
+            </div>
+          </div>
+
+          <!-- Ajouter une carte -->
+          <div class="scard-add" onclick="openAddCardPicker('logement')">
+            <div class="scard-add-icon">+</div>
+            <div class="scard-add-label">Ajouter<br>une carte</div>
+          </div>
+
+        </div>
+      </div><!-- end section-logement -->
 
       <!-- ══════════════════════ -->
       <!-- SECTION : IDENTITÉ    -->
@@ -2018,28 +2432,161 @@
       </div>
 
       <!-- ══════════════════════════════════════ -->
+      <!-- SECTION : FORUM                       -->
+      <!-- ══════════════════════════════════════ -->
+      <div id="section-forum" class="page-section">
+
+        <div class="forum-header">
+          <div>
+            <h2>💬 Forum communauté</h2>
+            <p>Questions, entraide, bons plans et alertes partagées par les utilisateurs SuperAdmin</p>
+          </div>
+          <button class="forum-new-btn" onclick="showToast('Création de sujet — bientôt disponible')">+ Nouveau sujet</button>
+        </div>
+
+        <!-- Stats rapides -->
+        <div class="forum-stats">
+          <div class="forum-stat"><div class="forum-stat-val">1 284</div><div class="forum-stat-lbl">Sujets</div></div>
+          <div class="forum-stat"><div class="forum-stat-val">8 430</div><div class="forum-stat-lbl">Réponses</div></div>
+          <div class="forum-stat"><div class="forum-stat-val">3 102</div><div class="forum-stat-lbl">Membres</div></div>
+          <div class="forum-stat"><div class="forum-stat-val" style="color:#16a34a;">47</div><div class="forum-stat-lbl">Actifs aujourd'hui</div></div>
+        </div>
+
+        <!-- Catégories -->
+        <div class="forum-categories">
+          <div class="forum-cat">
+            <div class="forum-cat-icon">❓</div>
+            <div class="forum-cat-name">Questions</div>
+            <div class="forum-cat-desc">Posez vos questions admin, documents, résiliations…</div>
+            <div class="forum-cat-meta"><strong>412</strong> sujets · <strong>2,1k</strong> réponses</div>
+          </div>
+          <div class="forum-cat">
+            <div class="forum-cat-icon">💡</div>
+            <div class="forum-cat-name">Bons plans</div>
+            <div class="forum-cat-desc">Offres télécom, énergie, streaming, assurances…</div>
+            <div class="forum-cat-meta"><strong>287</strong> sujets · <strong>1,8k</strong> réponses</div>
+          </div>
+          <div class="forum-cat">
+            <div class="forum-cat-icon">🤝</div>
+            <div class="forum-cat-name">Entraide</div>
+            <div class="forum-cat-desc">Rédaction de courriers, modèles, procédures…</div>
+            <div class="forum-cat-meta"><strong>334</strong> sujets · <strong>2,9k</strong> réponses</div>
+          </div>
+          <div class="forum-cat">
+            <div class="forum-cat-icon">🚨</div>
+            <div class="forum-cat-name">Alertes</div>
+            <div class="forum-cat-desc">Arnaques, phishing, hausses de prix signalées…</div>
+            <div class="forum-cat-meta"><strong>251</strong> sujets · <strong>1,6k</strong> réponses</div>
+          </div>
+        </div>
+
+        <!-- Fils récents -->
+        <div class="forum-threads-title">Discussions récentes</div>
+
+        <div class="forum-thread">
+          <div class="forum-thread-av" style="background:#2563eb;">ML</div>
+          <div class="forum-thread-body">
+            <div class="forum-thread-title">
+              <span class="forum-thread-tag bplan">Bon plan</span>
+              RED Box à 8€/mois pendant 2 ans — sans engagement, valable jusqu'au 31/05
+            </div>
+            <div class="forum-thread-meta">par <strong>Marie L.</strong> · Télécom &amp; Internet · il y a 2h</div>
+          </div>
+          <div class="forum-thread-right">
+            <div class="forum-thread-replies">34 rép.</div>
+            <div class="forum-thread-last">il y a 12 min</div>
+          </div>
+        </div>
+
+        <div class="forum-thread">
+          <div class="forum-thread-av" style="background:#e63946;">TF</div>
+          <div class="forum-thread-body">
+            <div class="forum-thread-title">
+              <span class="forum-thread-tag alerte">Alerte</span>
+              Faux mail EDF — arnaque au remboursement, ne pas cliquer
+            </div>
+            <div class="forum-thread-meta">par <strong>Thomas F.</strong> · Alertes &amp; signalements · il y a 5h</div>
+          </div>
+          <div class="forum-thread-right">
+            <div class="forum-thread-replies">21 rép.</div>
+            <div class="forum-thread-last">il y a 45 min</div>
+          </div>
+        </div>
+
+        <div class="forum-thread">
+          <div class="forum-thread-av" style="background:#16a34a;">SR</div>
+          <div class="forum-thread-body">
+            <div class="forum-thread-title">
+              <span class="forum-thread-tag question">Question</span>
+              Comment résilier Canal+ avant l'échéance ? Loi Chatel ou Hamon ici ?
+            </div>
+            <div class="forum-thread-meta">par <strong>Sophie R.</strong> · Questions générales · il y a 1j</div>
+          </div>
+          <div class="forum-thread-right">
+            <div class="forum-thread-replies">18 rép.</div>
+            <div class="forum-thread-last">il y a 3h</div>
+          </div>
+        </div>
+
+        <div class="forum-thread">
+          <div class="forum-thread-av" style="background:#ea580c;">JD</div>
+          <div class="forum-thread-body">
+            <div class="forum-thread-title">
+              <span class="forum-thread-tag aide">Entraide</span>
+              Modèle de lettre de résiliation assurance habitation (loi Hamon) — PDF gratuit
+            </div>
+            <div class="forum-thread-meta">par <strong>Julie D.</strong> · Entraide &amp; modèles · il y a 2j</div>
+          </div>
+          <div class="forum-thread-right">
+            <div class="forum-thread-replies">56 rép.</div>
+            <div class="forum-thread-last">il y a 6h</div>
+          </div>
+        </div>
+
+        <div class="forum-thread">
+          <div class="forum-thread-av" style="background:#8b5cf6;">AM</div>
+          <div class="forum-thread-body">
+            <div class="forum-thread-title">
+              <span class="forum-thread-tag bplan">Bon plan</span>
+              EDF vs Octopus Energy en 2026 — comparatif complet après 6 mois chez Octopus
+            </div>
+            <div class="forum-thread-meta">par <strong>Alex M.</strong> · Énergie · il y a 3j</div>
+          </div>
+          <div class="forum-thread-right">
+            <div class="forum-thread-replies">29 rép.</div>
+            <div class="forum-thread-last">il y a 1j</div>
+          </div>
+        </div>
+
+        <div class="forum-thread">
+          <div class="forum-thread-av" style="background:#0284c7;">NB</div>
+          <div class="forum-thread-body">
+            <div class="forum-thread-title">
+              <span class="forum-thread-tag question">Question</span>
+              Mon propriétaire peut-il refuser une attestation d'assurance signée électroniquement ?
+            </div>
+            <div class="forum-thread-meta">par <strong>Nicolas B.</strong> · Logement · il y a 4j</div>
+          </div>
+          <div class="forum-thread-right">
+            <div class="forum-thread-replies">12 rép.</div>
+            <div class="forum-thread-last">il y a 2j</div>
+          </div>
+        </div>
+
+      </div><!-- end section-forum -->
+
+      <!-- ══════════════════════════════════════ -->
       <!-- SECTION : MON RÉSEAU                  -->
       <!-- ══════════════════════════════════════ -->
       <div id="section-connexions" class="page-section">
         <div class="conn-section-header">
-          <div class="conn-section-title">
-            Mon réseau
-            <span id="connexions-count-title"></span>
+          <div>
+            <div class="conn-section-title">👥 Mon réseau</div>
+            <p class="rconn-intro">Chaque personne ici a un accès précis à vos données — ni plus, ni moins. Vous contrôlez tout.</p>
           </div>
-          <button class="conn-add-btn" onclick="openModal('add-member')">+ Ajouter</button>
+          <button class="conn-add-btn" onclick="openModal('add-member')">+ Connecter une personne</button>
         </div>
-        <div class="reseau-legend">
-          <div class="reseau-legend-item"><div class="reseau-legend-dot" style="background:#4f7cff;"></div> <strong>Je gère</strong> — je vois leurs abonnements et documents, je peux faire des propositions</div>
-          <div class="reseau-legend-item"><div class="reseau-legend-dot" style="background:#65a30d;"></div> <strong>Ils me gèrent</strong> — ils voient mes données et peuvent me faire des suggestions</div>
-          <div class="reseau-legend-item"><div class="reseau-legend-dot" style="background:#14b8a6;"></div> <strong>Foyer</strong> — partage symétrique de certaines cartes (conjoint·e, colocataire)</div>
-        </div>
-        <div class="filter-tabs">
-          <button class="filter-tab active" onclick="filterConnections('all',this)">Tous <span class="tab-count" id="rc-all"></span></button>
-          <button class="filter-tab" onclick="filterConnections('admin',this)">Je gère <span class="tab-count" id="rc-admin"></span></button>
-          <button class="filter-tab" onclick="filterConnections('manager',this)">Ils me gèrent <span class="tab-count" id="rc-manager"></span></button>
-          <button class="filter-tab" onclick="filterConnections('share',this)">Foyer <span class="tab-count" id="rc-share"></span></button>
-        </div>
-        <div id="conn-list" class="conn-list"></div>
+        <div id="conn-list" class="rconn-list"></div>
       </div>
 
     </main>
@@ -2048,6 +2595,24 @@
   <footer class="app-footer">
     SuperAdmin V1.bis — Aperçu fidèle aux maquettes originales — Daniel De Roland — Mai 2026
   </footer>
+
+  <!-- ═══ MODAL EDIT URL ═══ -->
+  <div id="modal-url-edit" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;display:none;align-items:center;justify-content:center;" onclick="if(event.target===this){this.style.display='none';_editCardId=null;}">
+    <div style="background:#fff;border-radius:14px;padding:28px 28px 22px;width:100%;max-width:390px;box-shadow:0 20px 60px rgba(0,0,0,0.2);" onclick="event.stopPropagation()">
+      <div style="font-size:15px;font-weight:800;color:var(--text-1);margin-bottom:6px;" id="url-edit-title">🔗 Modifier le lien</div>
+      <div style="font-size:12px;color:var(--text-2);margin-bottom:18px;line-height:1.5;">Ce lien s'ouvre depuis la carte. Modifiez-le à tout moment — il est sauvegardé dans votre navigateur.</div>
+      <label style="font-size:11px;font-weight:700;color:var(--text-2);display:block;margin-bottom:7px;text-transform:uppercase;letter-spacing:0.06em;">Adresse du site</label>
+      <input id="url-edit-input" type="url" placeholder="https://monespace.exemple.fr"
+             style="width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:var(--text-1);transition:border-color 0.15s;"
+             onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'"
+             onkeydown="if(event.key==='Enter')saveUrlFromModal();if(event.key==='Escape'){document.getElementById('modal-url-edit').style.display='none';_editCardId=null;}">
+      <div style="font-size:11px;color:var(--text-3);margin-top:8px;">Laissez vide pour supprimer le lien.</div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:22px;">
+        <button onclick="document.getElementById('modal-url-edit').style.display='none';_editCardId=null;" style="padding:9px 20px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:13px;font-weight:600;color:var(--text-2);cursor:pointer;font-family:'Inter',sans-serif;">Annuler</button>
+        <button onclick="saveUrlFromModal()" style="padding:9px 20px;border:none;border-radius:10px;background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══ MODAL CANAL+ ═══ -->
   <div id="modal-canal" class="modal-overlay" onclick="closeModal('canal')">
@@ -2426,13 +2991,22 @@
         <div style="font-size:22px;">👥</div>
         <h3>Partager cette carte</h3>
       </div>
-      <p id="share-card-label" style="font-size:12px;color:var(--text-3);margin-bottom:20px;"></p>
+      <p id="share-card-label" style="font-size:12px;color:var(--text-3);margin-bottom:16px;"></p>
 
       <div id="share-user-list" class="share-user-list"></div>
 
-      <div style="background:var(--blue-bg);border:1px solid rgba(37,99,235,0.15);border-radius:var(--r-sm);padding:11px 13px;font-size:12px;color:#1d4ed8;line-height:1.6;margin-bottom:18px;">
-        La carte et ses documents seront visibles dans le tableau de bord des personnes sélectionnées, synchronisés en temps réel.<br>
-        <strong>Vous restez propriétaire</strong> et pouvez révoquer l'accès à tout moment en recliquant.
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:rgba(37,99,235,0.05);border:1px solid rgba(37,99,235,0.15);border-radius:var(--r-sm);padding:10px 12px;">
+          <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:3px;">👁 Lecture seule</div>
+          <div style="font-size:11px;color:var(--text-3);line-height:1.5;">Voit la carte et les documents. Ne peut pas modifier.</div>
+        </div>
+        <div style="background:rgba(22,163,74,0.05);border:1px solid rgba(22,163,74,0.2);border-radius:var(--r-sm);padding:10px 12px;">
+          <div style="font-size:12px;font-weight:700;color:#16a34a;margin-bottom:3px;">✏️ Collaboration</div>
+          <div style="font-size:11px;color:var(--text-3);line-height:1.5;">Peut modifier, ajouter des documents, mettre à jour le prix.</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text-3);line-height:1.5;margin-bottom:18px;">
+        Vous restez <strong style="color:var(--text-2);">propriétaire</strong> — vous pouvez changer les droits ou révoquer l'accès à tout moment.
       </div>
 
       <div class="modal-actions">
@@ -2465,28 +3039,27 @@
 
       services: [
         {
-          id: 'free', name: 'Internet', url: 'https://www.free.fr', urlLabel: 'free.fr',
+          id: 'sosh-internet', name: 'Sosh Internet', url: 'https://www.sosh.fr', urlLabel: 'sosh.fr',
           status: 'active',
-          price: { label: '20€/mois', barClass: 'green-bar' },
-          logo: { type: 'free', bg: '#f5f5f5' },
-          stamp: { text: 'Sans engagement', type: 'red', bottom: null },
+          price: { label: '~30€/mois', barClass: 'green-bar' },
+          logo: { type: 'sosh-internet', bg: '#ff6900' },
+          stamp: { text: 'N° 0961410016', type: 'green', bottom: null },
           actionBanner: null, modal: null,
           attachments: [
-            { name: 'Contrat_Freebox_Revolution.pdf', meta: '2,1 Mo · Jan 2023', type: 'pdf' },
-            { name: 'Facture_Avr_2026.pdf',            meta: '340 Ko · Avr 2026',  type: 'ok'  },
-            { name: 'CGV_Free_2023.pdf',               meta: '1,2 Mo',             type: 'pdf' }
+            { name: 'Facture_Sosh_Internet_mai_2026.pdf', meta: '280 Ko · Mai 2026', type: 'ok' },
+            { name: 'Facture_Sosh_Internet_avr_2026.pdf', meta: '280 Ko · Avr 2026', type: 'ok' }
           ]
         },
         {
-          id: 'mobile', name: 'Mobile', url: 'https://www.sfr.fr', urlLabel: 'sfr.fr',
+          id: 'sosh-mobile', name: 'Sosh Mobile', url: 'https://www.sosh.fr', urlLabel: 'sosh.fr',
           status: 'active',
-          price: { label: '10€/mois', barClass: 'green-bar' },
-          logo: { type: 'mobile', bg: 'linear-gradient(135deg,#c2185b,#e91e63)', amount: '9.99' },
-          stamp: { text: 'Valide au 10/05/2027', type: 'green', bottom: null },
+          price: { label: '~15€/mois', barClass: 'green-bar' },
+          logo: { type: 'sosh-mobile', bg: '#ff6900' },
+          stamp: { text: 'N° 0672068736', type: 'green', bottom: null },
           actionBanner: null, modal: null,
           attachments: [
-            { name: 'Contrat_Mobile_9.99.pdf',     meta: '1,8 Mo · Jan 2024', type: 'pdf' },
-            { name: 'Facture_Mobile_Avr_2026.pdf', meta: '280 Ko',            type: 'ok'  }
+            { name: 'Facture_Sosh_Mobile_mai_2026.pdf', meta: '280 Ko · Mai 2026', type: 'ok' },
+            { name: 'Facture_Sosh_Mobile_avr_2026.pdf', meta: '280 Ko · Avr 2026', type: 'ok' }
           ]
         },
         {
@@ -2511,6 +3084,29 @@
           actionBanner: null, modal: null,
           attachments: [
             { name: 'Email_confirmation_Netflix.pdf', meta: '45 Ko · inclus Canal+', type: 'ok' }
+          ]
+        },
+        {
+          id: 'amazon', name: 'Amazon Prime', url: 'https://www.amazon.fr', urlLabel: 'amazon.fr',
+          status: 'active',
+          price: { label: '~7€/mois', barClass: 'green-bar' },
+          logo: { type: 'amazon-prime', bg: '#131921' },
+          stamp: { text: 'Renouvelé mars 2026', type: 'green', bottom: null },
+          actionBanner: null, modal: null,
+          attachments: [
+            { name: 'Commande_Prime_mars_2026.pdf', meta: '45 Ko · 08/03/2026', type: 'ok' }
+          ]
+        },
+        {
+          id: 'neopulse', name: 'Neopulse', url: 'https://www.neopulse.fr', urlLabel: 'neopulse.fr',
+          status: 'active',
+          price: { label: '~10€/mois', barClass: 'red-bar' },
+          logo: { type: 'neopulse', bg: '#1a1a2e' },
+          stamp: { text: 'Paiement échoué !', type: 'red', bottom: null },
+          actionBanner: { text: '⚠ Réactiver l\'abonnement', color: 'orange' },
+          modal: null,
+          attachments: [
+            { name: 'Facture_renouvellement_54931.pdf', meta: '18 fév 2026 · Impayé', type: 'missing', onclick: '' }
           ]
         },
         {
@@ -2544,6 +3140,15 @@
           { emoji: '🎓', label: 'Carte étudiant',     sub: '' },
           { emoji: '🏦', label: 'RIB / IBAN',         sub: '' },
           { emoji: '➕', label: 'Autre document',     sub: '' },
+        ]},
+        { id: 'logement', label: 'Logement & Habitation', items: [
+          { emoji: '🏠', label: 'Loyer',                  sub: 'Avis d\'échéance, quittances' },
+          { emoji: '🛡️', label: 'Assurance habitation',   sub: 'Multirisques, attestation' },
+          { emoji: '⚡', label: 'Électricité',            sub: 'EDF, Engie, Ekwateur…' },
+          { emoji: '🔥', label: 'Gaz',                    sub: 'Contrat gaz naturel' },
+          { emoji: '💧', label: 'Eau',                    sub: 'Veolia, Suez…' },
+          { emoji: '🌡️', label: 'Chauffage collectif',   sub: 'Charges de copropriété' },
+          { emoji: '➕', label: 'Autre logement',          sub: '' },
         ]},
         { id: 'sante', label: 'Santé & Assurance', items: [
           { emoji: '🏥', label: 'Mutuelle',              sub: '' },
@@ -2620,6 +3225,21 @@
           <div style="font-size:44px;font-weight:900;color:#e50914;font-family:Impact,Arial;letter-spacing:-2px;">NETFLIX</div>`;
         case 'spotify': return `
           <div style="font-size:30px;font-weight:900;color:#1db954;font-family:Arial;">Spotify</div>`;
+        case 'sosh-internet': return `
+          <div style="font-size:34px;font-weight:900;color:#fff;font-family:'Inter',sans-serif;letter-spacing:-1px;line-height:1;">sosh</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.85);font-weight:600;margin-top:3px;">Box Internet</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:5px;">Ligne fixe · 0961410016</div>`;
+        case 'sosh-mobile': return `
+          <div style="font-size:34px;font-weight:900;color:#fff;font-family:'Inter',sans-serif;letter-spacing:-1px;line-height:1;">sosh</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.85);font-weight:600;margin-top:3px;">Forfait Mobile</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:5px;">Ligne · 0672068736</div>`;
+        case 'amazon-prime': return `
+          <div style="font-size:22px;font-weight:900;color:#ff9900;font-family:Arial;letter-spacing:-0.5px;">amazon</div>
+          <div style="font-size:14px;font-weight:900;color:#fff;letter-spacing:0.15em;margin-top:1px;">prime</div>
+          <div style="font-size:10px;color:#888;text-align:center;margin-top:8px;line-height:1.4;">Livraison rapide<br>Vidéo · Musique</div>`;
+        case 'neopulse': return `
+          <div style="font-size:20px;font-weight:900;color:#a78bfa;font-family:'Inter',sans-serif;letter-spacing:-0.5px;">Neopulse</div>
+          <div style="font-size:10px;color:#6d6d8a;text-align:center;margin-top:6px;">Hébergement · VPS</div>`;
         default: return `<div style="font-size:18px;font-weight:700;">${logo.type}</div>`;
       }
     }
@@ -2673,7 +3293,7 @@
             <div class="scard-price-bar ${s.price.barClass}">
               <span>${s.name}</span><span>${s.price.label}</span>
             </div>
-            <a class="scard-link" href="${s.url}" target="_blank">🔗 ${s.urlLabel}</a>
+            <div id="link-${s.id}"></div>
             <div class="scard-docs" onclick="${stop}toggleAttach('ap-${s.id}')">📎 Voir mes dossiers joints <span class="docs-chevron">▼</span></div>
           </div>
           ${renderAttachItems(s.attachments, s.id)}
@@ -2869,7 +3489,75 @@
       injectShareButtons();
       applyInitialShares();
       renderConnectionsList();
+      initCardLinks();
     });
+
+    /* ══════════════════════════════════════════════════════════════════
+       URLS DES CARTES — localStorage
+       ══════════════════════════════════════════════════════════════════ */
+
+    const _URLS_KEY = 'sa_card_urls';
+    const _defaultUrls = {
+      'free':          'https://www.free.fr',
+      'mobile':        'https://www.sfr.fr',
+      'canal':         'https://www.canalplus.com',
+      'netflix':       'https://www.netflix.com',
+      'spotify':       'https://www.spotify.com',
+      'edf':           'https://www.edf.fr',
+      'loyer':         '',
+      'assur-hab':     '',
+    };
+    // Complète avec les URLs de DB.services
+    DB.services.forEach(s => { if (s.url) _defaultUrls[s.id] = s.url; });
+    let cardUrls = {};
+    try { cardUrls = { ..._defaultUrls, ...JSON.parse(localStorage.getItem(_URLS_KEY) || '{}') }; }
+    catch(e) { cardUrls = { ..._defaultUrls }; }
+
+    const _cardNames = {
+      'free':'Free Internet', 'mobile':'SFR Mobile', 'canal':'Canal+',
+      'netflix':'Netflix', 'spotify':'Spotify', 'edf':'EDF Électricité',
+      'loyer':'Loyer', 'assur-hab':'Assurance habitation',
+      'sosh-internet':'Sosh Internet', 'sosh-mobile':'Sosh Mobile',
+      'amazon':'Amazon Prime', 'neopulse':'Neopulse',
+    };
+
+    function renderCardLinkEl(cardId) {
+      const el = document.getElementById('link-' + cardId);
+      if (!el) return;
+      const url = cardUrls[cardId] || '';
+      if (!url) {
+        el.innerHTML = `<div class="scard-link-empty" onclick="editCardUrl('${cardId}')">🔗 Ajouter un lien</div>`;
+      } else {
+        const label = url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+        el.innerHTML = `<div class="scard-link-row"><a class="scard-link" href="${url}" target="_blank">🔗 ${label}</a><span class="scard-link-pencil" onclick="event.preventDefault();editCardUrl('${cardId}')" title="Modifier l'URL">✎</span></div>`;
+      }
+    }
+
+    function initCardLinks() {
+      Object.keys(cardUrls).forEach(renderCardLinkEl);
+    }
+
+    let _editCardId = null;
+    function editCardUrl(cardId) {
+      _editCardId = cardId;
+      const service = DB.services ? DB.services.find(s => s.id === cardId) : null;
+      document.getElementById('url-edit-title').textContent = '🔗 ' + (service?.name || _cardNames[cardId] || cardId);
+      document.getElementById('url-edit-input').value = cardUrls[cardId] || '';
+      document.getElementById('modal-url-edit').style.display = 'flex';
+      setTimeout(() => { const inp = document.getElementById('url-edit-input'); inp.focus(); inp.select(); }, 50);
+    }
+
+    function saveUrlFromModal() {
+      if (!_editCardId) return;
+      let url = document.getElementById('url-edit-input').value.trim();
+      if (url && !url.startsWith('http')) url = 'https://' + url;
+      cardUrls[_editCardId] = url;
+      localStorage.setItem(_URLS_KEY, JSON.stringify(cardUrls));
+      renderCardLinkEl(_editCardId);
+      document.getElementById('modal-url-edit').style.display = 'none';
+      showToast(url ? '🔗 Lien sauvegardé' : 'Lien supprimé');
+      _editCardId = null;
+    }
 
     /* ══════════════════════════════════════════════════════════════════
        FIN COUCHE DONNÉES
@@ -2880,6 +3568,8 @@
       document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
       document.getElementById('section-' + name).classList.add('active');
       if (el) el.classList.add('active');
+      const sw = document.querySelector('.sort-wrap');
+      if (sw) sw.style.display = (name === 'dashboard' || name === 'logement') ? 'none' : 'flex';
     }
 
     function openModal(id) {
@@ -3260,19 +3950,20 @@
 
     function getSharedCardsFor(uid) {
       const result = [];
-      Object.entries(sharingState).forEach(([cardId, usersSet]) => {
-        if (usersSet.has(uid)) {
+      Object.entries(sharingState).forEach(([cardId, users]) => {
+        if (users[uid]) {
           const panel = document.getElementById('ap-' + cardId);
           const card  = panel ? panel.closest('.scard') : null;
           const label = card ? (card.querySelector('.scard-price-bar span:first-child')?.textContent.trim() || cardId) : cardId;
-          result.push({ cardId, label });
+          const perm  = users[uid];
+          result.push({ cardId, label, perm });
         }
       });
       return result;
     }
 
     function revokeSharedCard(uid, cardId) {
-      if (sharingState[cardId]) sharingState[cardId].delete(uid);
+      if (sharingState[cardId]) delete sharingState[cardId][uid];
       updateCardShareUI(cardId);
       renderConnectionsList();
       const user = DB.members.find(m => m.id === uid);
@@ -3284,8 +3975,8 @@
       if (!user) return;
       if (!confirm('Révoquer l\'accès à ' + user.name + ' ?\nTous les partages actifs seront supprimés.')) return;
       Object.keys(sharingState).forEach(cardId => {
-        if (sharingState[cardId].has(uid)) {
-          sharingState[cardId].delete(uid);
+        if (sharingState[cardId]?.[uid]) {
+          delete sharingState[cardId][uid];
           updateCardShareUI(cardId);
         }
       });
@@ -3293,6 +3984,25 @@
       if (idx !== -1) DB.members.splice(idx, 1);
       renderConnectionsList();
       showToast('Accès de ' + user.name + ' révoqué.');
+    }
+
+    function getSectionIcon(cardId) {
+      const map = {
+        'sosh-internet':'📱','sosh-mobile':'📱','canal':'📺','netflix':'📺',
+        'spotify':'🎵','amazon':'🛒','neopulse':'🌐',
+        'loyer':'🏠','assur-hab':'🛡️','edf':'⚡',
+        'vitale':'💊','mutuelle-dan':'🏥','mgen':'🏥','rc':'🛡️',
+      };
+      return map[cardId] || '📄';
+    }
+
+    function toggleConnManage(uid) {
+      const panel = document.getElementById('manage-' + uid);
+      const btn   = document.querySelector(`#conn-${uid} .rconn-manage-btn`);
+      if (!panel) return;
+      const open = panel.style.display !== 'none';
+      panel.style.display = open ? 'none' : 'block';
+      if (btn) { btn.textContent = open ? 'Gérer ▾' : 'Fermer ▲'; btn.classList.toggle('open', !open); }
     }
 
     function renderConnectionsList() {
@@ -3303,8 +4013,8 @@
       if (contacts.length === 0) {
         list.innerHTML = `<div style="text-align:center;padding:48px 24px;color:var(--text-3);">
           <div style="font-size:48px;margin-bottom:12px;">👥</div>
-          <div style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Aucun contact</div>
-          <div style="font-size:13px;">Ajoutez votre conjoint·e, vos enfants ou un proche pour partager vos cartes.</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:6px;">Personne pour l'instant</div>
+          <div style="font-size:13px;">Connectez votre conjoint·e, un enfant ou un proche pour partager certaines cartes.</div>
         </div>`;
         updateConnexionsCount(0);
         return;
@@ -3315,51 +4025,105 @@
       const nShare   = contacts.filter(c => c.connectionType === 'share').length;
       updateConnexionsCount(contacts.length, nAdmin, nManager, nShare);
 
-      list.innerHTML = contacts.map(c => {
-        const isPending = c.status === 'pending';
-        const typeBadge = {
-          share:   `<span class="conn-badge share">🏠 Foyer</span>`,
-          admin:   `<span class="conn-badge admin">👤 Je gère</span>`,
-          manager: `<span class="conn-badge manager">🛡️ Me gère</span>`
-        }[c.connectionType] || '';
-        const statusBadge = isPending
-          ? `<span class="conn-status pending">⏳ En attente</span>`
-          : `<span class="conn-status active">✓ Actif</span>`;
+      const firstName = n => n.split(' ')[0];
 
-        let bodyContent = '';
+      list.innerHTML = contacts.map(c => {
+        const fn = firstName(c.name);
+
+        // ── Description humaine selon le type ──
+        const desc = {
+          share:   `Vous partagez certaines cartes en commun — chacun peut voir et modifier ce qui est partagé.`,
+          admin:   `Vous gérez le compte complet de ${fn} — accès total à toutes ses données.`,
+          manager: `${fn} peut voir vos données et vous faire des suggestions. Il/elle ne peut rien modifier.`
+        }[c.connectionType] || '';
+
+        // ── Zone d'accès ──
+        let accessHTML = '';
+
         if (c.connectionType === 'share') {
           const cards = getSharedCardsFor(c.id);
-          const chips = cards.length
-            ? cards.map(sc => `<span class="conn-chip">${sc.label}<span class="conn-chip-x" onclick="event.stopPropagation();revokeSharedCard('${c.id}','${sc.cardId}')" title="Retirer ce partage">×</span></span>`).join('')
-            : `<span class="conn-no-shares">Aucune carte partagée — cliquez 👥 sur une carte pour partager.</span>`;
-          bodyContent = `<div class="conn-body-label">Cartes partagées avec ${c.name.split(' ')[0]}</div><div class="conn-shared-chips">${chips}</div>`;
+          const label = `Ce que ${fn} peut faire sur vos cartes`;
+          if (cards.length === 0) {
+            accessHTML = `
+              <div class="rconn-access">
+                <div class="rconn-access-label">${label}</div>
+                <div class="rconn-empty">Aucune carte partagée pour l'instant.</div>
+                <button class="rconn-add-share" onclick="showToast('Ouvrez une carte et cliquez sur le bouton 👥 pour la partager avec ${fn}')">+ Partager une carte avec ${fn}</button>
+              </div>`;
+          } else {
+            const items = cards.map(sc => {
+              const cls  = sc.perm === 'edit' ? 'edit' : 'view';
+              const perm = sc.perm === 'edit' ? '✏️ peut modifier' : '👁 peut voir seulement';
+              return `<div class="rconn-access-item ${cls}">
+                <span class="rconn-item-icon">${getSectionIcon(sc.cardId)}</span>
+                <span class="rconn-item-name">${sc.label}</span>
+                <span class="rconn-item-perm">${perm}</span>
+                <span class="rconn-item-x" onclick="revokeSharedCard('${c.id}','${sc.cardId}')" title="Retirer ce partage">×</span>
+              </div>`;
+            }).join('');
+            accessHTML = `
+              <div class="rconn-access">
+                <div class="rconn-access-label">${label}</div>
+                <div class="rconn-access-items">${items}</div>
+                <button class="rconn-add-share" onclick="showToast('Ouvrez une carte et cliquez sur le bouton 👥 pour partager avec ${fn}')">+ Partager une autre carte</button>
+              </div>`;
+          }
+
         } else if (c.connectionType === 'admin') {
-          const allCards = getAllCardIds();
-          const chips = allCards.map(sc =>
-            `<span class="conn-chip" style="opacity:0.8;">${sc.label}<span style="font-size:10px;color:var(--text-3);margin-left:2px;" title="Accès complet">🔒</span></span>`
-          ).join('');
-          bodyContent = `<div class="conn-body-label">Accès complet à tous ses abonnements &amp; documents</div><div class="conn-shared-chips">${chips || '<span class="conn-no-shares">Aucune carte dans le profil.</span>'}</div>`;
+          accessHTML = `
+            <div class="rconn-access">
+              <div class="rconn-access-label">Accès accordé sur le compte de ${fn}</div>
+              <div class="rconn-access-items">
+                <div class="rconn-access-item full"><span class="rconn-item-icon">📱</span><span class="rconn-item-name">Forfaits &amp; services</span><span class="rconn-item-perm">🔑 accès complet</span></div>
+                <div class="rconn-access-item full"><span class="rconn-item-icon">🏠</span><span class="rconn-item-name">Logement</span><span class="rconn-item-perm">🔑 accès complet</span></div>
+                <div class="rconn-access-item full"><span class="rconn-item-icon">🪪</span><span class="rconn-item-name">Identité &amp; documents</span><span class="rconn-item-perm">🔑 accès complet</span></div>
+                <div class="rconn-access-item full"><span class="rconn-item-icon">🏥</span><span class="rconn-item-name">Santé &amp; assurance</span><span class="rconn-item-perm">🔑 accès complet</span></div>
+              </div>
+              <button class="rconn-view-btn" onclick="showToast('Ouverture du profil de ${fn}…')">Voir les cartes de ${fn} →</button>
+            </div>`;
+
         } else if (c.connectionType === 'manager') {
-          bodyContent = `<div class="conn-body-label">Voit vos abonnements &amp; documents · Peut vous faire des propositions</div><div class="conn-shared-chips"><span class="conn-chip" style="opacity:0.8;">Forfaits &amp; services 🔒</span><span class="conn-chip" style="opacity:0.8;">Identité 🔒</span><span class="conn-chip" style="opacity:0.8;">Santé 🔒</span></div>`;
+          accessHTML = `
+            <div class="rconn-access">
+              <div class="rconn-access-label">Ce que ${fn} peut voir de votre compte</div>
+              <div class="rconn-access-items">
+                <div class="rconn-access-item view"><span class="rconn-item-icon">📱</span><span class="rconn-item-name">Vos forfaits &amp; services</span><span class="rconn-item-perm">👁 lecture seule</span></div>
+                <div class="rconn-access-item view"><span class="rconn-item-icon">🏠</span><span class="rconn-item-name">Votre logement</span><span class="rconn-item-perm">👁 lecture seule</span></div>
+                <div class="rconn-access-item view"><span class="rconn-item-icon">🪪</span><span class="rconn-item-name">Votre identité</span><span class="rconn-item-perm">👁 lecture seule</span></div>
+                <div class="rconn-access-item view"><span class="rconn-item-icon">🏥</span><span class="rconn-item-name">Votre santé &amp; assurance</span><span class="rconn-item-perm">👁 lecture seule</span></div>
+              </div>
+            </div>`;
         }
 
-        const footerExtra = isPending
-          ? `<button class="conn-resend-btn" onclick="showToast('Invitation renvoyée à ${c.name} !')">Renvoyer l\'invitation</button>`
-          : (c.connectionType === 'admin' ? `<button class="conn-resend-btn" onclick="showToast('Ouverture du profil de ${c.name}…')">Voir ses abonnements →</button>` : '');
+        // ── Panneau "Gérer" caché par défaut ──
+        const pendingNote = c.status === 'pending'
+          ? `<div style="font-size:12px;color:#ca8a04;background:#fefce8;border:1px solid #fde047;border-radius:var(--r-sm);padding:8px 12px;margin-bottom:12px;">⏳ Invitation envoyée — en attente d'acceptation de ${fn}. <span style="cursor:pointer;text-decoration:underline;" onclick="showToast('Invitation renvoyée à ${c.name} !')">Renvoyer</span></div>`
+          : '';
 
-        return `<div class="conn-card" id="conn-${c.id}">
-          <div class="conn-header">
-            <div class="conn-av" style="background:${c.color}">${c.initials}</div>
-            <div class="conn-info">
-              <div class="conn-name">${c.name}</div>
-              <div class="conn-meta">${c.relation || ''}</div>
-              <div class="conn-badges">${typeBadge}${statusBadge}</div>
+        const managePanel = `
+          <div class="rconn-manage-panel" id="manage-${c.id}" style="display:none;">
+            ${pendingNote}
+            <div class="rconn-danger-label">⚠ Zone sensible</div>
+            <button class="rconn-revoke-btn" onclick="revokeConnection('${c.id}')">
+              Déconnecter ${fn} — supprimer tout accès
+            </button>
+            <div class="rconn-revoke-warn">Cette action est irréversible. ${fn} ne pourra plus voir ni modifier aucune de vos données. Vous pouvez le/la reconnecter ensuite si besoin.</div>
+          </div>`;
+
+        return `
+          <div class="rconn-card" id="conn-${c.id}">
+            <div class="rconn-main">
+              <div class="rconn-av" style="background:${c.color}">${c.initials}</div>
+              <div class="rconn-info">
+                <div class="rconn-name">${c.name}</div>
+                <div class="rconn-rel">${c.relation || ''} · Connecté le ${c.dateConnected || '—'}</div>
+                <div class="rconn-desc">${desc}</div>
+              </div>
+              <button class="rconn-manage-btn" onclick="toggleConnManage('${c.id}')">Gérer ▾</button>
             </div>
-            <div class="conn-date">Depuis le ${c.dateConnected || '—'}</div>
-          </div>
-          <div class="conn-body">${bodyContent}</div>
-          <div class="conn-footer">${footerExtra}<button class="conn-revoke-btn" onclick="revokeConnection('${c.id}')">Révoquer l'accès</button></div>
-        </div>`;
+            ${accessHTML}
+            ${managePanel}
+          </div>`;
       }).join('');
     }
 
@@ -3396,10 +4160,12 @@
        PARTAGE DE CARTES
        ══════════════════════════════════════════════════════════════════ */
 
-    // État initial : Freebox et RC partagés avec Fanny (cartes foyer)
+    // État initial — { cardId: { userId: 'view'|'edit' } }
+    // 'sosh-internet' partagé en collaboration avec Fanny (foyer commun)
+    // 'rc' partagé en lecture seule avec Fanny (info uniquement)
     const sharingState = {
-      'free': new Set(['fanny']),
-      'rc':   new Set(['fanny']),
+      'sosh-internet': { fanny: 'edit' },
+      'rc':            { fanny: 'view' },
     };
 
     let _shareCardId   = null;
@@ -3414,35 +4180,46 @@
     }
 
     function renderShareUserList(cardId) {
-      const shared   = sharingState[cardId] || new Set();
+      const sharing  = sharingState[cardId] || {};
       const contacts = DB.members.filter(m => m.id !== 'me');
       document.getElementById('share-user-list').innerHTML = contacts.map(c => {
-        const isShared = shared.has(c.id);
+        const perm = sharing[c.id];
         return `
-          <div class="share-user-row ${isShared ? 'shared' : ''}" onclick="toggleShare('${cardId}','${c.id}')">
-            <div class="su-av" style="background:${c.color}">${c.initials}</div>
-            <div style="flex:1;">
+          <div class="share-user-row ${perm ? 'shared' : ''}">
+            <div class="su-av" style="background:${c.color};${perm === 'edit' ? 'box-shadow:0 0 0 2.5px #16a34a' : perm === 'view' ? 'box-shadow:0 0 0 2.5px var(--blue)' : ''}">${c.initials}</div>
+            <div style="flex:1;min-width:0;">
               <div class="su-name">${c.name}</div>
               <div class="su-relation">${c.relation || ''}</div>
             </div>
-            ${isShared
-              ? `<div class="su-check">✓</div>`
-              : `<div class="su-hint">Partager →</div>`}
+            ${perm ? `
+              <div class="su-perm">
+                <button class="su-perm-btn ${perm === 'view' ? 'active-view' : ''}" onclick="setShare('${cardId}','${c.id}','view')">👁 Lecture</button>
+                <button class="su-perm-btn ${perm === 'edit' ? 'active-edit' : ''}" onclick="setShare('${cardId}','${c.id}','edit')">✏️ Collaboration</button>
+              </div>
+              <div class="su-revoke" onclick="revokeShare('${cardId}','${c.id}')" title="Révoquer l'accès">×</div>
+            ` : `
+              <div class="su-share-btn" onclick="setShare('${cardId}','${c.id}','edit')">Partager →</div>
+            `}
           </div>`;
       }).join('');
     }
 
-    function toggleShare(cardId, userId) {
-      if (!sharingState[cardId]) sharingState[cardId] = new Set();
-      const shared = sharingState[cardId];
-      const user   = DB.members.find(m => m.id === userId);
-      if (shared.has(userId)) {
-        shared.delete(userId);
-        showToast('Partage retiré pour ' + (user?.name || userId));
-      } else {
-        shared.add(userId);
-        showToast('✓ Carte partagée avec ' + (user?.name || userId));
-      }
+    function setShare(cardId, userId, perm) {
+      if (!sharingState[cardId]) sharingState[cardId] = {};
+      sharingState[cardId][userId] = perm;
+      const user = DB.members.find(m => m.id === userId);
+      showToast(perm === 'edit'
+        ? `✏️ ${user?.name} peut maintenant modifier cette carte`
+        : `👁 ${user?.name} a accès en lecture seule`);
+      renderShareUserList(cardId);
+      updateCardShareUI(cardId);
+      renderConnectionsList();
+    }
+
+    function revokeShare(cardId, userId) {
+      if (sharingState[cardId]) delete sharingState[cardId][userId];
+      const user = DB.members.find(m => m.id === userId);
+      showToast('Accès retiré pour ' + (user?.name || userId));
       renderShareUserList(cardId);
       updateCardShareUI(cardId);
       renderConnectionsList();
@@ -3454,36 +4231,64 @@
       const card = panel.closest('.scard');
       if (!card) return;
 
-      const shared   = sharingState[cardId] || new Set();
-      const users    = DB.members.filter(m => shared.has(m.id));
-      const shareBtn = card.querySelector('.scard-share-btn');
+      const sharing   = sharingState[cardId] || {};
+      const allUsers  = DB.members.filter(m => sharing[m.id]);
+      const editUsers = allUsers.filter(m => sharing[m.id] === 'edit');
+      const shareBtn  = card.querySelector('.scard-share-btn');
+      let   badge     = card.querySelector('.share-badge');
 
-      // Badge avatars sur l'image
-      let badge = card.querySelector('.share-badge');
-
-      if (users.length === 0) {
+      if (allUsers.length === 0) {
         badge?.remove();
-        if (shareBtn) { shareBtn.classList.remove('has-shares'); shareBtn.innerHTML = '👥 Partager cette carte'; }
+        card.querySelector('.collab-indicator')?.remove();
+        if (shareBtn) {
+          shareBtn.classList.remove('has-shares', 'collab');
+          shareBtn.innerHTML = '👥 Partager cette carte';
+        }
         return;
       }
 
+      // Badge avatars sur l'image
       const imgWrap = card.querySelector('.scard-img');
-      if (imgWrap && imgWrap.style.position !== 'relative') imgWrap.style.position = 'relative';
+      if (imgWrap) imgWrap.style.position = 'relative';
       if (!badge && imgWrap) {
         badge = document.createElement('div');
         badge.className = 'share-badge';
         imgWrap.appendChild(badge);
       }
       if (badge) {
-        badge.innerHTML = users.map(u =>
-          `<div class="share-av" style="background:${u.color}" title="Partagé avec ${u.name}">${u.initials}</div>`
-        ).join('');
+        badge.innerHTML = allUsers.map(u => {
+          const cls = sharing[u.id] === 'edit' ? 'share-av edit-av' : 'share-av';
+          const tip = sharing[u.id] === 'edit' ? `✏️ ${u.name} — collaboration` : `👁 ${u.name} — lecture`;
+          return `<div class="${cls}" style="background:${u.color}" title="${tip}">${u.initials}</div>`;
+        }).join('');
       }
 
+      // Bouton share
       if (shareBtn) {
-        const firstNames = users.map(u => u.name.split(' ')[0]).join(', ');
+        const firstNames = allUsers.map(u => u.name.split(' ')[0]).join(', ');
         shareBtn.classList.add('has-shares');
-        shareBtn.innerHTML = `👥 Partagé avec ${firstNames}`;
+        if (editUsers.length > 0) {
+          shareBtn.classList.add('collab');
+          shareBtn.innerHTML = `✏️ Collaboration · ${firstNames}`;
+        } else {
+          shareBtn.classList.remove('collab');
+          shareBtn.innerHTML = `👁 Partagé avec ${firstNames}`;
+        }
+      }
+
+      // Indicateur de collaboration dans le footer
+      const footer = card.querySelector('.scard-footer');
+      let collabInd = card.querySelector('.collab-indicator');
+      if (editUsers.length > 0 && footer) {
+        if (!collabInd) {
+          collabInd = document.createElement('div');
+          collabInd.className = 'collab-indicator';
+          footer.appendChild(collabInd);
+        }
+        const names = editUsers.map(u => u.name.split(' ')[0]).join(', ');
+        collabInd.innerHTML = `<span class="collab-dot"></span> <span class="collab-name">${names}</span> peut modifier`;
+      } else {
+        collabInd?.remove();
       }
     }
 

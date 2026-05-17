@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Making Of</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --surface3: #2a2f47;
+      --border: #2e3350;
+      --accent: #4f7cff;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --orange: #f97316;
+      --teal: #14b8a6;
+      --purple: #a855f7;
+      --pink: #e91e8c;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      padding-bottom: 80px;
+    }
+
+    /* ── NAV ── */
+    .topnav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .topnav a {
+      display: flex; align-items: center; gap: 7px;
+      padding: 14px 20px;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted); text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .topnav a:hover { color: var(--text); }
+    .topnav a.active { color: var(--green); border-bottom-color: var(--green); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0a1a12 0%, #0f1117 50%, #101a30 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 48px 32px;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.35);
+      color: var(--green);
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .hero p { color: var(--muted); font-size: 15px; max-width: 680px; }
+    .hero .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .pill {
+      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+    }
+    .pill-green  { background: rgba(34,197,94,0.1);  color: var(--green);  border: 1px solid rgba(34,197,94,0.25); }
+    .pill-blue   { background: rgba(79,124,255,0.1); color: var(--accent); border: 1px solid rgba(79,124,255,0.25); }
+    .pill-orange { background: rgba(249,115,22,0.1); color: var(--orange); border: 1px solid rgba(249,115,22,0.25); }
+    .pill-purple { background: rgba(168,85,247,0.1); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
+
+    /* ── LAYOUT ── */
+    .content { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 56px; }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-size: 20px; font-weight: 700; color: #fff;
+      margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── CARDS GRID ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .card h3 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .card .tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 10px; margin-right: 4px; margin-top: 8px;
+    }
+    .tag-green  { background: rgba(34,197,94,0.12);  color: var(--green); }
+    .tag-blue   { background: rgba(79,124,255,0.12); color: var(--accent); }
+    .tag-yellow { background: rgba(234,179,8,0.12);  color: var(--yellow); }
+    .tag-orange { background: rgba(249,115,22,0.12); color: var(--orange); }
+    .tag-red    { background: rgba(239,68,68,0.12);  color: var(--red); }
+    .tag-purple { background: rgba(168,85,247,0.12); color: var(--purple); }
+
+    /* ── TABLES ── */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: var(--surface2); color: var(--muted);
+      font-size: 11px; font-weight: 600; text-align: left;
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 9px 12px; border-bottom: 1px solid rgba(46,51,80,0.5); color: var(--text); }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+
+    /* ── CODE BLOCK ── */
+    pre, code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 12px;
+    }
+    .code-block {
+      background: #0a0c14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      overflow-x: auto;
+      color: #a8d8b0;
+      line-height: 1.7;
+      margin: 16px 0;
+    }
+    .code-block .kw { color: #7ec8e3; }
+    .code-block .cm { color: #5a6a80; font-style: italic; }
+    .code-block .ty { color: #c792ea; }
+    .code-block .fn { color: #82aaff; }
+
+    /* ── DIAGRAM ── */
+    .diagram {
+      background: #0a0c14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      overflow-x: auto;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      font-size: 12px;
+      color: #7dd3a8;
+      line-height: 1.8;
+    }
+
+    /* ── ROADMAP ── */
+    .roadmap { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .rm-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .rm-card.v1 { border-top: 3px solid var(--green); }
+    .rm-card.v2 { border-top: 3px solid var(--yellow); }
+    .rm-card.v3 { border-top: 3px solid var(--orange); }
+    .rm-label { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .rm-card.v1 .rm-label { color: var(--green); }
+    .rm-card.v2 .rm-label { color: var(--yellow); }
+    .rm-card.v3 .rm-label { color: var(--orange); }
+    .rm-card h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .rm-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .rm-card li { font-size: 12px; color: var(--muted); padding-left: 14px; position: relative; }
+    .rm-card li::before { content: '→'; position: absolute; left: 0; color: var(--border); }
+
+    /* ── DECISION BOX ── */
+    .decision {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px;
+      margin: 12px 0;
+    }
+    .decision strong { color: #fff; font-size: 13px; }
+    .decision p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    /* ── ALERT BOX ── */
+    .alert-box {
+      background: rgba(234,179,8,0.06);
+      border: 1px solid rgba(234,179,8,0.2);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      color: var(--yellow);
+      font-size: 13px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 768px) {
+      .roadmap { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .hero { padding: 24px; }
+      .content { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a href="apercu-v1.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#a855f7;display:inline-block;"></span>
+      Maquette
+    </a>
+    <a href="apercu-v1bis.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#f97316;display:inline-block;"></span>
+      SuperAdmin
+    </a>
+    <a href="features-couple.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#e91e8c;display:inline-block;"></span>
+      Couple &amp; Famille
+    </a>
+    <a href="pitch.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#0d9488;display:inline-block;"></span>
+      Le Produit
+    </a>
+    <a href="making-of.html" class="active" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+      Making Of
+    </a>
+    <a href="analyse-risques.html" style="display:flex;align-items:center;gap:7px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#ef4444;display:inline-block;"></span>
+      Analyse de risque
+    </a>
+  </nav>
+
+  <div class="hero">
+    <div class="badge">Architecture & Décisions Produit</div>
+    <h1>Making Of — SuperAdmin</h1>
+    <p>Architecture base de données Supabase, décisions techniques, et roadmap d'implémentation. Document de référence à maintenir à jour.</p>
+    <div class="pills">
+      <span class="pill pill-green">20 tables PostgreSQL</span>
+      <span class="pill pill-blue">RLS multi-niveaux</span>
+      <span class="pill pill-orange">14 migrations</span>
+      <span class="pill pill-purple">Roadmap V1 → V3</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 1. ARCHITECTURE GLOBALE                             -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Architecture</div>
+      <h2>Schéma global Supabase</h2>
+
+      <div class="diagram">
+auth.users (Supabase Auth)
+    │ 1:1 — trigger fn_handle_new_auth_user
+    ▼
+profiles ──── household_id ──────────► households
+    │                                       ▲
+    │                                  family_members
+    │                               (invitation_token)
+    │
+    ├── subscriptions ──────────────► alerts
+    │       │                     ► agenda_events
+    │       │                     ► recommendations
+    │       └── documents ────────► generated_letters
+    │               └── document_attachments
+    │
+    ├── mandates (mandant ↔ mandataire, Art. 1301 C.civ)
+    │       └── mandate_permissions (6 permissions granulaires)
+    │
+    ├── sharing_state (resource_type + resource_id ↔ shared_with_user_id)
+    │
+    ├── user_subscriptions ──► platform_plans (Stripe billing)
+    │
+    ├── notification_settings (1:1, auto-créé)
+    ├── audit_logs (append-only, jamais de DELETE)
+    ├── rgpd_consent_logs (append-only, Art. 7 RGPD)
+    └── life_events (déménagement, mariage, séparation…)
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 2. INVENTAIRE DES 20 TABLES                         -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Tables</div>
+      <h2>Les 20 tables — inventaire complet</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Table</th>
+              <th>Rôle</th>
+              <th>V1</th>
+              <th>Points clés</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><code>profiles</code></td><td>Identité utilisateur</td><td><span class="tag tag-green">V1</span></td><td>1:1 auth.users, plan_tier dénormalisé, soft-delete</td></tr>
+            <tr><td>2</td><td><code>households</code></td><td>Foyer couple/famille</td><td><span class="tag tag-green">V1</span></td><td>FK circulaire → créer avant de lier profiles</td></tr>
+            <tr><td>3</td><td><code>family_members</code></td><td>Relations & invitations</td><td><span class="tag tag-green">V1</span></td><td>invitation_token (7j), CHECK no_self, email OU related_user_id</td></tr>
+            <tr><td>4</td><td><code>mandates</code></td><td>Mandats SSP Art. 1301</td><td><span class="tag tag-green">V1</span></td><td>max 1 an, non-auto-renouvelable, document_hash SHA-256</td></tr>
+            <tr><td>5</td><td><code>mandate_permissions</code></td><td>Permissions granulaires</td><td><span class="tag tag-green">V1</span></td><td>6 permissions : view_subs, view_docs, suggest, agenda, act_on_behalf, emergency</td></tr>
+            <tr><td>6</td><td><code>subscriptions</code></td><td>Abonnements</td><td><span class="tag tag-green">V1</span></td><td><strong>amount_cents INTEGER</strong> (jamais FLOAT), hamon_eligible calculé par trigger</td></tr>
+            <tr><td>7</td><td><code>documents</code></td><td>Coffre-fort docs</td><td><span class="tag tag-green">V1</span></td><td>expiry_status calculé par trigger, versioning via parent_document_id</td></tr>
+            <tr><td>8</td><td><code>document_attachments</code></td><td>Pièces jointes</td><td><span class="tag tag-green">V1</span></td><td>recto/verso CNI, pages passeport…</td></tr>
+            <tr><td>9</td><td><code>alerts</code></td><td>Alertes utilisateur</td><td><span class="tag tag-green">V1</span></td><td>Generées par triggers, Realtime activé</td></tr>
+            <tr><td>10</td><td><code>alert_actions</code></td><td>Boutons d'action</td><td><span class="tag tag-green">V1</span></td><td>Résilier, Générer lettre, Voir… (sort_order)</td></tr>
+            <tr><td>11</td><td><code>agenda_events</code></td><td>Calendrier admin</td><td><span class="tag tag-green">V1</span></td><td>iCal RRULE pour récurrence, Realtime activé</td></tr>
+            <tr><td>12</td><td><code>recommendations</code></td><td>Offres partenaires</td><td><span class="tag tag-green">V1</span></td><td>savings GENERATED ALWAYS AS, contrainte commission_must_be_disclosed</td></tr>
+            <tr><td>13</td><td><code>platform_plans</code></td><td>Catalogue plans SaaS</td><td><span class="tag tag-green">V1</span></td><td>features JSONB pour feature flags sans migration</td></tr>
+            <tr><td>14</td><td><code>user_subscriptions</code></td><td>Billing Stripe</td><td><span class="tag tag-green">V1</span></td><td>1 ligne/user, stripe_customer_id UNIQUE, sync plan_tier via trigger</td></tr>
+            <tr><td>15</td><td><code>audit_logs</code></td><td>Piste d'audit</td><td><span class="tag tag-green">V1</span></td><td>Jamais de DELETE (légal), actor_id pour mandataire</td></tr>
+            <tr><td>16</td><td><code>notification_settings</code></td><td>Préférences notifs</td><td><span class="tag tag-green">V1</span></td><td>Auto-créé à l'INSERT sur profiles</td></tr>
+            <tr><td>17</td><td><code>sharing_state</code></td><td>Partage granulaire</td><td><span class="tag tag-green">V1</span></td><td>read/suggest/manage, soft-revoke via revoked_at, Realtime</td></tr>
+            <tr><td>18</td><td><code>rgpd_consent_logs</code></td><td>Consentements RGPD</td><td><span class="tag tag-green">V1</span></td><td>Append-only (Art. 7 RGPD), jamais modifier</td></tr>
+            <tr><td>19</td><td><code>life_events</code></td><td>Événements de vie</td><td><span class="tag tag-blue">V2</span></td><td>déménagement, mariage, bébé, séparation…</td></tr>
+            <tr><td>20</td><td><code>generated_letters</code></td><td>Lettres Hamon/résiliation</td><td><span class="tag tag-green">V1</span></td><td>PDF générés, path Storage, sent_via/sent_at</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 3. DÉCISIONS TECHNIQUES CLÉS                        -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Décisions</div>
+      <h2>Décisions techniques critiques</h2>
+
+      <div class="decision">
+        <strong>💰 Argent en centimes (INTEGER), jamais FLOAT</strong>
+        <p>Toutes les colonnes monétaires sont en <code>amount_cents INTEGER</code>. Les floats introduisent des erreurs d'arrondi (ex. 0.1 + 0.2 ≠ 0.3 en IEEE 754). La vue <code>v_user_monthly_cost</code> normalise toutes les périodes en mensuel équivalent.</p>
+      </div>
+
+      <div class="decision">
+        <strong>🔄 hamon_eligible calculé par trigger, pas par l'app</strong>
+        <p>Le trigger <code>fn_compute_hamon</code> calcule automatiquement <code>hamon_eligible_date = start_date + 12 mois</code> et <code>hamon_eligible = (hamon_eligible_date &lt;= CURRENT_DATE)</code> à chaque INSERT/UPDATE. Le job pg_cron rafraîchit chaque nuit.</p>
+      </div>
+
+      <div class="decision">
+        <strong>📅 tacit_renewal_date : saisie manuelle uniquement</strong>
+        <p>Ne jamais auto-calculer depuis start_date. La date de reconduction tacite dépend des termes du contrat opérateur. L'utilisateur la saisit ou elle sera scrapée en V2. Le trigger crée l'alerte selon les préférences de notification.</p>
+      </div>
+
+      <div class="decision">
+        <strong>🏠 FK circulaire households ↔ profiles</strong>
+        <p><code>profiles.household_id → households.id</code> et <code>households.created_by → profiles.id</code>. Solution : créer le household FIRST, puis mettre à jour <code>profiles.household_id</code> dans une fonction SECURITY DEFINER atomique.</p>
+      </div>
+
+      <div class="decision">
+        <strong>⚖️ Mandats non-auto-renouvelables (Art. 1301 C.civ)</strong>
+        <p>Contrainte <code>expiry_date &lt;= effective_date + 1 an</code> en base. Pas de champ <code>auto_renew</code>. Le pg_cron alerte le mandant J-30. En V2 : signature électronique qualifiée via CertEurope/DocuSign.</p>
+      </div>
+
+      <div class="decision">
+        <strong>🔐 Commission toujours divulguée (contrainte DB)</strong>
+        <p>La table <code>recommendations</code> a une contrainte CHECK : <code>commission_type = 'none' OR commission_disclosed = TRUE</code>. Il est impossible d'insérer une recommandation avec commission non déclarée. Conformité DGCCRF/AMF.</p>
+      </div>
+
+      <div class="decision">
+        <strong>📊 features JSONB sur platform_plans</strong>
+        <p>Les feature flags sont stockés en JSONB <code>{"hamon_letter": true, "mandate_actif": false, ...}</code>. Ajouter une feature ne nécessite aucune migration de schéma — juste un UPDATE sur la ligne du plan concerné.</p>
+      </div>
+
+      <div class="decision">
+        <strong>🗑 Soft-delete + RGPD (Art. 17)</strong>
+        <p>Soft-delete sur <code>profiles.deleted_at</code> cascade via trigger sur subscriptions et documents. <code>audit_logs</code> et <code>rgpd_consent_logs</code> sont exemptés (obligation légale de conservation). Après 30j : job pg_cron anonymise les colonnes PII.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 4. TRIGGERS & FONCTIONS                             -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Automatisation</div>
+      <h2>Triggers & fonctions PostgreSQL</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Fonction</th><th>Table</th><th>Événement</th><th>Effet</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>fn_handle_new_auth_user</code></td><td>auth.users</td><td>AFTER INSERT</td><td>Crée automatiquement le profil dans public.profiles</td></tr>
+            <tr><td><code>fn_init_notification_settings</code></td><td>profiles</td><td>AFTER INSERT</td><td>Crée notification_settings avec valeurs par défaut</td></tr>
+            <tr><td><code>fn_touch_updated_at</code></td><td>11 tables</td><td>BEFORE UPDATE</td><td>Maintient updated_at à now()</td></tr>
+            <tr><td><code>fn_compute_hamon</code></td><td>subscriptions</td><td>BEFORE INSERT/UPDATE start_date</td><td>Calcule hamon_eligible_date et hamon_eligible</td></tr>
+            <tr><td><code>fn_compute_expiry_status</code></td><td>documents</td><td>BEFORE INSERT/UPDATE expiry_date</td><td>Calcule ok/warn/bad/expired selon J-90/J-30</td></tr>
+            <tr><td><code>fn_upsert_tacit_renewal_alert</code></td><td>subscriptions</td><td>AFTER INSERT/UPDATE tacit_renewal_date</td><td>Crée alerte reconduction_tacite selon préférences user</td></tr>
+            <tr><td><code>fn_upsert_hamon_alert</code></td><td>subscriptions</td><td>AFTER UPDATE hamon_eligible</td><td>Crée alerte eligibilite_hamon quand hamon flip → TRUE</td></tr>
+            <tr><td><code>fn_soft_delete_cascade</code></td><td>profiles</td><td>AFTER UPDATE deleted_at</td><td>Cascade soft-delete sur subscriptions, documents, alerts</td></tr>
+            <tr><td><code>fn_sync_plan_tier</code></td><td>user_subscriptions</td><td>AFTER INSERT/UPDATE plan_id</td><td>Sync profiles.plan_tier depuis platform_plans.slug</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <div class="section-label" style="margin-top: 16px;">pg_cron — Jobs nocturnes (02h UTC)</div>
+        <div class="cards" style="margin-top: 12px;">
+          <div class="card">
+            <h3>🌙 nightly-hamon-refresh (02:00)</h3>
+            <p>Rafraîchit <code>hamon_eligible</code> sur tous les abonnements actifs dont la date d'éligibilité est passée.</p>
+          </div>
+          <div class="card">
+            <h3>🌙 nightly-expiry-status-refresh (02:30)</h3>
+            <p>Recalcule <code>expiry_status</code> sur tous les documents non-supprimés (ok/warn/bad/expired).</p>
+          </div>
+          <div class="card">
+            <h3>🌙 expire-pending-invitations (02:15)</h3>
+            <p>Passe <code>status = 'expired'</code> sur les invitations pending dont <code>invitation_expires_at &lt; now()</code>.</p>
+          </div>
+          <div class="card">
+            <h3>🌙 mandate-expiry-alerts (02:45)</h3>
+            <p>Crée des alertes <code>renouvellement</code> pour les mandants dont le mandat expire dans 30 jours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 5. VUES                                             -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Vues PostgreSQL</div>
+      <h2>4 vues calculées</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>📊 v_user_monthly_cost</h3>
+          <p>Coût mensuel normalisé par user. Toutes les périodes (annuel, trimestriel, bimestriel) sont converties en équivalent mensuel en centimes.</p>
+          <span class="tag tag-green">Utilisée dashboard</span>
+        </div>
+        <div class="card">
+          <h3>💾 v_user_storage</h3>
+          <p>Stockage total utilisé (documents + pièces jointes). À comparer avec <code>platform_plans.storage_quota_bytes</code> avant chaque upload.</p>
+          <span class="tag tag-blue">Vérification upload</span>
+        </div>
+        <div class="card">
+          <h3>🔔 v_user_alert_counts</h3>
+          <p>Comptages urgent/warning/total pour les badges de navigation. Consommée via Realtime sur la table <code>alerts</code>.</p>
+          <span class="tag tag-orange">Realtime</span>
+        </div>
+        <div class="card">
+          <h3>📋 v_subscription_cards</h3>
+          <p>Carte complète abonnement : <code>days_until_tacit_renewal</code>, <code>monthly_equivalent_cents</code>, statuts hamon et tacite en une requête.</p>
+          <span class="tag tag-green">Utilisée liste abos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 6. STORAGE SUPABASE                                 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Storage</div>
+      <h2>4 buckets Supabase Storage</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Bucket</th><th>Accès</th><th>Taille max</th><th>Types</th><th>RLS path</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>documents</code></td>
+              <td><span class="tag tag-red">Privé</span></td>
+              <td>50 Mo/fichier</td>
+              <td>PDF, images, ZIP, HTML</td>
+              <td><code>{user_id}/*</code></td>
+            </tr>
+            <tr>
+              <td><code>mandate-pdfs</code></td>
+              <td><span class="tag tag-red">Privé</span></td>
+              <td>10 Mo/fichier</td>
+              <td>PDF uniquement</td>
+              <td>mandant + mandataire</td>
+            </tr>
+            <tr>
+              <td><code>generated-letters</code></td>
+              <td><span class="tag tag-red">Privé</span></td>
+              <td>5 Mo/fichier</td>
+              <td>PDF uniquement</td>
+              <td><code>{user_id}/*</code></td>
+            </tr>
+            <tr>
+              <td><code>avatars</code></td>
+              <td><span class="tag tag-green">Public</span></td>
+              <td>2 Mo/fichier</td>
+              <td>JPEG, PNG, WebP</td>
+              <td>Write: <code>{user_id}/*</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert-box" style="margin-top: 16px;">
+        ⚠️ <strong>Quota storage non natif Supabase.</strong> Vérifier <code>v_user_storage</code> vs <code>platform_plans.storage_quota_bytes</code> côté serveur AVANT d'accepter l'upload. Il n'existe pas de limite par-utilisateur nativement dans Supabase Storage.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 7. RLS — ROW LEVEL SECURITY                         -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Sécurité</div>
+      <h2>Row Level Security — Politiques clés</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Table</th><th>Politique</th><th>Condition</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>profiles</code></td><td>owner</td><td><code>auth.uid() = id</code></td></tr>
+            <tr><td><code>profiles</code></td><td>household_read</td><td>Même household_id → SELECT seulement</td></tr>
+            <tr><td><code>subscriptions</code></td><td>owner</td><td><code>user_id = auth.uid()</code></td></tr>
+            <tr><td><code>subscriptions</code></td><td>household_shared</td><td><code>is_shared = TRUE</code> + même foyer</td></tr>
+            <tr><td><code>subscriptions</code></td><td>sharing_grant</td><td>Présent dans sharing_state (SELECT)</td></tr>
+            <tr><td><code>documents</code></td><td>owner</td><td><code>user_id = auth.uid()</code></td></tr>
+            <tr><td><code>documents</code></td><td>household_shared</td><td>visibility IN ('shared_couple', 'shared_family') + même foyer</td></tr>
+            <tr><td><code>documents</code></td><td>emergency_access</td><td>visibility = 'emergency_only' + mandat actif avec permission emergency_access</td></tr>
+            <tr><td><code>mandates</code></td><td>mandant</td><td>ALL sur <code>mandant_id = auth.uid()</code></td></tr>
+            <tr><td><code>mandates</code></td><td>mandataire_read</td><td>SELECT sur <code>mandataire_id = auth.uid()</code></td></tr>
+            <tr><td><code>audit_logs</code></td><td>read_own</td><td>SELECT uniquement, jamais INSERT/UPDATE/DELETE côté client</td></tr>
+            <tr><td><code>rgpd_consent_logs</code></td><td>read_own</td><td>SELECT uniquement, INSERT via service_role</td></tr>
+            <tr><td><code>platform_plans</code></td><td>public_read</td><td>SELECT pour anon + authenticated (<code>active = TRUE</code>)</td></tr>
+            <tr><td><code>user_subscriptions</code></td><td>owner_select</td><td>SELECT uniquement (écritures via Stripe webhook service_role)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 8. ROADMAP V1 → V2 → V3                             -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Roadmap</div>
+      <h2>Évolution du schéma V1 → V3</h2>
+
+      <div class="roadmap">
+        <div class="rm-card v1">
+          <div class="rm-label">V1 — Lancement</div>
+          <h3>Solo & Famille</h3>
+          <ul>
+            <li>20 tables complètes</li>
+            <li>Coffre-fort (hors santé/identité biométrique)</li>
+            <li>Abonnements + alertes Loi Chatel</li>
+            <li>Loi Hamon (génération lettre)</li>
+            <li>Mandats consultatifs (lecture + suggestions)</li>
+            <li>Recommandations affiliés télécom/streaming</li>
+            <li>Plans Solo/Couple/Famille/Premium</li>
+            <li>RGPD baseline (DPO, consentements, export)</li>
+          </ul>
+        </div>
+        <div class="rm-card v2">
+          <div class="rm-label">V2 — Mois 6-18</div>
+          <h3>Délégation active & Mandats</h3>
+          <ul>
+            <li>mandate_type = 'actif' (déjà dans l'enum)</li>
+            <li>Nouvelle table <code>mandate_log</code></li>
+            <li>Colonne <code>postal_tracking_id</code> sur generated_letters</li>
+            <li>Colonne <code>certeurope_signature_id</code> sur mandates</li>
+            <li>Stockage CNI/Passeport (après audit CNIL)</li>
+            <li>Scraping tacit_renewal_date (API opérateurs)</li>
+            <li>wizard life_events (déjà en table)</li>
+          </ul>
+        </div>
+        <div class="rm-card v3">
+          <div class="rm-label">V3 — Mois 18-36</div>
+          <h3>Marketplace & Santé</h3>
+          <ul>
+            <li>Nouvelle table <code>marketplace_products</code></li>
+            <li>Schéma <code>health</code> + <code>health_records</code> (HDS requis)</li>
+            <li>Nouvelle table <code>integration_tokens</code> (OAuth SFR, Orange…)</li>
+            <li>Nouvelle table <code>data_exports</code> (jobs RGPD portabilité)</li>
+            <li>Colonne <code>ai_provider_match_score FLOAT</code> sur recommendations</li>
+            <li>Colonne <code>orias_number</code> sur marketplace_products</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert-box" style="margin-top: 20px;">
+        ✅ <strong>Extensibilité sans migration :</strong> Toutes les valeurs d'enum peuvent être étendues via <code>ALTER TYPE ... ADD VALUE</code>. Les feature flags sur <code>platform_plans.features JSONB</code> permettent d'activer de nouvelles fonctionnalités par un simple UPDATE, sans toucher au schéma.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 9. PLANS PLATEFORME                                 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Monetisation</div>
+      <h2>Plans plateforme (seed data)</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Plan</th><th>Prix</th><th>Users</th><th>Storage</th><th>hamon_letter</th><th>mandate_actif</th><th>sms_alerts</th><th>household</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Solo Free</td><td>0€</td><td>1</td><td>100 Mo</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td></tr>
+            <tr><td>Solo Payant</td><td>4,99€/mois</td><td>1</td><td>1 Go</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+            <tr><td>Couple</td><td>7,99€/mois</td><td>2</td><td>2 Go partagé</td><td>✓</td><td>✗</td><td>✗</td><td>✓</td></tr>
+            <tr><td>Famille</td><td>9,99€/mois</td><td>6</td><td>5 Go partagé</td><td>✓</td><td>✓</td><td>✗</td><td>✓</td></tr>
+            <tr><td>Premium</td><td>19,99€/mois</td><td>10</td><td>10 Go</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 10. RÉALTIME                                        -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Realtime</div>
+      <h2>Tables avec Realtime activé</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>🔔 alerts</h3>
+          <p>INSERT + UPDATE. Badges live, pop-up alertes urgentes sans rechargement de page.</p>
+          <span class="tag tag-orange">INSERT, UPDATE</span>
+        </div>
+        <div class="card">
+          <h3>🤝 sharing_state</h3>
+          <p>INSERT + UPDATE. Le collaborateur voit le partage apparaître immédiatement dans son espace.</p>
+          <span class="tag tag-orange">INSERT, UPDATE</span>
+        </div>
+        <div class="card">
+          <h3>📅 agenda_events</h3>
+          <p>INSERT + UPDATE + DELETE. Agenda couple synchronisé en temps réel entre les deux partenaires.</p>
+          <span class="tag tag-orange">INSERT, UPDATE, DELETE</span>
+        </div>
+        <div class="card">
+          <h3>💳 subscriptions</h3>
+          <p>INSERT + UPDATE. Abonnements partagés du foyer mis à jour live pour les deux membres.</p>
+          <span class="tag tag-orange">INSERT, UPDATE</span>
+        </div>
+        <div class="card">
+          <h3>⚖️ mandates</h3>
+          <p>INSERT + UPDATE. Le mandataire est notifié immédiatement du changement de statut d'un mandat.</p>
+          <span class="tag tag-orange">INSERT, UPDATE</span>
+        </div>
+      </div>
+
+      <div class="alert-box" style="margin-top: 8px;">
+        🚫 <strong>Ne pas activer Realtime sur :</strong> <code>audit_logs</code>, <code>rgpd_consent_logs</code>, <code>profiles</code> — données sensibles, à consommer via API sécurisée uniquement.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 11. MIGRATIONS                                      -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Implémentation</div>
+      <h2>Plan de migration Supabase (14 fichiers)</h2>
+
+      <div class="code-block">
+supabase/
+└── migrations/
+    ├── <span class="fn">001_extensions_and_types.sql</span>    <span class="cm">-- uuid-ossp, pgcrypto, pg_cron + 35 types ENUM</span>
+    ├── <span class="fn">002_profiles_and_households.sql</span>  <span class="cm">-- profiles, households, family_members</span>
+    ├── <span class="fn">003_mandates.sql</span>                 <span class="cm">-- mandates, mandate_permissions</span>
+    ├── <span class="fn">004_subscriptions.sql</span>            <span class="cm">-- subscriptions</span>
+    ├── <span class="fn">005_documents.sql</span>                <span class="cm">-- documents, document_attachments</span>
+    ├── <span class="fn">006_alerts_and_agenda.sql</span>        <span class="cm">-- alerts, alert_actions, agenda_events</span>
+    ├── <span class="fn">007_recommendations_plans_billing.sql</span>  <span class="cm">-- recommendations, platform_plans, user_subscriptions</span>
+    ├── <span class="fn">008_compliance_sharing_life_events.sql</span> <span class="cm">-- audit_logs, notification_settings, sharing_state,</span>
+    │                                          <span class="cm">-- rgpd_consent_logs, life_events, generated_letters</span>
+    ├── <span class="fn">009_indexes.sql</span>                  <span class="cm">-- Index sur toutes les FK, dates, status</span>
+    ├── <span class="fn">010_triggers_and_functions.sql</span>   <span class="cm">-- 9 triggers + 4 jobs pg_cron</span>
+    ├── <span class="fn">011_views.sql</span>                    <span class="cm">-- 4 vues calculées</span>
+    ├── <span class="fn">012_row_level_security.sql</span>       <span class="cm">-- RLS sur les 20 tables</span>
+    ├── <span class="fn">013_storage_buckets.sql</span>          <span class="cm">-- 4 buckets + policies Storage</span>
+    └── <span class="fn">014_seed_platform_plans.sql</span>      <span class="cm">-- 5 plans initiaux avec features JSONB</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- 12. CHECKLIST VÉRIFICATION                          -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Tests</div>
+      <h2>Checklist de vérification end-to-end</h2>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Test</th><th>Vérification</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Auth</strong></td><td>Créer un compte → profiles + notification_settings créés automatiquement par triggers</td></tr>
+            <tr><td>2</td><td><strong>Hamon</strong></td><td>Abonnement start_date J-13 mois → hamon_eligible = TRUE + alerte créée dans alerts</td></tr>
+            <tr><td>3</td><td><strong>Expiry doc</strong></td><td>Document expiry_date dans 25 jours → expiry_status = 'bad'</td></tr>
+            <tr><td>4</td><td><strong>Mandat</strong></td><td>Créer mandat 1 an, révoquer → revoked_at + audit_log créé</td></tr>
+            <tr><td>5</td><td><strong>Invitation</strong></td><td>Inviter un proche → accepter → sharing_state accessible au mandataire</td></tr>
+            <tr><td>6</td><td><strong>Stripe</strong></td><td>Passer en Premium → profiles.plan_tier = 'premium' via trigger sync</td></tr>
+            <tr><td>7</td><td><strong>RGPD</strong></td><td>Soft-delete user → cascade subscriptions/documents + audit_logs intacts</td></tr>
+            <tr><td>8</td><td><strong>RLS isolation</strong></td><td>User B ne voit PAS les données de User A sans sharing_state actif</td></tr>
+            <tr><td>9</td><td><strong>Quota storage</strong></td><td>v_user_storage &lt; platform_plans.storage_quota_bytes avant upload</td></tr>
+            <tr><td>10</td><td><strong>Commission</strong></td><td>INSERT recommendation avec commission non déclarée → erreur contrainte CHECK</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+</body>
+</html>

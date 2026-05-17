@@ -5,7 +5,12 @@
       "Bash(Select-Object FullName)",
       "Bash(git -C \"c:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\SuperAdmin\" log --oneline -20)",
       "Bash(git -C \"c:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\SuperAdmin\" log --oneline --all)",
-      "mcp__claude_ai_Supabase__list_migrations"
+      "mcp__claude_ai_Supabase__list_migrations",
+      "mcp__claude_ai_Gmail__search_threads",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\SuperAdmin\" -Recurse -Depth 2)",
+      "Bash(Select-Object -Property FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "Bash(Format-Table -AutoSize)"
     ]
   }
 }

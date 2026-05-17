@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperAdmin — Le Produit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 13px;
+      background: #F1F5F9;
+      color: #1e293b;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #0f1117;
+      border-bottom: 1px solid #2e3350;
+      padding: 0 20px;
+      display: flex; align-items: center; gap: 0;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .site-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 11px 16px;
+      font-size: 12px; font-weight: 600;
+      color: #94a3b8; text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .site-nav a:hover { color: #e2e8f0; }
+    .site-nav a.active { color: #0d9488; border-bottom-color: #0d9488; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #4f7cff; }
+    .dot-green  { background: #22c55e; }
+    .dot-purple { background: #a855f7; }
+    .dot-orange { background: #f97316; }
+    .dot-rose   { background: #e91e8c; }
+    .dot-teal   { background: #0d9488; }
+
+    /* ── APP HEADER ── */
+    .app-header {
+      background: #fff;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 10px 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .brand {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 2px; text-decoration: none; flex-shrink: 0;
+    }
+    .superman-logo {
+      width: 46px; height: 46px;
+      background: #d32f2f; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    .superman-logo::before {
+      content: 'S';
+      font-size: 24px; font-weight: 900; font-style: italic;
+      color: #ffd700; font-family: Georgia, serif;
+      text-shadow: 1px 1px 0 #b71c1c;
+    }
+    .brand-label { font-size: 11px; font-weight: 700; color: #333; letter-spacing: 0.02em; }
+    .header-center { flex: 1; display: flex; flex-direction: column; }
+    .header-page-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: #0d9488;
+    }
+    .header-page-title { font-size: 17px; font-weight: 800; color: #1e293b; line-height: 1.2; }
+    .header-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+    .header-right .hello { font-size: 12px; color: #666; }
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #eee; border: 1px solid #ddd;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      background: #fff; border-bottom: 1px solid #e2e8f0;
+      padding: 8px 32px; font-size: 11px; color: #94a3b8;
+    }
+    .breadcrumb span { color: #0d9488; font-weight: 700; }
+
+    /* ── MAIN ── */
+    .main-content {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 32px 80px;
+    }
+
+    /* ── TOKENS ── */
+    :root {
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --teal-dark: #0f766e;
+      --teal-glow: rgba(13,148,136,0.12);
+      --navy: #1e3a5f;
+      --indigo: #3730a3;
+      --amber: #d97706;
+      --slate: #1e293b;
+      --muted: #64748b;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0f2027 0%, #1a3a4c 40%, #0d9488 100%);
+      border-radius: 12px;
+      padding: 48px 48px 40px;
+      margin-bottom: 32px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -100px; right: -60px;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -60px; left: 30%;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #5eead4; margin-bottom: 14px;
+    }
+    .hero-title {
+      font-size: 34px; font-weight: 900; line-height: 1.12;
+      margin-bottom: 16px; max-width: 680px;
+    }
+    .hero-sub {
+      font-size: 15px; color: #cbd5e1; max-width: 620px; line-height: 1.75;
+    }
+    .hero-stats {
+      display: flex; gap: 28px; margin-top: 28px; flex-wrap: wrap;
+    }
+    .hero-stat { display: flex; flex-direction: column; gap: 2px; }
+    .hero-stat-num {
+      font-size: 28px; font-weight: 900; color: #5eead4; line-height: 1;
+    }
+    .hero-stat-label { font-size: 11px; color: #94a3b8; }
+    .hero-badges {
+      display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;
+    }
+    .hero-badge {
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      color: #fff; background: rgba(255,255,255,0.08);
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 14px; margin-top: 36px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: #e2e8f0;
+    }
+
+    /* ── GRIDS ── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+
+    /* ── SEGMENT CARD ── */
+    .seg-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .seg-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.10); transform: translateY(-2px); }
+    .seg-header {
+      padding: 22px 22px 16px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .seg-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+    .seg-name { font-size: 16px; font-weight: 900; color: var(--slate); margin-bottom: 4px; }
+    .seg-sub { font-size: 11px; color: #94a3b8; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .seg-body { padding: 16px 22px 20px; }
+    .seg-pain {
+      font-size: 12px; color: var(--muted); line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .seg-pain strong { color: var(--slate); }
+    .seg-gains { display: flex; flex-direction: column; gap: 6px; }
+    .seg-gain {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12px; color: var(--slate); line-height: 1.5;
+    }
+    .seg-gain::before {
+      content: '→';
+      color: var(--teal); font-weight: 700; flex-shrink: 0;
+    }
+    .seg-footer {
+      padding: 12px 22px;
+      background: var(--teal-light);
+      font-size: 11px; font-weight: 700; color: var(--teal-dark);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* ── FEATURE CARD ── */
+    .feat-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 22px 20px;
+      position: relative;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .feat-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.09); transform: translateY(-2px); }
+    .feat-accent {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px; border-radius: 8px 8px 0 0;
+    }
+    .feat-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .feat-title { font-size: 13px; font-weight: 800; color: var(--slate); margin-bottom: 7px; }
+    .feat-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .feat-badge {
+      display: inline-block; margin-top: 12px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 10px; font-weight: 700;
+      background: var(--teal-light); color: var(--teal-dark);
+    }
+
+    /* ── QUOTE ── */
+    .quote-band {
+      background: linear-gradient(90deg, #ccfbf1, #e0f2fe);
+      border-radius: 8px;
+      padding: 22px 30px;
+      margin: 28px 0;
+      font-size: 14px; font-style: italic; color: var(--navy);
+      font-weight: 600; text-align: center;
+      border-left: 5px solid var(--teal);
+      line-height: 1.65;
+    }
+
+    /* ── INSIGHT BOX ── */
+    .insight {
+      background: linear-gradient(135deg, #0f766e, #0d9488);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin: 20px 0;
+      color: #fff;
+    }
+    .insight-label {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #5eead4; margin-bottom: 8px;
+    }
+    .insight-text { font-size: 14px; font-weight: 600; line-height: 1.65; color: #f0fdfa; }
+
+    /* ── TIMING ── */
+    .timing-row {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 14px;
+    }
+    .timing-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .timing-num {
+      font-size: 30px; font-weight: 900; color: var(--teal);
+      line-height: 1; margin-bottom: 6px;
+    }
+    .timing-label { font-size: 11px; font-weight: 700; color: var(--slate); margin-bottom: 5px; }
+    .timing-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ── PLAN CARDS ── */
+    .plan-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .plan-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 24px 18px;
+      text-align: center;
+      position: relative;
+      transition: box-shadow 0.15s;
+    }
+    .plan-card.featured {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(13,148,136,0.10);
+    }
+    .plan-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--teal); color: #fff;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.06em;
+      padding: 3px 14px; border-radius: 20px; white-space: nowrap;
+    }
+    .plan-icon { font-size: 30px; margin-bottom: 10px; }
+    .plan-target { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #94a3b8; margin-bottom: 4px; }
+    .plan-name { font-size: 15px; font-weight: 900; color: var(--slate); margin-bottom: 4px; }
+    .plan-price {
+      font-size: 28px; font-weight: 900; color: var(--teal); line-height: 1; margin: 12px 0 4px;
+    }
+    .plan-price sup { font-size: 13px; vertical-align: top; margin-top: 4px; }
+    .plan-price sub { font-size: 11px; color: #94a3b8; font-weight: 600; }
+    .plan-items {
+      list-style: none; text-align: left;
+      font-size: 11.5px; color: #475569; line-height: 2; margin-top: 14px;
+    }
+    .plan-items li::before { content: '✓ '; color: var(--teal); font-weight: 700; }
+    .plan-angle {
+      margin-top: 14px; padding: 8px 10px;
+      background: var(--teal-light); border-radius: 6px;
+      font-size: 10.5px; color: var(--teal-dark); font-weight: 600; line-height: 1.5;
+    }
+
+    /* ── REVENUE MODEL ── */
+    .rev-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .rev-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 18px 16px;
+    }
+    .rev-title { font-size: 12px; font-weight: 800; color: var(--slate); margin-bottom: 6px; }
+    .rev-amount { font-size: 20px; font-weight: 900; color: var(--teal); margin-bottom: 8px; }
+    .rev-desc { font-size: 11.5px; color: var(--muted); line-height: 1.65; }
+    .rev-tag {
+      display: inline-block; margin-top: 10px;
+      padding: 2px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 700;
+    }
+    .tag-stable { background: #dcfce7; color: #15803d; }
+    .tag-upside { background: #dbeafe; color: #1d4ed8; }
+    .tag-future { background: #f3f4f6; color: #6b7280; }
+
+    /* ── IDEA CARD ── */
+    .idea-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .idea-card {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+      padding: 18px 16px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .idea-num { font-size: 10px; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: #94a3b8; }
+    .idea-icon { font-size: 22px; }
+    .idea-title { font-size: 12px; font-weight: 800; color: var(--slate); line-height: 1.3; }
+    .idea-body { font-size: 11.5px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .idea-tag {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 10px; font-weight: 700;
+      background: var(--teal-light); color: var(--teal-dark); align-self: flex-start;
+    }
+
+    /* ── SCOPE TABLE ── */
+    .scope-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; border-radius: 8px; overflow: hidden; }
+    .scope-table th {
+      background: #f8fafc; color: #64748b; font-size: 11px; font-weight: 700;
+      text-align: left; padding: 10px 14px; border-bottom: 1px solid #e2e8f0;
+    }
+    .scope-table td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; color: var(--slate); vertical-align: middle; }
+    .scope-table tr:last-child td { border-bottom: none; }
+    .tag-v1 { background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+    .tag-v2 { background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+    .tag-v3 { background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+
+    /* ── CONCLUSION ── */
+    .conclusion {
+      background: linear-gradient(135deg, #0f2027 0%, #0d9488 100%);
+      border-radius: 12px;
+      padding: 36px 44px;
+      color: #fff;
+      margin-top: 36px;
+      display: flex; gap: 32px; align-items: flex-start;
+    }
+    .conclusion-flag { font-size: 52px; flex-shrink: 0; line-height: 1; }
+    .conclusion-title { font-size: 15px; font-weight: 800; color: #5eead4; margin-bottom: 10px; }
+    .conclusion-body { font-size: 13px; color: #cbd5e1; line-height: 1.8; }
+    .conclusion-body strong { color: #fff; }
+
+    /* ── FOOTER ── */
+    .app-footer {
+      background: #fff; border-top: 1px solid #e2e8f0;
+      padding: 14px 32px; font-size: 11px; color: #94a3b8; text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .grid-3, .grid-4, .plan-grid, .rev-grid, .idea-grid { grid-template-columns: repeat(2,1fr); }
+      .grid-2, .timing-row { grid-template-columns: 1fr; }
+      .hero { padding: 28px 24px; }
+      .main-content { padding: 20px 16px 60px; }
+      .conclusion { flex-direction: column; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="apercu-v1.html"><span class="dot dot-purple"></span> Maquette</a>
+    <a href="apercu-v1bis.html"><span class="dot dot-orange"></span> SuperAdmin</a>
+    <a href="features-couple.html"><span class="dot dot-rose"></span> Couple &amp; Famille</a>
+    <a href="pitch.html" class="active"><span class="dot dot-teal"></span> Le Produit</a>
+    <a href="making-of.html"><span class="dot dot-green"></span> Making Of</a>
+    <a href="analyse-risques.html"><span class="dot" style="background:#ef4444;"></span> Analyse de risque</a>
+  </nav>
+
+  <header class="app-header">
+    <a class="brand" href="#">
+      <div class="superman-logo"></div>
+      <span class="brand-label">SuperAdmin</span>
+    </a>
+    <div class="header-center">
+      <div class="header-page-label">🎯 Vision produit — Pitch &amp; segments</div>
+      <div class="header-page-title">Le Produit — Pourquoi, Pour qui, Comment</div>
+    </div>
+    <div class="header-right">
+      <span class="hello">Bonjour Daniel</span>
+      <div class="icon-btn">👤</div>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    SuperAdmin &rsaquo; Vision &rsaquo; <span>Le Produit</span>
+  </div>
+
+  <main class="main-content">
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- HERO                                                       -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="hero">
+      <div class="hero-eyebrow">🎯 Vision produit — tous segments</div>
+      <div class="hero-title">L'administratif du quotidien,<br>enfin maîtrisé — pour tous.</div>
+      <div class="hero-sub">
+        En France, chaque adulte gère en moyenne <strong style="color:#5eead4;">18 à 25 obligations administratives actives</strong> — abonnements, contrats, documents, délais légaux, renouvellements. Personne ne l'aide à ne rien rater. SuperAdmin est ce produit.
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num">320€</span>
+          <span class="hero-stat-label">dépensés/mois en abonnements<br>par un foyer français moyen</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">1 sur 3</span>
+          <span class="hero-stat-label">français se fait reconduire<br>tacitement sans le vouloir</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">7M</span>
+          <span class="hero-stat-label">aidants familiaux en France<br>gèrent les affaires de proches</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">0</span>
+          <span class="hero-stat-label">concurrent direct sur ce<br>périmètre précis en France</span>
+        </div>
+      </div>
+      <div class="hero-badges">
+        <span class="hero-badge">🇫🇷 Marché français inexploré</span>
+        <span class="hero-badge">⚖️ Lois Chatel &amp; Hamon intégrées</span>
+        <span class="hero-badge">👨‍👩‍👧 Solo · Couple · Famille · Aidant</span>
+        <span class="hero-badge">💰 SaaS + commissions affiliées</span>
+        <span class="hero-badge">🚀 V1 lançable sans ORIAS ni HDS</span>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- LE VRAI PROBLÈME                                           -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">Le problème — universel, sous-estimé</div>
+
+    <div class="insight">
+      <div class="insight-label">Insight clé</div>
+      <div class="insight-text">
+        L'administratif du quotidien n'est pas perçu comme un problème par la plupart des gens — jusqu'au moment où ça se passe mal. Un abonnement reconduit qu'on voulait résilier. Un document introuvable lors d'un sinistre. Un parent qui n'a pas déclaré ses revenus à temps. Un formulaire manqué qui coûte 200€. Ce sont des incidents invisibles, douloureux, et <strong>parfaitement évitables</strong>.
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:16px;">
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#0d9488,#34d399);"></div>
+        <span class="feat-icon">📅</span>
+        <div class="feat-title">La reconduction tacite — le piège légal</div>
+        <div class="feat-desc">Les opérateurs sont légalement obligés de prévenir, mais la plupart envoient une lettre perdue dans la boîte mail ou postale. En France, la Loi Chatel protège — mais seulement si l'utilisateur réagit à temps. SuperAdmin surveille pour lui.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#3730a3,#6366f1);"></div>
+        <span class="feat-icon">📁</span>
+        <div class="feat-title">Les documents introuvables</div>
+        <div class="feat-desc">"Où est notre bail ?", "Tu sais pas où est l'assurance voiture ?", "Le certificat de décès de papa, on l'avait mis où ?" — des situations vécues par des millions de familles. Tous les ans. Un coffre-fort simple résout ça définitivement.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#d97706,#f59e0b);"></div>
+        <span class="feat-icon">👴</span>
+        <div class="feat-title">La délégation à la famille — le vrai manque</div>
+        <div class="feat-desc">Quand on vieillit, gère le handicap d'un proche, ou simplement voyage souvent — l'administratif ne peut pas reposer sur une seule personne. Pourtant aucune app ne formalise proprement "qui peut faire quoi" pour l'administratif d'un proche.</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- 4 SEGMENTS — 1 PRODUIT                                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">4 segments · 1 produit — pourquoi ça marche pour tous</div>
+
+    <div class="grid-2" style="margin-bottom:16px;">
+
+      <!-- SEGMENT 1 : SOLO -->
+      <div class="seg-card">
+        <div class="seg-header">
+          <span class="seg-emoji">🧑‍💻</span>
+          <div class="seg-name">Solo actif</div>
+          <div class="seg-sub">25–45 ans · Urbain · Débordé</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-pain">
+            <strong>Ce qu'il vit :</strong> 22 abonnements actifs (dont 4 qu'il a oublié), un bail renouvelé automatiquement il y a 3 ans, une assurance habitation qu'il pourrait résilier depuis 14 mois. Il n'a pas le temps. Il est compétent mais débordé.
+          </div>
+          <div class="seg-gains">
+            <div class="seg-gain">Un tableau de bord de tous ses abonnements en 10 minutes</div>
+            <div class="seg-gain">Alertes automatiques avant chaque reconduction (Loi Chatel)</div>
+            <div class="seg-gain">Génération de la lettre de résiliation Loi Hamon en 1 clic</div>
+            <div class="seg-gain">Recommandations pour économiser 40–60€/mois</div>
+          </div>
+        </div>
+        <div class="seg-footer">
+          <span>📦 Plan Solo · 4,99€/mois</span>
+          <span>ROI immédiat dès le 1er abonnement résilié</span>
+        </div>
+      </div>
+
+      <!-- SEGMENT 2 : COUPLE/FAMILLE -->
+      <div class="seg-card">
+        <div class="seg-header">
+          <span class="seg-emoji">👨‍👩‍👧‍👦</span>
+          <div class="seg-name">Couple / Famille</div>
+          <div class="seg-sub">30–50 ans · Foyer · Charge mentale</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-pain">
+            <strong>Ce qu'ils vivent :</strong> L'un gère tout l'admin (souvent la femme, sujet politique en France depuis 2017). Deux Spotify. Un Netflix qu'ils ouvrent une fois par mois. Un bail qui expire dans 3 semaines. Des contrats éparpillés sur 4 boîtes mail différentes.
+          </div>
+          <div class="seg-gains">
+            <div class="seg-gain">Espace commun partagé + espace privé pour chacun</div>
+            <div class="seg-gain">Détection des doublons d'abonnements (économie immédiate)</div>
+            <div class="seg-gain">Alertes vues par les deux partenaires, décision conjointe</div>
+            <div class="seg-gain">Délégation formelle : "tu gères les assurances, je gère les abos"</div>
+          </div>
+        </div>
+        <div class="seg-footer">
+          <span>💑 Plan Couple · 7,99€/mois</span>
+          <span>Rétention +40% vs solo (2 comptes liés)</span>
+        </div>
+      </div>
+
+      <!-- SEGMENT 3 : AIDANT -->
+      <div class="seg-card" style="border: 2px solid #0d9488;">
+        <div class="seg-header" style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1);">
+          <span class="seg-emoji">🤝</span>
+          <div class="seg-name" style="color: var(--teal-dark);">Aidant familial</div>
+          <div class="seg-sub" style="color: #0f766e;">Le segment différenciateur — 7M en France</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-pain">
+            <strong>Ce qu'il vit :</strong> Il gère les affaires de sa mère de 74 ans, de son père après son AVC, ou de son frère en situation de handicap. Il le fait bien — mais sans outil, sans trace, sans cadre légal. S'il disparaît une semaine, tout s'arrête. La peur de rater quelque chose est permanente.
+          </div>
+          <div class="seg-gains">
+            <div class="seg-gain">Mandat de délégation formel (Art. 1301 C.civ) — horodaté, révocable</div>
+            <div class="seg-gain">Accès lecture aux abonnements et documents de la personne aidée</div>
+            <div class="seg-gain">Alertes partagées : l'aidant est notifié en même temps</div>
+            <div class="seg-gain">Accès d'urgence formalisé — sans avoir à "fouiller les tiroirs"</div>
+          </div>
+        </div>
+        <div class="seg-footer" style="background: linear-gradient(90deg, #0f766e, #0d9488); color: #fff;">
+          <span>👨‍👩‍👴 Plan Famille · 9,99€/mois</span>
+          <span style="color:#5eead4;">⭐ Segment différenciateur unique</span>
+        </div>
+      </div>
+
+      <!-- SEGMENT 4 : SENIOR -->
+      <div class="seg-card">
+        <div class="seg-header">
+          <span class="seg-emoji">👵</span>
+          <div class="seg-name">Senior / personne administrée</div>
+          <div class="seg-sub">60–85 ans · En perte d'autonomie · Acquis par l'aidant</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-pain">
+            <strong>Ce qu'ils vivent :</strong> Ils ont accumulé des contrats pendant 40 ans. Ils ne savent plus tout ce qu'ils paient. Ils ont peur de rater la déclaration d'impôts. Leurs enfants essaient d'aider mais "sans fouiller dans leurs affaires". Ils veulent déléguer sans perdre le contrôle.
+          </div>
+          <div class="seg-gains">
+            <div class="seg-gain">Interface simple — aucune action requise de leur part si délégation</div>
+            <div class="seg-gain">Contrôle total : ils voient tout ce que fait l'aidant (audit log)</div>
+            <div class="seg-gain">Révocation du mandat en 1 clic — toujours maîtres chez eux</div>
+            <div class="seg-gain">Coffre-fort sécurisé pour les documents qu'ils veulent protéger</div>
+          </div>
+        </div>
+        <div class="seg-footer">
+          <span>🎯 Acquis via l'aidant</span>
+          <span>Ne churne pas — besoin croissant avec le temps</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="quote-band">
+      "Le segment aidant est le plus stratégique du produit. Il crée un besoin permanent, émotionnellement fort, sans concurrent direct, et avec une barrière légale (mandat Art. 1301) que personne d'autre ne franchira facilement. <strong>C'est le moat de SuperAdmin.</strong>"
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- FEATURES CORE — CE QUE LE PRODUIT FAIT                    -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">Ce que SuperAdmin fait — les 6 features qui comptent</div>
+    <div class="grid-3">
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#0d9488,#34d399);"></div>
+        <span class="feat-icon">📋</span>
+        <div class="feat-title">Tableau de bord des abonnements</div>
+        <div class="feat-desc">Vue complète de tous les abonnements actifs — montant, engagement, date de reconduction. Total mensuel en un coup d'œil. Catégories : internet, assurance, streaming, énergie, santé.</div>
+        <span class="feat-badge">Solo · Couple · Famille · Aidant</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#ef4444,#f97316);"></div>
+        <span class="feat-icon">🔔</span>
+        <div class="feat-title">Alertes Loi Chatel + Loi Hamon</div>
+        <div class="feat-desc">Notification avant chaque reconduction tacite (30j). Génération de la lettre de résiliation conforme Loi Hamon en 1 clic pour les assurances de plus de 12 mois. Le droit de résiliation, accessible à tous.</div>
+        <span class="feat-badge">Feature différenciante · Droit français</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#3730a3,#6366f1);"></div>
+        <span class="feat-icon">🗄️</span>
+        <div class="feat-title">Coffre-fort sécurisé</div>
+        <div class="feat-desc">Stockage chiffré des contrats, baux, bulletins de salaire, quittances, documents fiscaux. Alertes d'expiration automatiques. Accès partagé granulaire — chaque document est privé, partagé en foyer, ou accessible en urgence seulement.</div>
+        <span class="feat-badge">Chiffrement AES-256 · RGPD conforme</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#d97706,#f59e0b);"></div>
+        <span class="feat-icon">💡</span>
+        <div class="feat-title">Recommandations + économies</div>
+        <div class="feat-desc">Offres alternatives calculées sur la base de vos abonnements réels. Economies affichées en €/mois et €/an. Commission perçue si souscription — <strong>toujours déclarée</strong>. Le conseil est objectif car la transparence est imposée par le produit.</div>
+        <span class="feat-badge">Commission déclarée · Transparence by design</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#0f766e,#0d9488);"></div>
+        <span class="feat-icon">👥</span>
+        <div class="feat-title">Délégation familiale (mandat SSP)</div>
+        <div class="feat-desc">Mandat de délégation numérique sous Art. 1301 Code Civil. Horodaté, révocable à tout moment, 1 an max. Permissions granulaires : lecture, suggestions, agenda. La personne administrée garde toujours le contrôle final.</div>
+        <span class="feat-badge">⭐ Feature unique sur le marché</span>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-accent" style="background:linear-gradient(90deg,#0284c7,#38bdf8);"></div>
+        <span class="feat-icon">📅</span>
+        <div class="feat-title">Agenda administratif</div>
+        <div class="feat-desc">Calendrier des échéances administratives : déclarations fiscales, renouvellements de passeport, visites techniques, anniversaires de contrat. Récurrence annuelle configurée automatiquement. Synchronisable en V3 avec un calendrier existant.</div>
+        <span class="feat-badge">Toutes échéances · Couple synchronisé</span>
+      </div>
+
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- POURQUOI MAINTENANT                                        -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">Pourquoi maintenant — le bon moment</div>
+    <div class="timing-row">
+      <div class="timing-card">
+        <div class="timing-num">+18%</div>
+        <div class="timing-label">Abonnements/foyer</div>
+        <div class="timing-desc">Hausse annuelle depuis 2018. Netflix, Disney+, Apple TV, Spotify, Amazon… les foyers se noient dans les renouvellements.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-num">7M</div>
+        <div class="timing-label">Aidants en France</div>
+        <div class="timing-desc">7 millions de proches aidants en France (source DREES 2023). Vieillissement démographique = tailwind structurel fort.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-num">#1</div>
+        <div class="timing-label">Charge mentale</div>
+        <div class="timing-desc">Sujet culturel dominant en France depuis 2017. L'admin du foyer est au cœur du débat. SuperAdmin est une réponse concrète.</div>
+      </div>
+      <div class="timing-card">
+        <div class="timing-num">0</div>
+        <div class="timing-label">Concurrent direct</div>
+        <div class="timing-desc">Papernest (déménagement), Bankin' (bancaire), Bobby (tracker basique) — personne ne fait alertes légales + coffre-fort + délégation.</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- FOCUS RECOMMANDÉ — MON AVIS                                -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">💡 Focus recommandé — angle le plus fort</div>
+
+    <div class="grid-2">
+      <div class="insight" style="background: linear-gradient(135deg, #1e3a5f, #0d9488);">
+        <div class="insight-label">✅ Ce que je recommande</div>
+        <div class="insight-text">
+          Positionner SuperAdmin comme <strong>"l'app que tu installes pour tes parents avant qu'ils te le demandent."</strong><br><br>
+          Le segment aidant est le seul où : (1) le payeur n'est pas l'utilisateur final — l'enfant adulte paie pour aider son parent, (2) le besoin est <em>permanent et croissant</em> (pas épisodique), (3) la concurrence est inexistante, (4) la barrière légale (mandat Art. 1301) est un vrai moat. C'est aussi le segment le plus émotionnellement porteur pour le marketing.
+        </div>
+      </div>
+      <div class="insight" style="background: linear-gradient(135deg, #1e1b4b, #3730a3);">
+        <div class="insight-label">🔄 L'évolution du focus</div>
+        <div class="insight-text">
+          Le produit commence comme un <strong>tracker d'abonnements avec alertes légales</strong> (acquisition facile, valeur immédiate). Il devient un <strong>coffre-fort familial</strong> (rétention, upgrade). Il finit comme une <strong>plateforme de délégation administrative</strong> (moat fort, B2B possible avec les EHPAD, mutuelles, CGP). <br><br>
+          Chaque strate justifie la suivante — la roadmap V1→V3 n'est pas un plan technique, c'est un plan de valeur.
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- IDEAS PRODUIT SPÉCIFIQUES AUX SEGMENTS                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">Idées produit — spécifiques aux segments</div>
+    <div class="idea-grid">
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 01</div>
+        <div class="idea-icon">🎁</div>
+        <div class="idea-title">Cadeau d'abonnement — "installe ça pour tes parents"</div>
+        <div class="idea-body">Offrir un abonnement SuperAdmin à ses parents comme cadeau. L'enfant configure, la mère ou le père en profite. Modèle de croissance viral naturel pour le segment aidant.</div>
+        <span class="idea-tag">Acquisition virale</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 02</div>
+        <div class="idea-icon">🆘</div>
+        <div class="idea-title">Mode urgence — accès en cas d'hospitalisation</div>
+        <div class="idea-body">Un accès spécial "urgence" que le proche aidant peut activer si la personne est hospitalisée. Accès aux documents vitaux (assurance, ordonnances, contacts), formalisé et tracé. Aucune app ne fait ça.</div>
+        <span class="idea-tag">Segment aidant · Émotionnel fort</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 03</div>
+        <div class="idea-icon">📦</div>
+        <div class="idea-title">Onboarding "audit en 5 minutes"</div>
+        <div class="idea-body">Premier usage : saisir ses 5 principaux abonnements. Résultat immédiat — total mensuel, doublons identifiés, prochaine reconduction critique. L'aha moment avant même la fin de l'inscription.</div>
+        <span class="idea-tag">Activation · Aha moment</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 04</div>
+        <div class="idea-icon">🎉</div>
+        <div class="idea-title">Workflows "événements de vie"</div>
+        <div class="idea-body">Déménagement → fusionner les profils, identifier les doublons. Mariage → checkliste des services à mettre à jour. Bébé → PAJE, mutuelle, allocation. Séparation → qui garde quoi. Des moments à forte valeur perçue.</div>
+        <span class="idea-tag">Famille · Valeur perçue massive</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 05</div>
+        <div class="idea-icon">👁</div>
+        <div class="idea-title">Rapport mensuel administratif</div>
+        <div class="idea-body">Email mensuel récap : "Ce mois-ci — 3 reconductions à venir, 1 document qui expire dans 60j, vous avez économisé X€ grâce à SuperAdmin." Renforce la valeur perçue et réduit le churn passif.</div>
+        <span class="idea-tag">Rétention · Engagement</span>
+      </div>
+
+      <div class="idea-card">
+        <div class="idea-num">Idée 06</div>
+        <div class="idea-icon">🏢</div>
+        <div class="idea-title">B2B : mutuelles, EHPAD, banques</div>
+        <div class="idea-body">En V3 : offrir SuperAdmin comme service white-label aux mutuelles pour leurs adhérents seniors, aux EHPAD pour les familles de résidents, aux CGP pour leurs clients. LTV massif, acquisition zéro coût.</div>
+        <span class="idea-tag">V3 · B2B · Distribution</span>
+      </div>
+
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- CE QUI EST FAISABLE EN V1                                  -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">Ce qui est faisable — périmètre légal V1</div>
+
+    <table class="scope-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Segment principal</th>
+          <th>Statut légal</th>
+          <th>Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tracker abonnements + alertes Chatel</strong></td>
+          <td>Tous</td>
+          <td><span class="tag-v1">V1 ✓</span></td>
+          <td>Pas d'intermédiation — alertes uniquement</td>
+        </tr>
+        <tr>
+          <td><strong>Génération lettre Hamon</strong></td>
+          <td>Tous</td>
+          <td><span class="tag-v1">V1 ✓</span></td>
+          <td>Modèle à compléter — l'utilisateur envoie</td>
+        </tr>
+        <tr>
+          <td><strong>Coffre-fort contrats / fiscal / logement</strong></td>
+          <td>Tous</td>
+          <td><span class="tag-v1">V1 ✓</span></td>
+          <td>Chiffrement AES-256, RGPD, DPA Supabase</td>
+        </tr>
+        <tr>
+          <td><strong>Recommandations télécom / streaming</strong></td>
+          <td>Solo, Couple</td>
+          <td><span class="tag-v1">V1 ✓ si déclaré</span></td>
+          <td>Commission affichée sur chaque carte obligatoirement</td>
+        </tr>
+        <tr>
+          <td><strong>Mandat délégation consultatif (lecture)</strong></td>
+          <td>Aidant, Famille</td>
+          <td><span class="tag-v1">V1 ✓</span></td>
+          <td>Art. 1301 C.civ — mandat simple, non actif</td>
+        </tr>
+        <tr>
+          <td><strong>Agenda administratif partagé</strong></td>
+          <td>Couple, Famille, Aidant</td>
+          <td><span class="tag-v1">V1 ✓</span></td>
+          <td>Pas de synchronisation tierce en V1</td>
+        </tr>
+        <tr>
+          <td><strong>Documents d'identité (CNI, passeport)</strong></td>
+          <td>Tous</td>
+          <td><span class="tag-v2">V2 après audit CNIL</span></td>
+          <td>Délibération CNIL 2023 — audit préalable requis</td>
+        </tr>
+        <tr>
+          <td><strong>Recommandations assurance (avec intermédiation)</strong></td>
+          <td>Solo, Couple</td>
+          <td><span class="tag-v2">V2 via partenaire ORIAS</span></td>
+          <td>Art. L. 511-1 Code assurances</td>
+        </tr>
+        <tr>
+          <td><strong>Mandat actif (agir au nom de)</strong></td>
+          <td>Aidant</td>
+          <td><span class="tag-v2">V2 + horodatage TSA</span></td>
+          <td>Signature électronique qualifiée requise</td>
+        </tr>
+        <tr>
+          <td><strong>Données de santé (carte vitale, ordonnances)</strong></td>
+          <td>Senior, Aidant</td>
+          <td><span class="tag-v3">V3 · Certification HDS</span></td>
+          <td>Art. L. 1111-8 CSP — 20–80k€ + 12 mois</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- PLANS & BUSINESS MODEL                                     -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="section-label">Plans & modèle économique</div>
+    <div class="plan-grid">
+
+      <div class="plan-card">
+        <div class="plan-icon">🧑</div>
+        <div class="plan-target">Solo</div>
+        <div class="plan-name">Découverte</div>
+        <div class="plan-price"><sup>€</sup>0<sub>/mois</sub></div>
+        <ul class="plan-items">
+          <li>5 abonnements</li>
+          <li>Alertes Chatel basiques</li>
+          <li>100 Mo de stockage</li>
+          <li>Génération lettre Hamon</li>
+        </ul>
+        <div class="plan-angle">Acquisition · Pas de CB requise · Converti à J+30 en moyenne</div>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ Le plus populaire</div>
+        <div class="plan-icon">💼</div>
+        <div class="plan-target">Solo actif</div>
+        <div class="plan-name">Essentiel</div>
+        <div class="plan-price"><sup>€</sup>4,99<sub>/mois</sub></div>
+        <ul class="plan-items">
+          <li>Abonnements illimités</li>
+          <li>Coffre-fort 1 Go</li>
+          <li>Alertes email (Chatel + Hamon)</li>
+          <li>Recommandations personnalisées</li>
+          <li>Agenda administratif</li>
+        </ul>
+        <div class="plan-angle">ROI positif dès la 1ère résiliation. Économie moyenne : 35€/mois.</div>
+      </div>
+
+      <div class="plan-card featured" style="border-color: #0f766e;">
+        <div class="plan-badge" style="background: #0f766e;">🤝 Segment aidant</div>
+        <div class="plan-icon">👨‍👩‍👴</div>
+        <div class="plan-target">Famille / Aidant</div>
+        <div class="plan-name">Famille</div>
+        <div class="plan-price"><sup>€</sup>9,99<sub>/mois</sub></div>
+        <ul class="plan-items">
+          <li>Jusqu'à 6 membres</li>
+          <li>Coffre-fort partagé 5 Go</li>
+          <li>Mandat délégation consultatif</li>
+          <li>Accès d'urgence formalisé</li>
+          <li>Alertes tous membres</li>
+          <li>Espace foyer partagé</li>
+        </ul>
+        <div class="plan-angle">Le segment le plus rentable. LTV × 3 vs solo. Churn structurellement faible.</div>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-icon">⚡</div>
+        <div class="plan-target">Famille élargie</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price"><sup>€</sup>19,99<sub>/mois</sub></div>
+        <ul class="plan-items">
+          <li>Jusqu'à 10 membres</li>
+          <li>Coffre-fort 10 Go</li>
+          <li>SMS alertes urgentes</li>
+          <li>Export données RGPD</li>
+          <li>Support prioritaire</li>
+          <li>API accès (V3)</li>
+        </ul>
+        <div class="plan-angle">Pour les familles avec plusieurs générations à gérer.</div>
+      </div>
+
+    </div>
+
+    <div class="section-label" style="margin-top: 28px;">Revenus complémentaires — les 3 sources</div>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rev-title">SaaS · Abonnements</div>
+        <div class="rev-amount">4,99 – 19,99€/mois</div>
+        <div class="rev-desc">Revenu principal, récurrent, prévisible. Base de tout le modèle. Conversion freemium → payant estimée à 15–25% à 90 jours avec une forte valeur V1.</div>
+        <span class="rev-tag tag-stable">Revenu stable</span>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Commissions affiliées — Télécom / Streaming</div>
+        <div class="rev-amount">25–150€ / conversion</div>
+        <div class="rev-desc">Free, SFR, Orange, Spotify Family — programmes d'affiliation existants. Commission perçue si l'utilisateur souscrit via SuperAdmin. <strong>Toujours déclarée</strong> dans l'interface.</div>
+        <span class="rev-tag tag-upside">Upside · V1</span>
+      </div>
+      <div class="rev-card">
+        <div class="rev-title">Partenariats assurance (via ORIAS tiers)</div>
+        <div class="rev-amount">20–80€ / conversion</div>
+        <div class="rev-desc">Redirection vers courtier ORIAS partenaire pour les recommandations assurance. Revenue-share sur les conversions. Modèle légalement conforme en V1 si pas d'intermédiation directe.</div>
+        <span class="rev-tag tag-upside">V1 via partenaire · V3 ORIAS propre</span>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- CONCLUSION                                                 -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="conclusion">
+      <div class="conclusion-flag">🚀</div>
+      <div>
+        <div class="conclusion-title">Ce produit, lancé maintenant, sur ce marché</div>
+        <div class="conclusion-body">
+          SuperAdmin répond à un problème réel, universel, et douloureux — géré aujourd'hui avec des emails éparpillés, des rappels dans Google Calendar, et des appels de panique entre enfants et parents. Aucun acteur français n'occupe ce territoire complet.<br><br>
+          <strong>La V1 est lançable en quelques mois</strong>, sans ORIAS, sans HDS, et avec un périmètre légalement solide. Elle génère de la valeur immédiate pour le solo (alertes Chatel + économies) et un avantage durable pour la famille (délégation, coffre-fort partagé).<br><br>
+          <strong>Le segment aidant est le différenciateur à long terme.</strong> C'est lui qui justifie le mandat Art. 1301, qui génère le bouche-à-oreille émotionnel ("j'ai mis en place SuperAdmin pour ma mère"), et qui crée un LTV structurellement supérieur. C'est le cœur du pitch, et le cœur du produit.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="app-footer">
+    SuperAdmin — Vision Produit · Données fictives à titre illustratif · Maquette non fonctionnelle
+  </footer>
+
+</body>
+</html>
